@@ -1,0 +1,136 @@
+{
+  "app.title": "Common Voice Dataset Analyzer",
+  "app.subtitle": "Part of CV-ToolBox",
+  "app.copyright": "CV-ToolBox is (c) Harikalar Kutusu, it is free to use",
+
+  "ui.languageselector.label": "UI Language",
+  "ui.languageselector.title": "Select your user interface language",
+
+  "ui.filter_version.label": "Version Filter",
+  "ui.filter_version.title": "Select one or more versions to filter the table",
+  "ui.filter_language.label": "Language Filter",
+  "ui.filter_language.title": "Select one or more languages to filter the table",
+
+  "ui.select.languages": "Select languages to work on",
+  "ui.select.versions": "Select versions to work on",
+
+  "ui.action.reset": "Reset table",
+  "ui.action.open-menu": "Open Menu",
+  "ui.action.close-menu": "Close Menu",
+
+  "menu.views.alldata": "Fundamental Data",
+  "menu.views.calculated": "Calculated",
+  "menu.views.buckets-all": "All buckets",
+  "menu.views.buckets-main": "Major buckets",
+  "menu.views.buckets-model": "Default splits",
+  "menu.views.users": "Per User Values",
+  "menu.views.ages": "Age Distribution",
+  "menu.views.genders": "Gender Distribution",
+  "menu.views.other": "Other Info",
+  "menu.views.totals": "CV Totals",
+
+  "pagination.perpage": "Show per page",
+  "pagination.rangeseparator": "of",
+  "pagination.selectallrows": "All",
+
+  "colnames.version": "Version",
+  "colnames.date": "Rel.Date",
+  "colnames.locale": "Locale",
+  "colnames.algorithm": "Algorithm",
+  "colnames.split": "Split",
+
+  "colnames.clips": "Clips",
+  "colnames.unique_voices": "Unique Voices",
+  "colnames.unique_sentences": "Unique Sentences",
+  "colnames.unique_sentences_lower": "Unique Sentences Lower",
+  "colnames.duplicate_sentences": "Duplicate Sentences",
+  "colnames.duplicate_sentences_lower": "Duplicate Sentences Lower",
+
+  "colnames.ages": "Age Info",
+  "colnames.ages_teens": "<20",
+  "colnames.ages_twenties": "20-29",
+  "colnames.ages_thirties": "30-39",
+  "colnames.ages_fourties": "40-49",
+  "colnames.ages_fifties": "50-59",
+  "colnames.ages_sixties": "60-69",
+  "colnames.ages_seventies": "70-79",
+  "colnames.ages_eighties": "80-89",
+  "colnames.ages_nineties": "90-99",
+  "colnames.ages_nodata": "No Data",
+
+  "colnames.genders": "Gender Info",
+  "colnames.genders_male": "Male/All",
+  "colnames.genders_female": "Female/All",
+  "colnames.genders_other": "Other/All",
+  "colnames.genders_nodata": "No Data/All",
+
+  "colnames.duration_total": "Total Duration",
+  "colnames.duration_mean": "Avg. Duration",
+  "colnames.duration_median": "Median Duration",
+
+  "colnames.voice_mean": "Avg. Recs/Voice",
+  "colnames.voice_median": "Median Recs/Voice",
+
+  "colnames.sentences_mean": "Avg. Recs/Sentence",
+  "colnames.sentences_median": "Median Recs/Sentence",
+
+  "colnames.demographic_distribution": "Demographic Distribution",
+
+  "colnames.totalHrs": "Total Hours",
+  "colnames.validHrs": "Valid Hours",
+  "colnames.validDurationSecs": "Valid Duration (sec)",
+  "colnames.avgDurationSecs": "Avg.Duration (sec)",
+
+  "colnames.buckets": "Buckets",
+  "colnames.buckets_validated": "Validated",
+  "colnames.buckets_invalidated": "Invalidated",
+  "colnames.buckets_other": "Other",
+  "colnames.buckets_train": "Train",
+  "colnames.buckets_dev": "Dev",
+  "colnames.buckets_test": "Test",
+  "colnames.buckets_reported": "Reported",
+
+  "colnames.reportedSentences": "Reported",
+
+  "calculated.valid_recs_percentage": "%Valid Recs",
+  "calculated.invalid_recs_percentage": "%Invalid Recs",
+  "calculated.other_recs_percentage": "%Other Recs",
+
+  "calculated.valid_hrs_percentage": "%Validated Hrs.",
+  "calculated.reported_percentage": "%Reported",
+  "calculated.avg_recs_per_user": "Avg.Recs/User",
+  "calculated.avg_secs_per_user": "Avg.Sec/User",
+
+  "calculated.percentage_used": "%Used",
+
+  "calculated.est_train_hrs": "~Train Hrs.",
+  "calculated.est_dev_hrs": "~Dev Hrs.",
+  "calculated.est_test_hrs": "~Test Hrs.",
+
+  "calculated.fm_ratio": "Female/Male Ratio",
+  "calculated.male_percentage": "%Male/Data",
+  "calculated.female_percentage": "%Female/Data",
+
+  "colnames.total_locales": "Total Locales",
+  "colnames.total_clips": "Total Clips",
+  "colnames.total_users": "Total Users",
+  "colnames.total_totalHrs": "Total Hours",
+  "colnames.total_validHrs": "Valid Hours",
+  "calculated.valid_percentage": "%Valid/Total",
+
+  "homepage.about.p1": "This tool is directed to language communities on Common Voice and those who train on them. The main purpose is to view the general and detailed statistical characteristics of datasets, with special emphasis on their health and diversity, so that communities can direct their efforts to correct the problem areas. The data presented here are results of long offline calculations. Currently it covers most important ones, but new measures will be added in time.",
+  "homepage.about.p2": "Because the data is rather large it is divided and related portion will be loaded whenever you click a language-version pair. The table on the bowse page shows all languages Common Voice supports, with version info this application supports. To shorten the list, please use the filter feature at the bottom to select one or more locales you are interested in.",
+  "homepage.about.p3": "If you are just interested in general status between versions, you can use the sister app <a href='https://cv-metadata-viewer.netlify.app/' target='_blank'>Common Voice Metadata Viewer</a>.",
+  "homepage.about.p4": "In this application, under each dataset, you may see results for multiple splitting algorithms, namely s1, s99 and v1 for now (some older datasets may miss some). These splitting algorithms are:",
+  "homepage.about.li1": "<strong>s1</strong>: Default splits in the distribution, same as using CorporaCreator with -s 1 option, i.e. only 1 recording per sentence is taken. This algorithm creates most diverse test split and scientifically most correct one. On the other hand it mostly results in taking a small/smaller portion of the dataset, especially for low resource languages. The training set is generally least diverse and small, resulting in biasing (voice, gender etc).",
+  "homepage.about.li2": "<strong>s99</strong>: CorporaCreator output with -s 99 option, i.e. up to 99 recordings per sentence are taken. This mostly results taking the whole dataset, but for some languages more than 100 sentences have been recorded. Although using the whole dataset, it does not guarantie the diversity in train set either, but gives better test results in models.",
+  "homepage.about.li3": "<strong>v1</strong>: An alternative adaptive algorithm proposed for Common Voice. It uses the whole dataset, ensures voice diversity in all splits, and you get better training results than s99 algorithm. It is currently under development, ran on all languages but only tested with a few using Coqui STT.",
+  "homepage.about.p5": "Now, as you know what this is about, you can start browsing the provided datasets by clicking the button below, or using the left hand menu.",
+  "homepage.button.browse": "Start Browsing",
+
+  "browsepage.title": "browsepage.title.",
+  "browsepage.subtitle": "browsepage.subtitle.",
+  "browsepage.p1": "browsepage.p1.",
+  
+  "warn.to_view_graphs": "To view graphs, please select a single locale."
+}
