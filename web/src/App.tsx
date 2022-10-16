@@ -21,19 +21,21 @@ import "./App.css";
 function App() {
   // Store
   const { initDone, setInitDone } = useStore();
+  const { matrixLoaded, setMatrixLoaded } = useStore();
+  const { setSupportMatrix } = useStore();
   const { setLangCode } = useStore();
 
   useEffect(() => {
     // UI Language
     if (!initDone) {
-      // i18n
       uiLocaleInit().then(() => {
         const { currentLocale } = intl.getInitOptions();
         setLangCode(currentLocale as LanguageCodesType);
         setInitDone(true);
       });
     }
-  }, [initDone, setInitDone, setLangCode]);
+    // Support Matrix
+  }, [initDone, setInitDone, setLangCode, matrixLoaded, setSupportMatrix, setMatrixLoaded]);
 
   return !initDone ? (
     <></>
