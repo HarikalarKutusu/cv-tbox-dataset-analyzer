@@ -18,8 +18,8 @@
   "ui.action.open-menu": "Open Menu",
   "ui.action.close-menu": "Close Menu",
 
-  "menu.views.alldata": "Fundamental Data",
-  "menu.views.calculated": "Calculated",
+  "menu.home": "Homepage",
+  "menu.browse": "Dataset Browser",
   "menu.views.buckets-all": "All buckets",
   "menu.views.buckets-main": "Major buckets",
   "menu.views.buckets-model": "Default splits",
@@ -36,6 +36,7 @@
   "colnames.version": "Version",
   "colnames.date": "Rel.Date",
   "colnames.locale": "Locale",
+  "colnames.language": "Language",
   "colnames.algorithm": "Algorithm",
   "colnames.split": "Split",
 
@@ -64,7 +65,7 @@
   "colnames.genders_other": "Other/All",
   "colnames.genders_nodata": "No Data/All",
 
-  "colnames.duration_total": "Total Duration",
+  "colnames.duration_total": "Total Hours",
   "colnames.duration_mean": "Avg. Duration",
   "colnames.duration_median": "Median Duration",
 
@@ -128,9 +129,16 @@
   "homepage.about.p5": "Now, as you know what this is about, you can start browsing the provided datasets by clicking the button below, or using the left hand menu.",
   "homepage.button.browse": "Start Browsing",
 
-  "browsepage.title": "browsepage.title.",
-  "browsepage.subtitle": "browsepage.subtitle.",
-  "browsepage.p1": "browsepage.p1.",
-  
+  "browsepage.title": "Dataset Browser",
+  "browsepage.p1": "Select your language and dataset version to examine.",
+
+  "examinepage.title": "Dataset Analyze",
+  "examinepage.tab.general": "General",
+  "examinepage.tab.duration": "Duration",
+  "examinepage.tab.comperative": "Comperative",
+  "examinepage.tab.voices": "Voices",
+  "examinepage.tab.sentences": "Sentences",
+  "examinepage.tab.health": "Health",
+
   "warn.to_view_graphs": "To view graphs, please select a single locale."
 }

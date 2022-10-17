@@ -18,7 +18,7 @@ export const HomePage = () => {
       </ul>
       <p>{intl.get("homepage.about.p5")}</p>
       <p>
-        <Button href="/browse" variant="contained" color="secondary">
+        <Button href="/browse" variant="contained" color="primary">
           {intl.get("homepage.button.browse")}
         </Button>
       </p>

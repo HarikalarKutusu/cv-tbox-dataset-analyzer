@@ -1,6 +1,6 @@
 import * as React from "react";
 import intl from "react-intl-universal";
-import { Outlet } from "react-router-dom"
+import { NavLink as Link, Outlet } from "react-router-dom";
 
 // MUI
 import {
@@ -31,31 +31,32 @@ import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
-// CV Totals
-import FunctionsIcon from "@mui/icons-material/Functions";
-// summary
-import SummarizeIcon from "@mui/icons-material/Summarize";
-// calculated
-import CalculateIcon from "@mui/icons-material/Calculate";
-// main buckets
-import RuleIcon from "@mui/icons-material/Rule";
-// training
-import PsychologyIcon from "@mui/icons-material/Psychology";
-// users
-import GroupIcon from "@mui/icons-material/Group";
-// ages
-import ElderlyWomanIcon from "@mui/icons-material/ElderlyWoman";
-// gender
-import TransgenderIcon from "@mui/icons-material/Transgender";
-// Other (tech info)
-import BuildIcon from "@mui/icons-material/Build";
+// Home
+import HomeIcon from "@mui/icons-material/Home";
+// Browse
+import ListIcon from "@mui/icons-material/List";
+
+// // calculated
+// import CalculateIcon from "@mui/icons-material/Calculate";
+// // main buckets
+// import RuleIcon from "@mui/icons-material/Rule";
+// // training
+// import PsychologyIcon from "@mui/icons-material/Psychology";
+// // users
+// import GroupIcon from "@mui/icons-material/Group";
+// // ages
+// import ElderlyWomanIcon from "@mui/icons-material/ElderlyWoman";
+// // gender
+// import TransgenderIcon from "@mui/icons-material/Transgender";
+// // Other (tech info)
+// import BuildIcon from "@mui/icons-material/Build";
 
 // APP
-import { appTheme } from "./theme"
+import { appTheme } from "./theme";
 import { useStore } from "./../../stores/store";
 import { LanguageSelector } from "./../languageSelector";
+import { FilterSelectors } from "../filterSelectors";
 // import { SplitStatsTable, TotalsTable } from "../dataTable";
-// import { FilterSelectors } from "../filterSelectors";
 // import { GraphBuilder } from "../graphBuilder";
 
 // import { ListItem } from "@mui/material";
@@ -134,8 +135,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-
-
 // let appTheme = createTheme({
 //   palette: {
 //     primary: {
@@ -156,34 +155,44 @@ export function AppUI() {
   };
 
   const { initDone } = useStore();
-  const { tableView, setTableView } = useStore();
+  // const { datasetInfoView: tableView, setDatasetInfoView: setTableView } = useStore();
 
   // Menu Items
 
   const MenuItemsTable = () => {
     return (
       <>
-        <ListItemButton
-          onClick={() => setTableView("main")}
-          title={intl.get("menu.views.alldata")}
-          aria-label={intl.get("menu.views.alldata")}
+        <Link to={"/"} style={{ textDecoration: "none", color: "darkgray", fontWeight:"bolder" }}>
+          <ListItemButton
+            // href="/"
+            // onClick={() => setTableView("main")}
+            title={intl.get("menu.home")}
+            aria-label={intl.get("menu.home")}
+          >
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={intl.get("menu.home")} />
+          </ListItemButton>
+        </Link>
+        <Link
+          to={"/browse"}
+          style={{ textDecoration: "none", color: "darkgray", fontWeight:"bolder" }}
         >
-          <ListItemIcon>
-            <SummarizeIcon />
-          </ListItemIcon>
-          <ListItemText primary={intl.get("menu.views.alldata")} />
-        </ListItemButton>
-        <ListItemButton
-          onClick={() => setTableView("calculated")}
-          title={intl.get("menu.views.calculated")}
-          aria-label={intl.get("menu.views.calculated")}
-        >
-          <ListItemIcon>
-            <CalculateIcon />
-          </ListItemIcon>
-          <ListItemText primary={intl.get("menu.views.calculated")} />
-        </ListItemButton>
-        <ListItemButton
+          <ListItemButton
+            // href="/browse"
+            // onClick={() => setTableView("calculated")}
+            title={intl.get("menu.browse")}
+            aria-label={intl.get("menu.browse")}
+          >
+            <ListItemIcon>
+              <ListIcon />
+            </ListItemIcon>
+            <ListItemText primary={intl.get("menu.browse")} />
+          </ListItemButton>
+        </Link>
+        {/* <ListItemButton
+          href="/"
           onClick={() => setTableView("buckets-main")}
           title={intl.get("menu.views.buckets-main")}
           aria-label={intl.get("menu.views.buckets-main")}
@@ -252,7 +261,7 @@ export function AppUI() {
             <FunctionsIcon />
           </ListItemIcon>
           <ListItemText primary={intl.get("menu.views.totals")} />
-        </ListItemButton>
+        </ListItemButton> */}
       </>
     );
   };
@@ -332,39 +341,19 @@ export function AppUI() {
           <Toolbar />
           <Container maxWidth={false} sx={{ mt: 4, mb: 10 }}>
             <Grid container spacing={2}>
-              {/* Table & gRAPHS */}
-              {tableView !== "totals" ? (
-                <>
-                  <Grid item xs={12}>
-                    <Paper
-                      sx={{ p: 2, display: "flex", flexDirection: "column" }}
-                    >
-                      <Outlet />
-                      {/* <SplitStatsTable
-                        view="main"
-                        defaultSortField="version"
-                        defaultSortAsc={false}
-                      /> */}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12}>
-                    {/* <GraphBuilder /> */}
-                  </Grid>
-                </>
-              ) : (
-                <>
-                  <Grid item xs={12}>
-                    <Paper
-                      sx={{ p: 2, display: "flex", flexDirection: "column" }}
-                    >
-                      {/* <TotalsTable /> */}
-                    </Paper>
-                  </Grid>
-                  <Grid item xs={12}>
-                    {/* <GraphBuilder /> */}
-                  </Grid>
-                </>
-              )}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                  <Outlet />
+                  {/* <SplitStatsTable
+                    view="main"
+                    defaultSortField="version"
+                    defaultSortAsc={false}
+                  /> */}
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                {/* <GraphBuilder /> */}
+              </Grid>
             </Grid>
             {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
@@ -375,7 +364,7 @@ export function AppUI() {
           sx={{ top: "auto", bottom: 0 }}
         >
           <Toolbar sx={{ justifyContent: "center" }}>
-            {/* <FilterSelectors /> */}
+            <FilterSelectors />
           </Toolbar>
         </AppBar>
       </Box>

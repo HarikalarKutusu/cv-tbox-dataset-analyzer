@@ -3,7 +3,7 @@ import create, { StoreApi, UseBoundStore } from "zustand";
 
 // App
 import {
-  SPLIT_STATS_TYPE,
+  DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE, SUPPORT_MATRIX_ROW_TYPE,
   // CV_METADATATABLE_TYPE,
   // TOTALS_TABLE_TYPE,
 } from "../helpers/tableHelper";
@@ -21,17 +21,26 @@ export type StoreType = {
   langCode: LanguageCodesType;
   setLangCode: (langCode: LanguageCodesType) => void;
 
+  // Support Matrix
+  matrixLoaded: boolean;
+  setMatrixLoaded: (status: boolean) => void;
+
+  // Support Matrix
+  supportMatrix: SUPPORT_MATRIX_ROW_TYPE[];
+  setSupportMatrix: (matrix: SUPPORT_MATRIX_ROW_TYPE[]) => void;
+
+  // Which Dataset is selected? Kept in "<lc>_<ver>" format
+  // TODO : Expand to multiple datasets for comparison
+  selectedDataset: string;
+  setSelectedDataset: (dsver: string) => void;
+
   // Split Stats
-  splitStats: SPLIT_STATS_TYPE | undefined;
-  setSplitStats: (dt: SPLIT_STATS_TYPE) => void;
+  datasetInfo: DATASET_INFO_ROW_TYPE[] | undefined;
+  setDatasetInfo: (di: DATASET_INFO_ROW_TYPE[] | undefined) => void;
 
-  // cv Aggregated data per version
-  // cvTotals: TOTALS_TABLE_TYPE | undefined;
-  // setCVTotals: (dt: TOTALS_TABLE_TYPE) => void;
-
-  // Table View
-  tableView: string;
-  setTableView: (view: string) => void;
+  // Table View (same as tabs in Analyzer)
+  datasetInfoView: DATASET_INFO_VIEW_TYPE;
+  setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) => void;
 
   // selected version filter
   versionFilter: string[];
@@ -53,14 +62,30 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     setLangCode: (langCode) =>
       set((state) => ({ ...state, langCode: langCode })),
 
-    // Split Stats
-    splitStats: undefined,
-    setSplitStats: (dt) => set((state) => ({ ...state, splitStats: dt })),
+    // Support Matrix
+    matrixLoaded: false,
+    setMatrixLoaded: (status) =>
+      set((state) => ({ ...state, matrixLoaded: status })),
 
-    // Table View
-    tableView: "main",
-    setTableView: (view: string) =>
-      set((state) => ({ ...state, tableView: view })),
+    // Support Matrix
+    supportMatrix: [],
+    setSupportMatrix: (matrix) =>
+      set((state) => ({ ...state, supportMatrix: matrix })),
+
+    // Which Dataset is selected? Kept in "<lc>_<ver>" format
+    // TODO : Expand to multiple datasets for comparison
+    selectedDataset: "",
+    setSelectedDataset: (dsver: string) =>
+      set((state) => ({ ...state, selectedDataset: dsver })),
+
+    // Split Stats
+    datasetInfo: undefined,
+    setDatasetInfo: (dt) => set((state) => ({ ...state, datasetInfo: dt })),
+
+    // Table View (same as tabs in Analyzer)
+    datasetInfoView: "general",
+    setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) =>
+      set((state) => ({ ...state, datasetInfoView: view })),
 
     // selected version filter
     versionFilter: [],

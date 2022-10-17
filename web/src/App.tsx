@@ -47,7 +47,7 @@ function App() {
           <Route path="/" element={<AppUI />}>
             <Route index element={<HomePage />} />
             <Route path="browse" element={<BrowsePage />} />
-            <Route path="examine" element={<ExaminePage />} />
+            <Route path="examine/:lc/:ver" element={<ExaminePage />} />
             {/* Error */}
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
