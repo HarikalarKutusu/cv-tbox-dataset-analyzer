@@ -26,8 +26,8 @@ function TabPanel(props: TabPanelProps) {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -101,10 +101,13 @@ export const ExaminePage = () => {
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
         <TabPanel value={tabValue} index={1}>
-          Item Two
+          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
         <TabPanel value={tabValue} index={2}>
-          Item Three
+          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+        </TabPanel>
+        <TabPanel value={tabValue} index={3}>
+          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
       </Box>
     </>

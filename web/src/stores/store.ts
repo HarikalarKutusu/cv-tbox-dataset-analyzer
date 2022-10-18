@@ -3,7 +3,7 @@ import create, { StoreApi, UseBoundStore } from "zustand";
 
 // App
 import {
-  DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE, SUPPORT_MATRIX_ROW_TYPE,
+  DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE, SUPPORT_MATRIX_ROW_TYPE, TEXT_CORPUS_STATS_ROW_TYPE,
   // CV_METADATATABLE_TYPE,
   // TOTALS_TABLE_TYPE,
 } from "../helpers/tableHelper";
@@ -27,7 +27,7 @@ export type StoreType = {
 
   // Support Matrix
   supportMatrix: SUPPORT_MATRIX_ROW_TYPE[];
-  setSupportMatrix: (matrix: SUPPORT_MATRIX_ROW_TYPE[]) => void;
+  setSupportMatrix: (data: SUPPORT_MATRIX_ROW_TYPE[]) => void;
 
   // Which Dataset is selected? Kept in "<lc>_<ver>" format
   // TODO : Expand to multiple datasets for comparison
@@ -36,11 +36,15 @@ export type StoreType = {
 
   // Split Stats
   datasetInfo: DATASET_INFO_ROW_TYPE[] | undefined;
-  setDatasetInfo: (di: DATASET_INFO_ROW_TYPE[] | undefined) => void;
+  setDatasetInfo: (data: DATASET_INFO_ROW_TYPE[] | undefined) => void;
 
   // Table View (same as tabs in Analyzer)
   datasetInfoView: DATASET_INFO_VIEW_TYPE;
   setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) => void;
+
+  // Text Corpus
+  textCorpusStats: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined;
+  setTextCorpusStats: (data: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined) => void;
 
   // selected version filter
   versionFilter: string[];
@@ -69,23 +73,28 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
 
     // Support Matrix
     supportMatrix: [],
-    setSupportMatrix: (matrix) =>
-      set((state) => ({ ...state, supportMatrix: matrix })),
+    setSupportMatrix: (data) =>
+      set((state) => ({ ...state, supportMatrix: data })),
 
     // Which Dataset is selected? Kept in "<lc>_<ver>" format
     // TODO : Expand to multiple datasets for comparison
     selectedDataset: "",
-    setSelectedDataset: (dsver: string) =>
+    setSelectedDataset: (dsver) =>
       set((state) => ({ ...state, selectedDataset: dsver })),
 
     // Split Stats
     datasetInfo: undefined,
-    setDatasetInfo: (dt) => set((state) => ({ ...state, datasetInfo: dt })),
+    setDatasetInfo: (data) => set((state) => ({ ...state, datasetInfo: data })),
 
     // Table View (same as tabs in Analyzer)
     datasetInfoView: "general",
-    setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) =>
+    setDatasetInfoView: (view) =>
       set((state) => ({ ...state, datasetInfoView: view })),
+
+    // Text Corpus
+    textCorpusStats: undefined,
+    setTextCorpusStats: (data) =>
+      set((state) => ({ ...state, textCorpusStats: data })),
 
     // selected version filter
     versionFilter: [],

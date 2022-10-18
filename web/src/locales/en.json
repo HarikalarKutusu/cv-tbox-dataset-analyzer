@@ -33,6 +33,9 @@
   "pagination.rangeseparator": "of",
   "pagination.selectallrows": "All",
 
+  "colnames.bin": "Bin",
+  "colnames.count": "Count",
+
   "colnames.version": "Version",
   "colnames.date": "Rel.Date",
   "colnames.locale": "Locale",
@@ -43,9 +46,9 @@
   "colnames.clips": "Clips",
   "colnames.unique_voices": "Unique Voices",
   "colnames.unique_sentences": "Unique Sentences",
-  "colnames.unique_sentences_lower": "Unique Sentences Lower",
-  "colnames.duplicate_sentences": "Duplicate Sentences",
-  "colnames.duplicate_sentences_lower": "Duplicate Sentences Lower",
+  "colnames.unique_sentences_lower": "Unique Lower",
+  "colnames.duplicate_sentences": "Duplicates",
+  "colnames.duplicate_sentences_lower": "Duplicate Lower",
 
   "colnames.ages": "Age Info",
   "colnames.ages_teens": "<20",
@@ -68,12 +71,15 @@
   "colnames.duration_total": "Total Hours",
   "colnames.duration_mean": "Avg. Duration",
   "colnames.duration_median": "Median Duration",
-
+  "colnames.duration_distribution": "Recording Duration Distribution",
+  
   "colnames.voice_mean": "Avg. Recs/Voice",
   "colnames.voice_median": "Median Recs/Voice",
-
+  "colnames.voice_distribution": "Recordings/Voice Distribution",
+  
   "colnames.sentences_mean": "Avg. Recs/Sentence",
   "colnames.sentences_median": "Median Recs/Sentence",
+  "colnames.sentences_distribution": "Recordings/Sentence Distribution",
 
   "colnames.demographic_distribution": "Demographic Distribution",
 
