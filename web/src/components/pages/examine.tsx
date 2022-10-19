@@ -12,6 +12,7 @@ import { useStore } from "./../../stores/store";
 // App
 import { DATASET_INFO_VIEW_TYPES } from "./../../helpers/tableHelper";
 import { DataSetInfo } from "../datasetInfo";
+import { TextCorpus } from "../textCorpus";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -88,26 +89,37 @@ export const ExaminePage = () => {
               {...a11yProps("examinepage.tab.sentences")}
             />
             <Tab
+              label={intl.get("examinepage.tab.text-corpus")}
+              {...a11yProps("examinepage.tab.text-corpus")}
+            />
+            {/* <Tab
               label={intl.get("examinepage.tab.comperative")}
               {...a11yProps("examinepage.tab.comperative")}
             />
             <Tab
               label={intl.get("examinepage.tab.health")}
               {...a11yProps("examinepage.tab.health")}
-            />
+            /> */}
           </Tabs>
         </Box>
+        {/* general */}
         <TabPanel value={tabValue} index={0}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
+        {/* duration */}
         <TabPanel value={tabValue} index={1}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
+        {/* voices */}
         <TabPanel value={tabValue} index={2}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
+        {/* sentences */}
         <TabPanel value={tabValue} index={3}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+        </TabPanel>
+        <TabPanel value={tabValue} index={4}>
+          <TextCorpus lc={lc} />
         </TabPanel>
       </Box>
     </>

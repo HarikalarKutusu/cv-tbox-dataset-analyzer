@@ -26,6 +26,7 @@ import {
   DATASET_INFO_VOICE_BINS,
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
+import { FreqTable } from "./freqTable";
 
 //
 // JSX
@@ -129,7 +130,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        (row.dur_total / 3600).toLocaleString(langCode),
+        (Math.round(1000 * (row.dur_total / 3600)) / 1000).toFixed(3),
     };
 
     const col_dur_mean: TableColumn<DATASET_INFO_ROW_TYPE> = {
@@ -247,6 +248,18 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         break;
       default:
     }
+
+    return  <FreqTable
+              key={"c_freq"}
+              bins={bins}
+              values={values}
+              title={title}
+              yScale="linear"
+            />
+  }
+
+
+/*
     interface IFreqTable {
       bin: number;
       count: Number;
@@ -297,6 +310,34 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       />
     );
   };
+*/
+
+  // const filterSplits = (alg: string): DATASET_INFO_ROW_TYPE[] => {
+  //   return datasetInfo ? datasetInfo.filter((row) => row.alg === alg) : []
+  // }
+
+  // const getUniqueAlgos = (): string[] => {
+  //   if (!datasetInfo) {
+  //     return []
+  //   } else {
+  //     const arr = datasetInfo.map(row => row.alg).filter(row => row.length > 0)
+  //     return [...new Set(arr) ]
+  //   }
+  // }
+
+  // // algo vs train dev test
+  // const buildAlgoTableData = (): DATASET_INFO_ROW_TYPE[] => {
+  //   const algos = getUniqueAlgos();
+  //   algos.map( algo => {
+
+  //   })
+  //   const s1 = filterSplits('s1');
+  //   const s99 = filterSplits('s99');
+  //   const v1 = filterSplits('v1');
+  //   // return datasetInfo ? datasetInfo.filter((row) => row.alg === alg) : [];
+  //   return []
+  // };
+
 
   useEffect(() => {
     // const buildDurationFreqTable = (): number[][] => {
@@ -359,6 +400,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             result.push(row);
           });
           setTextCorpusStats(result);
+          setTextCorpusRec(result.filter((row) => row.lc === lc)[0]);
         });
     }
   }, [
@@ -385,6 +427,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     <>
       <DataTable
         columns={getColumns(datasetInfoView)}
+        // data={filterSplits('')}
         data={datasetInfo}
         progressPending={!datasetInfo}
         responsive
