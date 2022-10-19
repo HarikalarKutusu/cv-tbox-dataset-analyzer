@@ -73,9 +73,6 @@ export const FreqTable = (props: IFreqTableProps) => {
                 columns={columns}
                 data={tableData}
                 title={title}
-                // pagination
-                // paginationPerPage={bins.length}
-                // paginationComponent={undefined}
                 responsive
                 dense
                 direction={Direction.AUTO}
@@ -83,7 +80,6 @@ export const FreqTable = (props: IFreqTableProps) => {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={8} sx={{ border: "1px" }}>
-              {/* <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}> */}
               <div style={{ width: "100%", height: "100%" }}>
                 <FreqChart
                   data={tableData}
@@ -95,7 +91,6 @@ export const FreqTable = (props: IFreqTableProps) => {
                   median={median}
                 />
               </div>
-              {/* </Paper> */}
             </Grid>
           </Grid>
         </Paper>

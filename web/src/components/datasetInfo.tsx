@@ -55,19 +55,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
 
-  // const [durationFreqTable, setDurationFreqTable] = useState<
-  //   number[][] | undefined
-  // >(undefined);
-  // const [voiceFreqTable, setVoiceFreqTable] = useState<number[][] | undefined>(
-  //   undefined,
-  // );
-  // const [sentenceFreqTable, setSentenceFreqTable] = useState<
-  //   number[][] | undefined
-  // >(undefined);
-  // const [demographicsTable, setDemographicsTable] = useState<
-  //   number[][] | undefined
-  // >(undefined);
-
   const getColumns = (view: string): TableColumn<DATASET_INFO_ROW_TYPE>[] => {
     const col_alg: TableColumn<DATASET_INFO_ROW_TYPE> = {
       id: "alg",
@@ -181,11 +168,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       selector: (row: DATASET_INFO_ROW_TYPE) => row.s_median.toFixed(),
     };
 
-    // const col_alg: TableColumn<DATASET_INFO_ROW_TYPE> = {
-    // };
-
-    // const col_alg: TableColumn<DATASET_INFO_ROW_TYPE> = {
-    // };
+    // TODO : Add calculated columns
 
     let res: TableColumn<DATASET_INFO_ROW_TYPE>[] = [];
 
@@ -258,98 +241,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             />
   }
 
-
-/*
-    interface IFreqTable {
-      bin: number;
-      count: Number;
-    }
-    const columns: TableColumn<IFreqTable>[] = [
-      {
-        id: "bin",
-        name: intl.get("colnames.bin"),
-        width: "80px",
-        right: true,
-        selector: (row) => row.bin.toLocaleString(langCode),
-      },
-      {
-        id: "count",
-        name: intl.get("colnames.count"),
-        width: "150px",
-        right: true,
-        selector: (row) => row.count.toLocaleString(langCode),
-      },
-    ];
-
-    if (values.length !== bins.length) {
-      console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE");
-      console.log("BINS=", bins.length, " VALUES=", values.length);
-    }
-
-    const tableData: IFreqTable[] = [];
-    for (let i = 0; i < bins.length; i++) {
-      tableData.push({
-        bin: bins[i],
-        count: values[i],
-      });
-    }
-
-    return (
-      <DataTable
-        columns={columns}
-        data={tableData}
-        title={title}
-        pagination
-        paginationPerPage={bins.length}
-        // paginationComponent={undefined}
-        responsive
-        dense
-        direction={Direction.AUTO}
-        highlightOnHover
-        style={{ color: "#f00000" }}
-      />
-    );
-  };
-*/
-
-  // const filterSplits = (alg: string): DATASET_INFO_ROW_TYPE[] => {
-  //   return datasetInfo ? datasetInfo.filter((row) => row.alg === alg) : []
-  // }
-
-  // const getUniqueAlgos = (): string[] => {
-  //   if (!datasetInfo) {
-  //     return []
-  //   } else {
-  //     const arr = datasetInfo.map(row => row.alg).filter(row => row.length > 0)
-  //     return [...new Set(arr) ]
-  //   }
-  // }
-
-  // // algo vs train dev test
-  // const buildAlgoTableData = (): DATASET_INFO_ROW_TYPE[] => {
-  //   const algos = getUniqueAlgos();
-  //   algos.map( algo => {
-
-  //   })
-  //   const s1 = filterSplits('s1');
-  //   const s99 = filterSplits('s99');
-  //   const v1 = filterSplits('v1');
-  //   // return datasetInfo ? datasetInfo.filter((row) => row.alg === alg) : [];
-  //   return []
-  // };
-
-
   useEffect(() => {
-    // const buildDurationFreqTable = (): number[][] => {
-    //   let tbl: number[][] = [];
-    //   if (datasetInfo) {
-    //     datasetInfo.forEach((row) => {
-    //       tbl.push(row.dur_freq as number[]);
-    //     });
-    //   }
-    //  return tbl;
-    // };
-
     // requested dataset
     const reqds = lc + "_" + ver;
 
@@ -375,9 +267,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             setDatasetInfoView(DATASET_INFO_VIEW_TYPES[0]);
             setDatasetInfo(result);
           });
-        // .then(() => {
-        //   setDurationFreqTable(buildDurationFreqTable());
-        // });
       }
     }
 
@@ -419,7 +308,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     return <div>Error in parameters.</div>;
   }
 
-  // datasetInfo[0].defaultExpanded = true;
 
   return !datasetInfo || !initDone ? (
     <div>...</div>

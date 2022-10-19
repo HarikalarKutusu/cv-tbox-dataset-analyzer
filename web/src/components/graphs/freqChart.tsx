@@ -1,5 +1,3 @@
-// import { memo } from "react";
-import { type } from "@testing-library/user-event/dist/type";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 import {
@@ -27,6 +25,8 @@ interface IFreqChartProps {
   mean?: number;
   median?: number;
 }
+
+// TODO Add mean/median/yScale support
 
 export const FreqChart = (props: IFreqChartProps) => {
   const { data, xKey, yKey, seriesName, mean, median, yScale } = props;
