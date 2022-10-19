@@ -43,8 +43,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
 
   const { initDone } = useStore();
   const { langCode } = useStore();
-  const { versionFilter } = useStore();
-  const { languageFilter } = useStore();
+  // const { versionFilter } = useStore();
+  // const { languageFilter } = useStore();
 
   const { selectedDataset, setSelectedDataset } = useStore();
   const { datasetInfo, setDatasetInfo } = useStore();
@@ -315,7 +315,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     <>
       <DataTable
         columns={getColumns(datasetInfoView)}
-        // data={filterSplits('')}
         data={datasetInfo}
         progressPending={!datasetInfo}
         responsive
@@ -327,35 +326,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         highlightOnHover
         // title={intl.get("examinepage.title")}
         defaultSortFieldId={0}
-        // fixedHeader
-        // fixedHeaderScrollHeight="300px"
         persistTableHead
-        // subHeader
-        // subHeaderWrap
-        // subHeaderAlign={Alignment.RIGHT}
-        // subHeaderComponent={Filter}
-        // sortIcon={sortIcon}
-        // selectableRows
-        // selectableRowsHig hlight
-        // selectableRowsNoSelectAll
-        // selectableRowsRadio="checkbox"
-        // selectableRowsComponent={Checkbox}
-        // selectableRowsComponentProps={selectProps}
-
-        // noDataComponent
-        // onRowClicked
-        // onRowDoubleClicked
-        // onRowMouseEnter
-        // onRowMouseLeave
-        // onColumnOrderChange
-
-        // sortFunction={numericSort}
-        // onSort
-
         expandableRows={["duration", "voices", "sentences"].includes(view!)}
         expandableRowsComponent={ExpandedComponent}
-        // expandableRowsExpanded={(row: DATASET_INFO_ROW_TYPE) => row.defaultExpanded}
-        // expandableRowsComponentProps
       />
     </>
   );
