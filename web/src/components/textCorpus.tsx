@@ -13,16 +13,11 @@ import { useStore } from "../stores/store";
 // App
 import {
   convertStrList,
-  IFreqTableRow,
-  IFreqTableProps,
   TEXT_CORPUS_CHAR_BINS,
   TEXT_CORPUS_STATS_ROW_TYPE,
   TEXT_CORPUS_TOKEN_BINS,
   TEXT_CORPUS_WORD_BINS,
 } from "../helpers/tableHelper";
-import { Box, Container, Grid, Paper } from "@mui/material";
-import { AppBarChart } from "./graphs/barChart";
-import { FreqChart } from "./graphs/freqChart";
 import { FreqTable } from "./freqTable";
 
 //
@@ -150,97 +145,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
   };
 
-  // const FreqTable = (props: IFreqTableProps) => {
-  //   const { bins, values, title, mean, median, yScale } = props;
-
-  //   if (!bins || !values || !title) {
-  //     console.log("bins=", bins);
-  //     console.log("values=", values);
-  //     console.log("title=", title);
-  //     return <></>;
-  //   }
-
-  //   const columns: TableColumn<IFreqTableRow>[] = [
-  //     {
-  //       id: "bin",
-  //       name: intl.get("colnames.bin"),
-  //       width: "80px",
-  //       right: true,
-  //       selector: (row) => row.bin.toLocaleString(langCode),
-  //     },
-  //     {
-  //       id: "count",
-  //       name: intl.get("colnames.count"),
-  //       width: "150px",
-  //       right: true,
-  //       selector: (row) => row.count.toLocaleString(langCode),
-  //     },
-  //   ];
-
-  //   if (values.length !== bins.length) {
-  //     console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE");
-  //     console.log("BINS=", bins.length, " VALUES=", values.length);
-  //   }
-
-  //   const tableData: IFreqTableRow[] = [];
-  //   for (let i = 0; i < bins.length; i++) {
-  //     tableData.push({
-  //       bin: bins[i],
-  //       count: values[i],
-  //     });
-  //   }
-
-  //   return (
-  //     <Box
-  //       sx={{
-  //         flexGrow: 1,
-  //         width: "100%",
-  //         overflow: "auto",
-  //       }}
-  //     >
-  //       <Container maxWidth={false} sx={{ mt: 4, mb: 10 }}>
-  //         <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
-  //           <Grid
-  //             container
-  //             alignItems="stretch"
-  //             spacing={2}
-  //             sx={{ width: "100%" }}
-  //           >
-  //             <Grid item xs={12} sm={6} md={4}>
-  //               <DataTable
-  //                 columns={columns}
-  //                 data={tableData}
-  //                 title={title}
-  //                 // pagination
-  //                 // paginationPerPage={bins.length}
-  //                 // paginationComponent={undefined}
-  //                 responsive
-  //                 dense
-  //                 direction={Direction.AUTO}
-  //                 highlightOnHover
-  //               />
-  //             </Grid>
-  //             <Grid item xs={12} sm={6} md={8} sx={{ border: "1px" }}>
-  //               {/* <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}> */}
-  //               <div style={{ width: "100%", height: "100%" }}>
-  //                 <FreqChart
-  //                   data={tableData}
-  //                   xKey="bin"
-  //                   yKey="count"
-  //                   seriesName={title}
-  //                   yScale={yScale}
-  //                   mean={mean}
-  //                   median={median}
-  //                 />
-  //               </div>
-  //               {/* </Paper> */}
-  //             </Grid>
-  //           </Grid>
-  //         </Paper>
-  //       </Container>
-  //     </Box>
-  //   );
-  // };
 
   useEffect(() => {
     // Text Corpus?
@@ -271,7 +175,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
     return <div>Error in parameters.</div>;
   }
 
-  // datasetInfo[0].defaultExpanded = true;
 
   return !textCorpusStats || !initDone ? (
     <div>...</div>
@@ -311,16 +214,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
           </div>
         </>
       )}
-      {/* <Grid container spacing={2}>
-          <Grid item>
-          </Grid>
-          <Grid item>
-            <div>Here</div>
-          </Grid>
-          <Grid item>
-            <div>Here</div>
-          </Grid>
-        </Grid> */}
     </>
   );
 };
