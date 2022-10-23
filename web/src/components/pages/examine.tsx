@@ -85,6 +85,18 @@ export const ExaminePage = () => {
               {...a11yProps("examinepage.tab.voices")}
             />
             <Tab
+              label={intl.get("examinepage.tab.gender")}
+              {...a11yProps("examinepage.tab.gender")}
+            />
+            <Tab
+              label={intl.get("examinepage.tab.age")}
+              {...a11yProps("examinepage.tab.age")}
+            />
+            <Tab
+              label={intl.get("examinepage.tab.votes")}
+              {...a11yProps("examinepage.tab.votes")}
+            />
+            <Tab
               label={intl.get("examinepage.tab.sentences")}
               {...a11yProps("examinepage.tab.sentences")}
             />
@@ -114,11 +126,24 @@ export const ExaminePage = () => {
         <TabPanel value={tabValue} index={2}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
-        {/* sentences */}
+        {/* GENDER */}
         <TabPanel value={tabValue} index={3}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
+        {/* AGE */}
         <TabPanel value={tabValue} index={4}>
+          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+        </TabPanel>
+        {/* Votes */}
+        <TabPanel value={tabValue} index={5}>
+          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+        </TabPanel>
+        {/* sentences */}
+        <TabPanel value={tabValue} index={6}>
+          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+        </TabPanel>
+        {/* text-corpus */}
+        <TabPanel value={tabValue} index={7}>
           <TextCorpus lc={lc} />
         </TabPanel>
       </Box>

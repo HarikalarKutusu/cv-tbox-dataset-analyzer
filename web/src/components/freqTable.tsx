@@ -11,7 +11,9 @@ import { IFreqTableProps, IFreqTableRow } from "../helpers/tableHelper";
 import { FreqChart } from "./graphs/freqChart";
 
 export const FreqTable = (props: IFreqTableProps) => {
-  const { bins, values, title, mean, median, yScale } = props;
+  let { bins, values, title, yScale, mean, median, dropLastFromGraph } = props;
+
+  dropLastFromGraph = dropLastFromGraph ? dropLastFromGraph : false;
 
   const { langCode } = useStore();
 
@@ -25,17 +27,17 @@ export const FreqTable = (props: IFreqTableProps) => {
   const columns: TableColumn<IFreqTableRow>[] = [
     {
       id: "bin",
-      name: intl.get("colnames.bin"),
-      width: "80px",
+      name: intl.get("col.bin"),
+      width: "100px",
       right: true,
       selector: (row) => row.bin.toLocaleString(langCode),
     },
     {
       id: "count",
-      name: intl.get("colnames.count"),
+      name: intl.get("col.count"),
       width: "150px",
       right: true,
-      selector: (row) => row.count.toLocaleString(langCode),
+      selector: (row) => row.val.toLocaleString(langCode),
     },
   ];
 
@@ -48,7 +50,7 @@ export const FreqTable = (props: IFreqTableProps) => {
   for (let i = 0; i < bins.length; i++) {
     tableData.push({
       bin: bins[i],
-      count: values[i],
+      val: values[i],
     });
   }
 
@@ -82,9 +84,9 @@ export const FreqTable = (props: IFreqTableProps) => {
             <Grid item xs={12} sm={6} md={8} sx={{ border: "1px" }}>
               <div style={{ width: "100%", height: "100%" }}>
                 <FreqChart
-                  data={tableData}
+                  data={dropLastFromGraph ? tableData.slice(0,-1) : tableData}
                   xKey="bin"
-                  yKey="count"
+                  yKey="val"
                   seriesName={title}
                   yScale={yScale}
                   mean={mean}

@@ -132,6 +132,49 @@ export const CV_LOCALES: string[] = [
 ];
 
 //======================================
+//== CV Internal Types
+//======================================
+
+export const NODATA = "nodata";
+
+export type CV_GENDER_TYPE = "male" | "female" | "other" | "nodata" | "total";
+
+export const CV_GENDERS: CV_GENDER_TYPE[] = [
+  "male",
+  "female",
+  "other",
+  "nodata",
+  "total",
+];
+
+export type CV_AGE_TYPE =
+  | "teens"
+  | "twenties"
+  | "thirties"
+  | "fourties"
+  | "fifties"
+  | "sixties"
+  | "seventies"
+  | "eighties"
+  | "nineties"
+  | "nodata"
+  | "total";
+
+export const CV_AGES: CV_AGE_TYPE[] = [
+  "teens",
+  "twenties",
+  "thirties",
+  "fourties",
+  "fifties",
+  "sixties",
+  "seventies",
+  "eighties",
+  "nineties",
+  "nodata",
+  "total",
+];
+
+//======================================
 //== Tab Views
 //======================================
 
@@ -139,19 +182,25 @@ export type DATASET_INFO_VIEW_TYPE =
   | "general"
   | "duration"
   | "voices"
+  | "gender"
+  | "age"
+  | "votes"
   | "sentences"
-  // | "comperative"
-  // | "health"
   | "text-corpus";
+// | "comperative"
+// | "health"
 
 export const DATASET_INFO_VIEW_TYPES: DATASET_INFO_VIEW_TYPE[] = [
   "general",
   "duration",
   "voices",
+  "gender",
+  "age",
+  "votes",
   "sentences",
+  "text-corpus",
   // "comperative",
   // "health",
-  "text-corpus",
 ];
 
 //======================================
@@ -205,7 +254,12 @@ export type DATASET_INFO_ROW_TYPE = {
   s_median: number;
   s_freq: string | number[];
 
+  votes: string | number[][];
+
   dem_table: string | number[][];
+  dem_uq: string | number[][];
+  dem_fix_r: string | number[][];
+  dem_fix_v: string | number[][];
 };
 
 export const DATASET_INFO_DURATION_BINS: number[] = [
@@ -343,8 +397,39 @@ export const TEXT_CORPUS_TOKEN_BINS: number[] = [
 
 // SEPARATORS
 export const SEP_ROW: string = "|";
-export const SEP_COL: string = "-";
+export const SEP_COL: string = "#";
 export const SEP_ALGO: string = "|";
+
+// Frequency Tables
+export interface IFreqTableProps {
+  bins: number[] | string[];
+  values: number[] | string[];
+  title: string;
+  yScale: ScaleType;
+  mean?: number;
+  median?: number;
+  dropLastFromGraph?: boolean;
+}
+
+export interface IFreqTableRow {
+  bin: number | string;
+  val: number | string;
+}
+
+export interface IFreqTableProps2D {
+  data: number[][];
+  colHeadings: string[];
+  rowHeadings: string[];
+  title: string;
+}
+
+export interface IFreqTableRow2D {
+  val: number | string;
+}
+
+//
+// Methods
+//
 
 export const convertStrList = (s: string) => {
   return s.split(SEP_COL).map((x) => Number(x));
@@ -354,16 +439,23 @@ export const convertStrArr = (s: string) => {
   return s.split(SEP_ROW).map((s) => convertStrList(s));
 };
 
-export interface IFreqTableProps {
-  bins: number[];
-  values: number[];
-  title: string;
-  yScale: ScaleType;
-  mean?: number;
-  median?: number;
-}
+export const getLastCol = (arr: number[][]): number[] => {
+  let res: number[] = [];
+  arr.forEach((row) => {
+    res.push(row[row.length - 1] as number);
+  });
+  return res;
+};
 
-export interface IFreqTableRow {
-  bin: number;
-  count: Number;
+export const getLastRow = (arr: number[][]): number[] => {
+  return arr[arr.length - 1];
+};
+
+export const getTotal = (arr: number[][]): number => {
+  const lstRow = getLastRow(arr)
+  return lstRow[lstRow.length - 1];
+};
+
+export const listDivide = (lst1: number[], lst2: number[]): number[] => {
+  return lst1.map((val1, index) => lst2[index] === 0 ? 0 : val1 / lst2[index] )
 }
