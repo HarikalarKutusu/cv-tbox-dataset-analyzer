@@ -42,7 +42,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["total_locales"],
-    seriesNames: ["colnames.total_locales"],
+    seriesNames: ["col.total_locales"],
   },
   {
     view: "totals",
@@ -50,7 +50,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["total_users"],
-    seriesNames: ["colnames.total_users"],
+    seriesNames: ["col.total_users"],
   },
   {
     view: "totals",
@@ -58,7 +58,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["total_clips"],
-    seriesNames: ["colnames.total_clips"],
+    seriesNames: ["col.total_clips"],
   },
   {
     view: "totals",
@@ -66,7 +66,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["total_totalHrs", "total_validHrs"],
-    seriesNames: ["colnames.total_totalHrs", "colnames.total_validHrs"],
+    seriesNames: ["col.total_totalHrs", "col.total_validHrs"],
   },
   // view = main
   {
@@ -75,7 +75,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["clips"],
-    seriesNames: ["colnames.clips"],
+    seriesNames: ["col.clips"],
   },
   {
     view: "main",
@@ -83,7 +83,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["users"],
-    seriesNames: ["colnames.users"],
+    seriesNames: ["col.users"],
   },
   {
     view: "main",
@@ -91,7 +91,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["totalHrs", "validHrs"],
-    seriesNames: ["colnames.totalHrs", "colnames.validHrs"],
+    seriesNames: ["col.totalHrs", "col.validHrs"],
   },
   {
     view: "main",
@@ -108,7 +108,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["avgDurationSecs"],
-    seriesNames: ["colnames.avgDurationSecs"],
+    seriesNames: ["col.avgDurationSecs"],
   },
   {
     view: "calculated",
@@ -142,9 +142,9 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     xKey: "version",
     yKeys: ["buckets_validated", "buckets_invalidated", "buckets_other"],
     seriesNames: [
-      "colnames.buckets_validated",
-      "colnames.buckets_invalidated",
-      "colnames.buckets_other",
+      "col.buckets_validated",
+      "col.buckets_invalidated",
+      "col.buckets_other",
     ],
   },
   {
@@ -172,9 +172,9 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     xKey: "version",
     yKeys: ["buckets_train", "buckets_dev", "buckets_test"],
     seriesNames: [
-      "colnames.buckets_train",
-      "colnames.buckets_dev",
-      "colnames.buckets_test",
+      "col.buckets_train",
+      "col.buckets_dev",
+      "col.buckets_test",
     ],
   },
   {
@@ -205,7 +205,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     type: "bar",
     xKey: "version",
     yKeys: ["users"],
-    seriesNames: ["colnames.users"],
+    seriesNames: ["col.users"],
   },
   {
     view: "users",
@@ -243,16 +243,16 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
       // "ages_nodata",
     ],
     seriesNames: [
-      "colnames.ages_teens",
-      "colnames.ages_twenties",
-      "colnames.ages_thirties",
-      "colnames.ages_fourties",
-      "colnames.ages_fifties",
-      "colnames.ages_sixties",
-      "colnames.ages_seventies",
-      "colnames.ages_eighties",
-      "colnames.ages_nineties",
-      // "colnames.ages_nodata",
+      "col.ages_teens",
+      "col.ages_twenties",
+      "col.ages_thirties",
+      "col.ages_fourties",
+      "col.ages_fifties",
+      "col.ages_sixties",
+      "col.ages_seventies",
+      "col.ages_eighties",
+      "col.ages_nineties",
+      // "col.ages_nodata",
     ],
   },
   // view = genders
@@ -264,9 +264,9 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     xKey: "version",
     yKeys: ["genders_male", "genders_female", "genders_other"],
     seriesNames: [
-      "colnames.genders_male",
-      "colnames.genders_female",
-      "colnames.genders_other",
+      "col.genders_male",
+      "col.genders_female",
+      "col.genders_other",
     ],
   },
   {

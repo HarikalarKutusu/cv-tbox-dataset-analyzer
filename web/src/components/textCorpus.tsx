@@ -55,7 +55,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
           val: textCorpusRec.s_cnt,
         },
         {
-          measure: intl.get("measures.unique_sentences"),
+          measure: intl.get("measures.unique_lower"),
           val: textCorpusRec.uq_s,
         },
         {
@@ -63,16 +63,24 @@ export const TextCorpus = (props: TextCorpusProps) => {
           val: textCorpusRec.uq_n,
         },
         {
+          measure: intl.get("measures.dup_lower"),
+          val: textCorpusRec.s_cnt - textCorpusRec.uq_s,
+        },
+        {
+          measure: intl.get("measures.dup_normalized"),
+          val: textCorpusRec.s_cnt - textCorpusRec.uq_n,
+        },
+        {
           measure: intl.get("measures.has_validation"),
           val: textCorpusRec.has_val,
         },
         {
           measure: intl.get("measures.validated"),
-          val: textCorpusRec.val,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.val : "?",
         },
         {
           measure: intl.get("measures.invalidated"),
-          val: textCorpusRec.s_cnt - textCorpusRec.val,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.s_cnt - textCorpusRec.val : "?",
         },
         {
           measure: intl.get("measures.characters_total"),
@@ -88,27 +96,27 @@ export const TextCorpus = (props: TextCorpusProps) => {
         },
         {
           measure: intl.get("measures.words_total"),
-          val: textCorpusRec.w_total,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_total : "?",
         },
         {
           measure: intl.get("measures.words_mean"),
-          val: textCorpusRec.w_mean,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_mean : "?",
         },
         {
           measure: intl.get("measures.words_median"),
-          val: textCorpusRec.w_median,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_median : "?",
         },
         {
           measure: intl.get("measures.tokens_total"),
-          val: textCorpusRec.t_total,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_total : "?",
         },
         {
           measure: intl.get("measures.tokens_mean"),
-          val: textCorpusRec.t_mean,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_mean : "?",
         },
         {
           measure: intl.get("measures.tokens_median"),
-          val: textCorpusRec.t_median,
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_median: "?",
         },
       ];
     }
@@ -116,13 +124,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
     const columns: TableColumn<ICustomTable>[] = [
       {
         id: "measure",
-        name: intl.get("colnames.measure"),
+        name: intl.get("col.measure"),
         width: "300px",
         selector: (row: ICustomTable) => row.measure,
       },
       {
         id: "val",
-        name: intl.get("colnames.value"),
+        name: intl.get("col.value"),
         right: true,
         width: "100px",
         selector: (row: ICustomTable) => row.val.toLocaleString(langCode),
@@ -190,7 +198,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"c_freq"}
               bins={TEXT_CORPUS_CHAR_BINS}
               values={textCorpusRec?.c_freq as number[]}
-              title={intl.get("colnames.character_distribution")}
+              title={intl.get("col.character_distribution")}
               yScale="linear"
             />
           </div>
@@ -199,7 +207,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"w_freq"}
               bins={TEXT_CORPUS_WORD_BINS}
               values={textCorpusRec?.w_freq as number[]}
-              title={intl.get("colnames.word_distribution")}
+              title={intl.get("col.word_distribution")}
               yScale="linear"
             />
           </div>
@@ -208,7 +216,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"t_freq"}
               bins={TEXT_CORPUS_TOKEN_BINS}
               values={textCorpusRec?.t_freq as number[]}
-              title={intl.get("colnames.token_distribution")}
+              title={intl.get("col.token_distribution")}
               yScale="log"
             />
           </div>

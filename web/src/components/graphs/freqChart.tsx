@@ -31,7 +31,6 @@ interface IFreqChartProps {
 export const FreqChart = (props: IFreqChartProps) => {
   const { data, xKey, yKey, seriesName, mean, median, yScale } = props;
   const { langCode } = useStore();
-  console.log("here");
 
   return (
     // <div style={{ width: "100%"}}>
