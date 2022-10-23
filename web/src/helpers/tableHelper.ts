@@ -229,37 +229,38 @@ export type SUPPORT_MATRIX_ROW_TYPE = {
 //======================================
 
 export type DATASET_INFO_ROW_TYPE = {
-  ver: string;
-  lc: string;
-  alg: string;
-  sp: string;
-
-  clips: number;
-  uq_v: number;
-  uq_s: number;
-  uq_sl: number;
-  dup_s: number;
-  dup_sl: number;
-
-  dur_total: number;
-  dur_mean: number;
-  dur_median: number;
-  dur_freq: string | number[];
-
+  // unique identifier for split
+  ver: string; // cv version in format 11.0
+  lc: string; // language code
+  alg: string; // algorithm code s1, s99, v1
+  sp: string; // split id
+  //
+  clips: number; // number of splits in the split
+  uq_v: number; // unique voices from split data
+  uq_s: number; // unique sentences from split data
+  uq_sl: number; // unique lowercase sentences from split data
+  // duration info
+  dur_total: number; // total duration measured from clips
+  dur_mean: number; // mean duration measured from clips
+  dur_median: number; // median duration measured from clips
+  dur_freq: string | number[]; // frequency distributions of durations
+  // voices
   v_mean: number;
   v_median: number;
   v_freq: string | number[];
-
+  // sentences
   s_mean: number;
   s_median: number;
   s_freq: string | number[];
-
+  // votes
   votes: string | number[][];
-
+  // demographics
   dem_table: string | number[][];
   dem_uq: string | number[][];
   dem_fix_r: string | number[][];
   dem_fix_v: string | number[][];
+  dem_ctable?: number[][];
+  dem_cuq?: number[][];
 };
 
 export const DATASET_INFO_DURATION_BINS: number[] = [
@@ -431,12 +432,12 @@ export interface IFreqTableRow2D {
 // Methods
 //
 
-export const convertStrList = (s: string) => {
-  return s.split(SEP_COL).map((x) => Number(x));
+export const convertStrList = (s: string): number[] => {
+  return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
 };
 
-export const convertStrArr = (s: string) => {
-  return s.split(SEP_ROW).map((s) => convertStrList(s));
+export const convertStrArr = (s: string): number[][] => {
+  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStrList(s));
 };
 
 export const getLastCol = (arr: number[][]): number[] => {
@@ -452,10 +453,50 @@ export const getLastRow = (arr: number[][]): number[] => {
 };
 
 export const getTotal = (arr: number[][]): number => {
-  const lstRow = getLastRow(arr)
+  const lstRow = getLastRow(arr);
   return lstRow[lstRow.length - 1];
 };
 
 export const listDivide = (lst1: number[], lst2: number[]): number[] => {
-  return lst1.map((val1, index) => lst2[index] === 0 ? 0 : val1 / lst2[index] )
-}
+  return lst1.map((val1, index) =>
+    lst2[index] === 0 ? 0 : val1 / lst2[index],
+  );
+};
+
+export const sumArrays = (a1: number[][], a2: number[][]): number[][] => {
+  if (!a1 || !a2 || a1.length !== a2.length || a1[0].length !== a2[0].length) {
+    console.log("PROGRAMMER ERROR in sumArrays!");
+    return [];
+  }
+  const res: number[][] = JSON.parse(JSON.stringify(a1));
+  a2.forEach((row, i) => row.forEach((cell, j) => (res[i][j] += cell)));
+  return res;
+};
+
+export const addTotals = (
+  arr: number[][],
+  negate: boolean = false,
+): number[][] => {
+  // const rowCnt: number = arr.length;
+  const colCnt: number = arr[0].length;
+  let res: number[][] = JSON.parse(JSON.stringify(arr));
+  let totalRow: number[] = new Array(colCnt + 1).fill(0);
+  const multiplier = negate ? -1 : 1;
+  // handle rows to add a new column
+  arr.forEach((row, i) => {
+    let rowTotal = 0;
+    row.forEach((cell, j) => {
+      rowTotal += multiplier * cell;
+      totalRow[j] += multiplier * cell;
+      totalRow[colCnt] += multiplier * cell;
+    });
+    res[i][colCnt] = rowTotal;
+  });
+  res.push(totalRow);
+  // console.log(res);
+  return res;
+};
+
+export const expandTable = (arr: number[][]): number[][] => {
+  return addTotals(addTotals(arr, true));
+};
