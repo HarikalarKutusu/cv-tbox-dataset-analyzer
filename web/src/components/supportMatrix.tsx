@@ -52,7 +52,7 @@ export const SupportMatrix = () => {
 
     const col_lc: TableColumn<SUPPORT_MATRIX_ROW_TYPE> = {
       id: "lc",
-      name: intl.get("colnames.locale"),
+      name: intl.get("col.locale"),
       sortable: true,
       center: true,
       width: "100px",
@@ -61,7 +61,7 @@ export const SupportMatrix = () => {
 
     // const col_lang: TableColumn<SUPPORT_MATRIX_ROW_TYPE> = {
     //   id: "lang",
-    //   name: intl.get("colnames.language"),
+    //   name: intl.get("col.language"),
     //   sortable: true,
     //   center: true,
     //   width: "120px",
@@ -128,7 +128,6 @@ export const SupportMatrix = () => {
     } else {
       version_cols.forEach((ver) => {
         if (versionFilter.includes(ver.name!.valueOf().toString().slice(1))) {
-          console.log("here");
           res.push(ver);
         }
       });

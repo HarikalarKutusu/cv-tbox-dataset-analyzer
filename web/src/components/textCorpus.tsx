@@ -116,13 +116,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
     const columns: TableColumn<ICustomTable>[] = [
       {
         id: "measure",
-        name: intl.get("colnames.measure"),
+        name: intl.get("col.measure"),
         width: "300px",
         selector: (row: ICustomTable) => row.measure,
       },
       {
         id: "val",
-        name: intl.get("colnames.value"),
+        name: intl.get("col.value"),
         right: true,
         width: "100px",
         selector: (row: ICustomTable) => row.val.toLocaleString(langCode),
@@ -190,7 +190,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"c_freq"}
               bins={TEXT_CORPUS_CHAR_BINS}
               values={textCorpusRec?.c_freq as number[]}
-              title={intl.get("colnames.character_distribution")}
+              title={intl.get("col.character_distribution")}
               yScale="linear"
             />
           </div>
@@ -199,7 +199,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"w_freq"}
               bins={TEXT_CORPUS_WORD_BINS}
               values={textCorpusRec?.w_freq as number[]}
-              title={intl.get("colnames.word_distribution")}
+              title={intl.get("col.word_distribution")}
               yScale="linear"
             />
           </div>
@@ -208,7 +208,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"t_freq"}
               bins={TEXT_CORPUS_TOKEN_BINS}
               values={textCorpusRec?.t_freq as number[]}
-              title={intl.get("colnames.token_distribution")}
+              title={intl.get("col.token_distribution")}
               yScale="log"
             />
           </div>
