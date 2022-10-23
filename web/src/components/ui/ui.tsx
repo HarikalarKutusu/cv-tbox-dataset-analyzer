@@ -162,7 +162,14 @@ export function AppUI() {
   const MenuItemsTable = () => {
     return (
       <>
-        <Link to={"/"} style={{ textDecoration: "none", color: "darkgray", fontWeight:"bolder" }}>
+        <Link
+          to={"/"}
+          style={{
+            textDecoration: "none",
+            color: "darkgray",
+            fontWeight: "bolder",
+          }}
+        >
           <ListItemButton
             // href="/"
             // onClick={() => setTableView("main")}
@@ -177,7 +184,11 @@ export function AppUI() {
         </Link>
         <Link
           to={"/browse"}
-          style={{ textDecoration: "none", color: "darkgray", fontWeight:"bolder" }}
+          style={{
+            textDecoration: "none",
+            color: "darkgray",
+            fontWeight: "bolder",
+          }}
         >
           <ListItemButton
             // href="/browse"
@@ -325,6 +336,22 @@ export function AppUI() {
           <List component="nav">
             <MenuItemsTable />
           </List>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              verticalAlign: "bottom",
+              position: "absolute",
+              bottom: 40,
+              fontSize: "9px",
+            }}
+          >
+            v0.2.0 beta
+            <br />
+            data:
+            <br />
+            2022-10-22
+          </div>
         </Drawer>
         <Box
           component="main"
