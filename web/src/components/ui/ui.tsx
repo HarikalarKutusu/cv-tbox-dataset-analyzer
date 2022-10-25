@@ -248,7 +248,7 @@ export function AppUI() {
               fontSize: "9px",
             }}
           >
-            v0.2.0 beta
+            v0.3.0 beta
             <br />
             data:
             <br />
