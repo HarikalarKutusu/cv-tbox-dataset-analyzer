@@ -13,6 +13,7 @@ import { useStore } from "./../../stores/store";
 import { DATASET_INFO_VIEW_TYPES } from "./../../helpers/tableHelper";
 import { DataSetInfo } from "../datasetInfo";
 import { TextCorpus } from "../textCorpus";
+import { GraphBuilder } from "../graphBuilder";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -32,7 +33,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 1 }}>
           {/* <Typography>{children}</Typography> */}
           {children}
         </Box>
@@ -147,6 +148,7 @@ export const ExaminePage = () => {
           <TextCorpus lc={lc} />
         </TabPanel>
       </Box>
+      <GraphBuilder />
     </>
   );
 };

@@ -1,5 +1,22 @@
 import { ScaleType } from "recharts/types/util/types";
 
+//======================================
+//== Table Styling
+//======================================
+export const TABLE_STYLE = {
+  headRow: {
+    style: {
+      backgroundColor: "#b71c1c",
+      // backgroundColor: "#ee9a9d",
+      color: "#ffffff",
+    },
+  },
+};
+
+//======================================
+//== CV Related
+//======================================
+
 export const CV_VERSIONS: string[] = [
   "1",
   "2",
@@ -259,9 +276,40 @@ export type DATASET_INFO_ROW_TYPE = {
   dem_uq: string | number[][];
   dem_fix_r: string | number[][];
   dem_fix_v: string | number[][];
+
+  // CALCULATED VALUES (should be here for graph support)
   dem_ctable?: number[][];
   dem_cuq?: number[][];
+
+  calc_votes_total?: number;
+
+  calc_genders_male?: number;
+  calc_genders_female?: number;
+  calc_genders_fm_ratio?: number;
+  calc_genders_male_per?: number;
+  calc_genders_female_per?: number;
+  calc_genders_uq_male?: number;
+  calc_genders_uq_female?: number;
+  calc_genders_fm_uq_ratio?: number;
+
+  calc_age_0_39?: number;
+  calc_age_40_69?: number;
+  calc_age_70_99?: number;
+  calc_age_uq_0_39?: number;
+  calc_age_uq_40_69?: number;
+  calc_age_uq_70_99?: number;
+
+  // xxx?: string | number;
 };
+
+// For temporary tables to view algorithm-vs-split data
+export type CROSSTAB_ROW_TYPE = {
+  alg: string; // algorithm code s1, s99, v1
+  train: number; // value for train split
+  dev: number; // value for dev split
+  test: number; // value for test split
+};
+
 
 export const DATASET_INFO_DURATION_BINS: number[] = [
   // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
@@ -500,3 +548,9 @@ export const addTotals = (
 export const expandTable = (arr: number[][]): number[][] => {
   return addTotals(addTotals(arr, true));
 };
+
+export const selectFromDataset = (
+  algos: string[],
+  splits: string[],
+  columns: string[],
+) => {};

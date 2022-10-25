@@ -52,16 +52,16 @@
   "col.unique_sentences_lower": "Unique Lower",
   "col.duplicate_sentences": "Duplicates",
   "col.duplicate_sentences_lower": "Duplicate Lower",
-  
+
   "col.duration_total": "Total Hours",
   "col.duration_mean": "Avg. Duration",
   "col.duration_median": "Median Duration",
   "col.duration_distribution": "Recording Duration",
-  
+
   "col.voice_mean": "Avg. Recs/Voice",
   "col.voice_median": "Median Recs/Voice",
   "col.voice_distribution": "Recordings per Voice",
-  
+
   "calc.votes_total": "Total Votes",
 
   "col.genders": "Gender Info",
@@ -78,7 +78,7 @@
   "tbl.gender_distribution": "Gender in Records",
   "tbl.gender_uq_distribution": "Unique Genders",
   "tbl.gender_recs_per_person": "Recordings per Person",
-  
+
   "col.ages": "Age Info",
   "col.ages_teens": "<20",
   "col.ages_twenties": "20-29",
@@ -99,11 +99,11 @@
   "tbl.age_distribution": "Age in Records",
   "tbl.age_uq_distribution": "Unique Age",
   "tbl.age_recs_per_person": "Recordings per Person",
-  
+
   "col.sentences_mean": "Avg. Recs/Sentence",
   "col.sentences_median": "Median Recs/Sentence",
   "col.sentences_distribution": "Recordings/Sentence Distribution",
-  
+
   "col.demographic_distribution": "Demographic Distribution",
 
   "col.totalHrs": "Total Hours",
@@ -137,7 +137,6 @@
   "calc.est_dev_hrs": "~Dev Hrs.",
   "calc.est_test_hrs": "~Test Hrs.",
 
-
   "col.total_locales": "Total Locales",
   "col.total_clips": "Total Clips",
   "col.total_users": "Total Users",
@@ -166,6 +165,15 @@
   "col.character_distribution": "Characters/Sentence Distribution",
   "col.word_distribution": "Words/Sentence Distribution",
   "col.token_distribution": "Distribution of Token Occurrences",
+
+  "graph.subtitle.age_groups": "Percentage of records in age groups",
+  "graph.subtitle.age_group_0_39": "Percentage of records in age group 0-39",
+  "graph.subtitle.age_group_40_69": "Percentage of records in age group 40-69",
+  "graph.subtitle.age_group_70_99": "Percentage of records in age group 70-99",
+  "graph.subtitle.uq_age_groups": "Percentage of voices in age groups",
+  "graph.subtitle.uq_age_group_0_39": "Percentage of voices in age group 0-39",
+  "graph.subtitle.uq_age_group_40_69": "Percentage of voices in age group 40-69",
+  "graph.subtitle.uq_age_group_70_99": "Percentage of voices in age group 70-99",
 
   "homepage.about.p1": "This tool is directed to language communities on Common Voice and those who train on them. The main purpose is to view the general and detailed statistical characteristics of datasets, with special emphasis on their health and diversity, so that communities can direct their efforts to correct the problem areas. The data presented here are results of long offline calculations. Currently it covers most important ones, but new measures will be added in time.",
   "homepage.about.p2": "Because the data is rather large it is divided and related portion will be loaded whenever you click a language-version pair. The table on the browse page shows all languages Common Voice supports, with version info this application supports. To shorten the list, please use the filter feature at the bottom to select one or more locales you are interested in.",

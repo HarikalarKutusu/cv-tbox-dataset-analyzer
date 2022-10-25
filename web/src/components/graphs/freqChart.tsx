@@ -41,7 +41,7 @@ export const FreqChart = (props: IFreqChartProps) => {
           width={width}
           height={height}
           data={data}
-          margin={{ top: 20, bottom: 0, left: 25, right: 10 }}
+          margin={{ top: 50, bottom: 0, left: 25, right: 10 }}
         >
           <XAxis
             dataKey={xKey}
