@@ -1,8 +1,8 @@
 import intl from "react-intl-universal";
 import { Button } from "@mui/material";
+import { NavLink as Link } from "react-router-dom";
 
 export const HomePage = () => {
-
   return (
     <div>
       <h3>{intl.get("app.title")}</h3>
@@ -18,9 +18,18 @@ export const HomePage = () => {
       </ul>
       <p>{intl.get("homepage.about.p5")}</p>
       <p>
-        <Button href="/browse" variant="contained" color="primary">
-          {intl.get("homepage.button.browse")}
-        </Button>
+        <Link
+          to={"/browse"}
+          style={{
+            textDecoration: "none",
+            color: "darkgray",
+            fontWeight: "bolder",
+          }}
+        >
+          <Button variant="contained" color="primary">
+            {intl.get("homepage.button.browse")}
+          </Button>
+        </Link>
       </p>
     </div>
   );
