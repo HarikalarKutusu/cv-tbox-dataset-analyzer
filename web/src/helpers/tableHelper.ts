@@ -285,6 +285,15 @@ export type DATASET_INFO_ROW_TYPE = {
   // xxx?: string | number;
 };
 
+// For temporary tables to view algorithm-vs-split data
+export type CROSSTAB_ROW_TYPE = {
+  alg: string; // algorithm code s1, s99, v1
+  train: number; // value for train split
+  dev: number; // value for dev split
+  test: number; // value for test split
+};
+
+
 export const DATASET_INFO_DURATION_BINS: number[] = [
   // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
