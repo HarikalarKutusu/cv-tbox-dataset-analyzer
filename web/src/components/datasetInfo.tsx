@@ -131,12 +131,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.dur_total
-          ? (Math.round(1000 * (row.dur_total / 3600)) / 1000).toLocaleString(
-              langCode,
-              dec3,
-            )
-          : "-",
+        row.dur_total ? row.dur_total.toLocaleString(langCode, dec3) : "-",
     };
 
     const col_dur_mean: TableColumn<DATASET_INFO_ROW_TYPE> = {
@@ -647,6 +642,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             const data: DATASET_INFO_ROW_TYPE[] = response.data.data;
             let result: DATASET_INFO_ROW_TYPE[] = [];
             data.forEach((row) => {
+              if (row.dur_total) row.dur_total = row.dur_total / 3600;
               if (row.dur_freq && row.dur_freq !== "")
                 row.dur_freq = convertStrList(row.dur_freq as string);
               if (row.v_freq && row.v_freq !== "")
