@@ -24,8 +24,26 @@ A working (beta) version is here for your use: [Common Voice Dataset Analyzer - 
 
 ![cv-tbox-dataset-analyzer-1](https://user-images.githubusercontent.com/8849617/196783531-97c07548-0432-4725-8a45-1f760b62fff3.png)
 
-## TO-DO
+## More
 
-- Add more calculated values, more statistics and graphs (most important: demographics table)
-- Add comporative analysis tables/graphs between splitting algorithms
+### Setting a development environment
+
+- Clone the repo and cd into it
+- Enter into the web directory
+- Run `npm install` to get the dependencies
+- Run `npm start` to run on local
+
+```sh
+git clone https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer.git
+cd cv-tbox-metadata-viewer
+cd web
+npm install
+npm start
+```
+
+### TODO
+
+- Add more calculated values, more statistics and graphs
 - Add mean/median to frequency distribution graphs
+
+The whole list is under the [project](https://github.com/users/HarikalarKutusu/projects/10/views/1) in github. Please [open issues or feature requests](https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/issues) or make [pull requests](https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/pulls).
