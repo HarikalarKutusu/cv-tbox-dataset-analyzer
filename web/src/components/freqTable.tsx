@@ -7,7 +7,7 @@ import DataTable, { TableColumn, Direction } from "react-data-table-component";
 // Store
 import { useStore } from "../stores/store";
 // App
-import { IFreqTableProps, IFreqTableRow } from "../helpers/tableHelper";
+import { IFreqTableProps, IFreqTableRow, TABLE_STYLE } from "../helpers/tableHelper";
 import { FreqChart } from "./graphs/freqChart";
 
 export const FreqTable = (props: IFreqTableProps) => {
@@ -79,12 +79,13 @@ export const FreqTable = (props: IFreqTableProps) => {
                 dense
                 direction={Direction.AUTO}
                 highlightOnHover
+                customStyles={TABLE_STYLE}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={8} sx={{ border: "1px" }}>
               <div style={{ width: "100%", height: "100%" }}>
                 <FreqChart
-                  data={dropLastFromGraph ? tableData.slice(0,-1) : tableData}
+                  data={dropLastFromGraph ? tableData.slice(0, -1) : tableData}
                   xKey="bin"
                   yKey="val"
                   seriesName={title}

@@ -13,6 +13,7 @@ import { useStore } from "../stores/store";
 // App
 import {
   convertStrList,
+  TABLE_STYLE,
   TEXT_CORPUS_CHAR_BINS,
   TEXT_CORPUS_STATS_ROW_TYPE,
   TEXT_CORPUS_TOKEN_BINS,
@@ -149,6 +150,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
         dense
         direction={Direction.AUTO}
         highlightOnHover
+        customStyles={TABLE_STYLE}
       />
     );
   };

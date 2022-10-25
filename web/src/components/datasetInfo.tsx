@@ -34,6 +34,7 @@ import {
   sumArrays,
   expandTable,
   addTotals,
+  TABLE_STYLE,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
 
@@ -753,6 +754,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         persistTableHead
         expandableRows={expandableViews.includes(view!)}
         expandableRowsComponent={ExpandedComponent}
+        customStyles={TABLE_STYLE}
       />
     </>
   );

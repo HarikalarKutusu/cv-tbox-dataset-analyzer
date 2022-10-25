@@ -1,5 +1,22 @@
 import { ScaleType } from "recharts/types/util/types";
 
+//======================================
+//== Table Styling
+//======================================
+export const TABLE_STYLE = {
+  headRow: {
+    style: {
+      backgroundColor: "#b71c1c",
+      // backgroundColor: "#ee9a9d",
+      color: "#ffffff",
+    },
+  },
+};
+
+//======================================
+//== CV Related
+//======================================
+
 export const CV_VERSIONS: string[] = [
   "1",
   "2",

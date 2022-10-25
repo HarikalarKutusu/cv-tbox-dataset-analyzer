@@ -8,7 +8,7 @@ import intl from "react-intl-universal";
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
 
 // App
-import { SEP_ALGO, SUPPORT_MATRIX_ROW_TYPE } from "../helpers/tableHelper";
+import { SEP_ALGO, SUPPORT_MATRIX_ROW_TYPE, TABLE_STYLE } from "../helpers/tableHelper";
 
 import { useStore } from "../stores/store";
 import { Button } from "@mui/material";
@@ -185,34 +185,8 @@ export const SupportMatrix = () => {
         highlightOnHover
         title={intl.get("browsepage.title")}
         defaultSortFieldId={0}
-        // fixedHeader
-        // fixedHeaderScrollHeight="300px"
         persistTableHead
-        // subHeader
-        // subHeaderWrap
-        // subHeaderAlign={Alignment.RIGHT}
-        // subHeaderComponent={Filter}
-        // sortIcon={sortIcon}
-        // selectableRows
-        // selectableRowsHig hlight
-        // selectableRowsNoSelectAll
-        // selectableRowsRadio="checkbox"
-        // selectableRowsComponent={Checkbox}
-        // selectableRowsComponentProps={selectProps}
-
-        // noDataComponent
-        // onRowClicked
-        // onRowDoubleClicked
-        // onRowMouseEnter
-        // onRowMouseLeave
-        // onColumnOrderChange
-
-        // sortFunction={numericSort}
-        // onSort
-
-        // expandableRows
-        // expandableRowsComponent
-        // expandableRowsComponentProps
+        customStyles={TABLE_STYLE}
       />
     </>
   );
