@@ -1,7 +1,6 @@
 // MUI
 import PollIcon from "@mui/icons-material/Poll";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import WebAssetIcon from "@mui/icons-material/WebAsset";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
 // App
@@ -14,6 +13,7 @@ import {
 } from "../../helpers/appHelper";
 
 import "./appInfo.css"
+import { PRIMARY_COLOR } from "./theme";
 
 export const AppInfo = () => {
   return (
@@ -26,13 +26,14 @@ export const AppInfo = () => {
           position: "absolute",
           bottom: 40,
           fontSize: "8px",
-          color: "#999",
+          color: PRIMARY_COLOR,
         }}
       >
         <div>
           <div className="appinfo-vcenter">
             <PollIcon />
-            {appVersion}<br />
+            {appVersion}
+            <br />
             {appDataDate}
           </div>
           <br />
@@ -42,24 +43,36 @@ export const AppInfo = () => {
               target="_blank"
               rel="noreferrer"
               className="appinfo-vcenter appinfo-link"
+              title="Common Voice"
+              aria-label="Common Voice"
             >
-              <img src="/icons/mars.svg" width="24px" alt="Common Voice" />
+              <img
+                src="/icons/mars.svg"
+                width="24px"
+                height="24px"
+                alt="Common Voice"
+                color={PRIMARY_COLOR}
+              />
             </a>
             <a
               href={appGithubURL}
               target="_blank"
               rel="noreferrer"
               className="appinfo-vcenter appinfo-link"
+              title="github"
+              aria-label="github"
             >
-              <GitHubIcon />
+              <GitHubIcon color="primary" />
             </a>
             <a
               href={appLicenseURL}
               target="_blank"
               rel="noreferrer"
               className="appinfo-vcenter appinfo-link"
+              title="License"
+              aria-label="License"
             >
-              <CopyrightIcon />
+              <CopyrightIcon color="primary" />
             </a>
           </div>
         </div>
