@@ -1,0 +1,11 @@
+.appinfo-vcenter {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.appinfo-link {
+  text-decoration: none;
+  color: #999;
+  font-weight: 500;
+}

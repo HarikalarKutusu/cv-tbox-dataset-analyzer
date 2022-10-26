@@ -1,6 +1,6 @@
 import * as React from "react";
 import intl from "react-intl-universal";
-import { NavLink as Link, Outlet, useLocation, matchRoutes } from "react-router-dom";
+import { NavLink as Link, Outlet } from "react-router-dom";
 
 // MUI
 import {
@@ -17,7 +17,6 @@ import {
   IconButton,
   Container,
   Grid,
-  Paper,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -42,6 +41,7 @@ import { useStore } from "./../../stores/store";
 import { LanguageSelector } from "./../languageSelector";
 import { FilterSelectors } from "../filterSelectors";
 import { GraphBuilder } from "../graphBuilder";
+import { AppInfo } from "./appInfo";
 
 //
 // UI
@@ -124,7 +124,6 @@ export function AppUI() {
   };
 
   const { initDone } = useStore();
-  // const { datasetInfoView: tableView, setDatasetInfoView: setTableView } = useStore();
 
   // Menu Items
 
@@ -140,8 +139,6 @@ export function AppUI() {
           }}
         >
           <ListItemButton
-            // href="/"
-            // onClick={() => setTableView("main")}
             title={intl.get("menu.home")}
             aria-label={intl.get("menu.home")}
           >
@@ -160,8 +157,6 @@ export function AppUI() {
           }}
         >
           <ListItemButton
-            // href="/browse"
-            // onClick={() => setTableView("calculated")}
             title={intl.get("menu.browse")}
             aria-label={intl.get("menu.browse")}
           >
@@ -175,10 +170,6 @@ export function AppUI() {
     );
   };
 
-  // const graphRoutes = [ { path: "/examine/:lc/:ver" } ]
-  // const pathname = useLocation().pathname;
-  // const graphsEnabled = 
-  
   return !initDone ? (
     <></>
   ) : (
@@ -238,7 +229,8 @@ export function AppUI() {
           <List component="nav">
             <MenuItemsTable />
           </List>
-          <div
+          <AppInfo />
+          {/* <div
             style={{
               width: "100%",
               textAlign: "center",
@@ -253,7 +245,7 @@ export function AppUI() {
             data:
             <br />
             2022-10-22
-          </div>
+          </div> */}
         </Drawer>
         <Box
           component="main"
@@ -275,9 +267,6 @@ export function AppUI() {
                   <Outlet />
                 {/* </Paper> */}
               </Grid>
-              {/* <Grid item xs={12}>
-                <GraphBuilder />
-              </Grid> */}
             </Grid>
             {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
