@@ -3,14 +3,13 @@ import create, { StoreApi, UseBoundStore } from "zustand";
 
 // App
 import {
-  DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE, SUPPORT_MATRIX_ROW_TYPE, TEXT_CORPUS_STATS_ROW_TYPE,
-  // CV_METADATATABLE_TYPE,
-  // TOTALS_TABLE_TYPE,
+  DATASET_INFO_ROW_TYPE,
+  DATASET_INFO_VIEW_TYPE,
+  SUPPORT_MATRIX_ROW_TYPE,
+  TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
-import {
-  LanguageCodesType,
-  DEFAULT_UI_LOCALE,
-} from "../helpers/localeHelper";
+
+import { LanguageCodesType, DEFAULT_UI_LOCALE } from "../helpers/localeHelper";
 
 export type StoreType = {
   // Init Done

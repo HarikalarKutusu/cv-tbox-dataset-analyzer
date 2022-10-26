@@ -15,14 +15,19 @@ import DataTable, {
 import { useStore } from "../stores/store";
 
 // App
+import { CV_AGES, CV_GENDERS } from "../helpers/cvHelper";
+
 import {
   convertStrArr,
   convertStrList,
   getLastCol,
   getLastRow,
   getTotal,
-  CV_AGES,
-  CV_GENDERS,
+  listDivide,
+  sumArrays,
+  expandTable,
+  addTotals,
+  TABLE_STYLE,
   DATASET_INFO_DURATION_BINS,
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_SENTENCE_BINS,
@@ -30,12 +35,8 @@ import {
   DATASET_INFO_VIEW_TYPES,
   DATASET_INFO_VOICE_BINS,
   TEXT_CORPUS_STATS_ROW_TYPE,
-  listDivide,
-  sumArrays,
-  expandTable,
-  addTotals,
-  TABLE_STYLE,
 } from "../helpers/tableHelper";
+
 import { FreqTable } from "./freqTable";
 
 //
