@@ -40,7 +40,6 @@ import { appTheme } from "./theme";
 import { useStore } from "./../../stores/store";
 import { LanguageSelector } from "./../languageSelector";
 import { FilterSelectors } from "../filterSelectors";
-import { GraphBuilder } from "../graphBuilder";
 import { AppInfo } from "./appInfo";
 
 //
@@ -264,7 +263,7 @@ export function AppUI() {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 {/* <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}> */}
-                  <Outlet />
+                <Outlet />
                 {/* </Paper> */}
               </Grid>
             </Grid>
@@ -277,7 +276,11 @@ export function AppUI() {
           sx={{ top: "auto", bottom: 0 }}
         >
           <Toolbar sx={{ justifyContent: "center" }}>
-            <FilterSelectors />
+            {window.location.pathname === "/browse" ? (
+              <FilterSelectors />
+            ) : (
+              <></>
+            )}
           </Toolbar>
         </AppBar>
       </Box>
