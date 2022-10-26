@@ -1,4 +1,5 @@
 import { ScaleType } from "recharts/types/util/types";
+import { PRIMARY_COLOR } from "../components/ui/theme";
 
 //======================================
 //== Table Styling
@@ -6,13 +7,12 @@ import { ScaleType } from "recharts/types/util/types";
 export const TABLE_STYLE = {
   headRow: {
     style: {
-      backgroundColor: "#b71c1c",
+      backgroundColor: PRIMARY_COLOR,
       // backgroundColor: "#ee9a9d",
       color: "#ffffff",
     },
   },
 };
-
 
 //======================================
 //== Tab Views
