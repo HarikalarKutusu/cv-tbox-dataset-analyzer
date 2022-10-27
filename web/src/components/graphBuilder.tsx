@@ -102,7 +102,7 @@ export const GraphBuilder = () => {
   };
 
   const AppCrossTabGraph = (props: ICrossTabGraphProps) => {
-    const { data, gd } = props;
+    const { data, gd, cnt } = props;
     const [dataReady, setDataReady] = useState<boolean>(false);
     const lc = selectedDataset.split("_")[0];
     const ver = selectedDataset.split("_")[1];
@@ -128,6 +128,7 @@ export const GraphBuilder = () => {
               gd.title ? intl.get(gd.title) : "Common Voice " + lc + " v" + ver
             }
             subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+            cnt={cnt}
           />
         ) : (
           <>
@@ -144,6 +145,7 @@ export const GraphBuilder = () => {
                     : "Common Voice " + lc + " v" + ver
                 }
                 subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                cnt={cnt}
               />
             ) : (
               <>
@@ -160,6 +162,7 @@ export const GraphBuilder = () => {
                         : "Common Voice " + lc + " v" + ver
                     }
                     subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                    cnt={cnt}
                   />
                 ) : (
                   <div>Unsupported chart</div>
@@ -173,7 +176,7 @@ export const GraphBuilder = () => {
   };
 
   const AppDatasetGraph = (props: IDatasetGraphProps) => {
-    const { data, gd } = props;
+    const { data, gd, cnt } = props;
     const lc = selectedDataset.split('_')[0]
     const ver = selectedDataset.split('_')[1]
     return (
@@ -189,6 +192,7 @@ export const GraphBuilder = () => {
               gd.title ? intl.get(gd.title) : "Common Voice " + lc + " v" + ver
             }
             subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+            cnt={cnt}
           />
         ) : (
           <>
@@ -205,6 +209,7 @@ export const GraphBuilder = () => {
                     : "Common Voice " + lc + " v" + ver
                 }
                 subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                cnt={cnt}
               />
             ) : (
               <>
@@ -221,6 +226,7 @@ export const GraphBuilder = () => {
                         : "Common Voice " + lc + " v" + ver
                     }
                     subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                    cnt={cnt}
                   />
                 ) : (
                   <div>Unsupported chart</div>
@@ -259,11 +265,13 @@ export const GraphBuilder = () => {
                     <AppCrossTabGraph
                       data={getCrossTab(gData as DATASET_INFO_ROW_TYPE[], gd)}
                       gd={gd}
+                      cnt={index}
                     />
                   ) : (
                     <AppDatasetGraph
                       data={getDataSubset(gData as DATASET_INFO_ROW_TYPE[], gd)}
                       gd={gd}
+                      cnt={index}
                     />
                   )}
                 </div>
