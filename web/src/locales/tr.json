@@ -1,0 +1,106 @@
+{
+  "app.title": "Common Voice Veri Seti Analizcisi",
+  "app.subtitle": "CV-ToolBox paketinin bir parçasıdır",
+  "app.copyright": "CV-ToolBox (c) Harikalar Kutusu, özgür yazılımdır",
+
+  "ui.languageselector.label": "Arayüz Dili",
+  "ui.languageselector.title": "Kullanıcı arayüz dilinizi seçiniz",
+
+  "ui.filter_version.label": "Sürümler",
+  "ui.filter_version.title": "Tabloyu filtrelemek için bir ya da daha fazla sürüm seçiniz",
+  "ui.filter_language.label": "Dil",
+  "ui.filter_language.title": "Tabloyu filtrelemek için bir ya da daha fazla dil seçiniz",
+
+  "ui.select.languages": "İlgilendiğiniz dilleri seçiniz",
+  "ui.select.versions": "İlgilendiğiniz sürümleri seçiniz",
+
+  "ui.action.reset": "Tabloyu sıfırla",
+  "ui.action.open-menu": "Menüyü Aç",
+  "ui.action.close-menu": "Menüyü Kapat",
+
+  "menu.home": "Anasayfa",
+  "menu.browse": "Veri Seti Tarayıcısı",
+  "menu.views.buckets-all": "Tüm Gruplamalar",
+  "menu.views.buckets-main": "Ana Gruplar",
+  "menu.views.buckets-model": "Varsayılan Bölümlemeler",
+  "menu.views.users": "Kullanıcı başı değerler",
+  "menu.views.ages": "Yaşlar",
+  "menu.views.genders": "Cinsiyetler",
+  "menu.views.other": "Diğer Bilgi",
+  "menu.views.totals": "CV Toplamları",
+
+  "pagination.perpage": "Sayfa başına",
+  "pagination.rangeseparator": "/",
+  "pagination.selectallrows": "Tümü",
+
+  "col.bin": "Aralık",
+  "col.count": "Adet",
+  "col.percent": "%",
+  "row.total": "TOPLAM",
+
+  "col.measure": "Ölçüt",
+  "col.value": "Değer",
+
+  "col.version": "Sürüm",
+  "col.date": "Tarih",
+  "col.locale": "Dil",
+
+  "col.clips": "Kayıt",
+  "col.users": "Kullanıcı",
+  "col.duration": "Süre (sn)",
+  "col.totalHrs": "Toplam Saat",
+  "col.validHrs": "Onaylı Saat",
+  "col.validDurationSecs": "Onaylı Süre (sn)",
+  "col.avgDurationSecs": "Ort.Süre (sn)",
+
+  "col.buckets": "Gruplamalar",
+  "col.buckets_validated": "Onaylı",
+  "col.buckets_invalidated": "Reddedilmiş",
+  "col.buckets_other": "Kalan",
+  "col.buckets_train": "Eğitim",
+  "col.buckets_dev": "Geliştirme",
+  "col.buckets_test": "Test",
+  "col.buckets_reported": "Raporlanma",
+
+  "col.ages": "Yaşlar",
+  "col.ages_teens": "<20",
+  "col.ages_twenties": "20-29",
+  "col.ages_thirties": "30-39",
+  "col.ages_fourties": "40-49",
+  "col.ages_fifties": "50-59",
+  "col.ages_sixties": "60-69",
+  "col.ages_seventies": "70-79",
+  "col.ages_eighties": "80-89",
+  "col.ages_nineties": "90-99",
+  "col.ages_nodata": "Veri yok",
+
+  "col.genders": "Cinsiyet",
+  "col.genders_male": "Erkek/Tümü",
+  "col.genders_female": "Kadın/Tümü",
+  "col.genders_other": "Diğer/Tümü",
+  "col.genders_nodata": "Veri yok/Tümü",
+
+  "col.reportedSentences": "Raporlanmış",
+
+  "col.size": "Dosya büyüklüğü (MB)",
+  "col.checksum": "Sağlama toplamı",
+
+  "calculated.valid_recs_percentage": "%Onaylı Kayıt",
+  "calculated.invalid_recs_percentage": "%Geçersiz Kayıt",
+  "calculated.other_recs_percentage": "%Diğer Kayıt",
+
+  "calculated.valid_hrs_percentage": "Onaylı Saat%",
+  "calculated.reported_percentage": "%Raporlanmış",
+  "calculated.avg_recs_per_user": "Ort.Kayıt/Kişi",
+  "calculated.avg_secs_per_user": "Ort.Sn/Kişi",
+
+  "calculated.est_train_hrs": "~Eğitim Saati",
+  "calculated.est_dev_hrs": "~Geliştirme Saati",
+  "calculated.est_test_hrs": "~Test Saati",
+
+  "calculated.fm_ratio": "Kadın/Erkek Oranı",
+  "calculated.male_percentage": "%Erkek/Data",
+  "calculated.female_percentage": "%Kadın/Data",
+
+  "warn.to_view_graphs": "To view graphs, please select a single locale."
+}

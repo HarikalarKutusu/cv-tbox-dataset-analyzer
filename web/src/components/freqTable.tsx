@@ -7,13 +7,27 @@ import DataTable, { TableColumn, Direction } from "react-data-table-component";
 // Store
 import { useStore } from "../stores/store";
 // App
-import { IFreqTableProps, IFreqTableRow, TABLE_STYLE } from "../helpers/tableHelper";
+import {
+  IFreqTableProps,
+  IFreqTableRow,
+  TABLE_STYLE,
+} from "../helpers/tableHelper";
 import { FreqChart } from "./graphs/freqChart";
 
 export const FreqTable = (props: IFreqTableProps) => {
-  let { bins, values, title, yScale, mean, median, dropLastFromGraph } = props;
-
-  dropLastFromGraph = dropLastFromGraph ? dropLastFromGraph : false;
+  let {
+    bins,
+    values,
+    title,
+    subTitle,
+    yScale = "linear",
+    mean,
+    median,
+    dropLastFromGraph = false,
+    addTotals = false,
+    addPercentageColumn = false,
+    cnt,
+  } = props;
 
   const { langCode } = useStore();
 
@@ -24,34 +38,65 @@ export const FreqTable = (props: IFreqTableProps) => {
     return <></>;
   }
 
-  const columns: TableColumn<IFreqTableRow>[] = [
-    {
-      id: "bin",
-      name: intl.get("col.bin"),
-      width: "100px",
-      right: true,
-      selector: (row) => row.bin.toLocaleString(langCode),
-    },
-    {
-      id: "count",
-      name: intl.get("col.count"),
-      width: "150px",
-      right: true,
-      selector: (row) => row.val.toLocaleString(langCode),
-    },
-  ];
+  const getColumns = (): TableColumn<IFreqTableRow>[] => {
+    const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    // const dec3 = { minimumFractionDigits: 3, maximumFractionDigits: 3 };
+    let cols: TableColumn<IFreqTableRow>[] = [
+      {
+        id: "bin",
+        name: intl.get("col.bin"),
+        // width: "100px",
+        right: true,
+        selector: (row) => row.bin.toLocaleString(langCode),
+      },
+      {
+        id: "count",
+        name: intl.get("col.count"),
+        // width: "150px",
+        right: true,
+        selector: (row) => row.val.toLocaleString(langCode),
+      },
+    ];
+    if (addPercentageColumn) {
+      cols.push({
+        id: "percentage",
+        name: intl.get("col.percent"),
+        // width: "150px",
+        right: true,
+        selector: (row) =>
+          row.percentage ? row.percentage.toLocaleString(langCode, dec2) : "-",
+      });
+    }
+    return cols;
+  };
 
   if (values.length !== bins.length) {
     console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE");
     console.log("BINS=", bins.length, " VALUES=", values.length);
   }
 
+  // Prep table
   const tableData: IFreqTableRow[] = [];
+  let total: number = 0;
   for (let i = 0; i < bins.length; i++) {
+    total += values[i] as number;
     tableData.push({
       bin: bins[i],
       val: values[i],
     });
+  }
+  // Add totals if requested
+  if (addTotals) {
+    tableData.push({
+      bin: intl.get("row.total"),
+      val: total,
+    });
+  }
+  // Add percentage column if requested
+  if (addPercentageColumn) {
+    for (let i = 0; i < tableData.length; i++) {
+      tableData[i].percentage = 100 * ((tableData[i].val as number) / total);
+    }
   }
 
   return (
@@ -72,7 +117,7 @@ export const FreqTable = (props: IFreqTableProps) => {
           >
             <Grid item xs={12} sm={6} md={4}>
               <DataTable
-                columns={columns}
+                columns={getColumns()}
                 data={tableData}
                 title={title}
                 responsive
@@ -92,6 +137,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                   yScale={yScale}
                   mean={mean}
                   median={median}
+                  cnt={cnt}
                 />
               </div>
             </Grid>

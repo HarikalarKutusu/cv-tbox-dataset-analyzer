@@ -17,7 +17,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 // App
 import { appTheme } from "./ui/theme";
 import { useStore } from "../stores/store";
-import { CV_LOCALES, CV_VERSIONS } from "../helpers/tableHelper";
+import { CV_LOCALES, CV_VERSIONS } from "../helpers/cvHelper";
 
 const FilterSelectors = () => {
   const { versionFilter, setVersionFilter } = useStore();

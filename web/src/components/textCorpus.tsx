@@ -185,6 +185,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
     return <div>Error in parameters.</div>;
   }
 
+  let cnt: number = 0;
 
   return !textCorpusStats || !initDone ? (
     <div>...</div>
@@ -202,6 +203,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec?.c_freq as number[]}
               title={intl.get("col.character_distribution")}
               yScale="linear"
+              addTotals={true}
+              addPercentageColumn={true}
+              dropLastFromGraph={true}
+              cnt={cnt++}
             />
           </div>
           <div>
@@ -211,6 +216,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec?.w_freq as number[]}
               title={intl.get("col.word_distribution")}
               yScale="linear"
+              addTotals={true}
+              addPercentageColumn={true}
+              dropLastFromGraph={true}
+              cnt={cnt++}
             />
           </div>
           <div>
@@ -220,6 +229,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec?.t_freq as number[]}
               title={intl.get("col.token_distribution")}
               yScale="log"
+              addTotals={true}
+              addPercentageColumn={true}
+              dropLastFromGraph={true}
+              cnt={cnt++}
             />
           </div>
         </>

@@ -1,4 +1,5 @@
-import { CROSSTAB_ROW_TYPE, DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE } from "./tableHelper";
+import { ScaleType } from "recharts/types/util/types";
+import { CROSSTAB_ROW_TYPE, DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE, IFreqTableRow } from "./tableHelper";
 
 export const GRAPH_COLORS = [
   "#4e79a7",
@@ -57,11 +58,13 @@ export type GRAPH_VIEW_TYPE = {
 export interface ICrossTabGraphProps {
   data: CROSSTAB_ROW_TYPE[];
   gd: GRAPH_VIEW_TYPE;
+  cnt: number;
 }
 
 export interface IDatasetGraphProps {
   data: DATASET_INFO_ROW_TYPE[];
   gd: GRAPH_VIEW_TYPE;
+  cnt: number;
 }
 
 
@@ -74,7 +77,20 @@ export interface IAppChartProps {
   stacked?: boolean;
   title?: string;
   subTitle?: string;
+  cnt: number;
 }
+
+export interface IFreqChartProps {
+  data: IFreqTableRow[];
+  xKey: string;
+  yKey: string;
+  seriesName: string;
+  yScale: ScaleType;
+  mean?: number;
+  median?: number;
+  cnt?: number;
+}
+
 
 export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
   // view = general
