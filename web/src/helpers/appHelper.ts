@@ -31,3 +31,39 @@ export const shuffle = (arr: any[]): any[] => {
 
   return arr;
 };
+
+export const cleanFn = (s: string): string => {
+  const toReplace = [
+    "?",
+    "[",
+    "]",
+    "/",
+    "\\",
+    "=",
+    "<",
+    ">",
+    ":",
+    ";",
+    ",",
+    "'",
+    '"',
+    "&",
+    "$",
+    "#",
+    "*",
+    "(",
+    ")",
+    "|",
+    "~",
+    "`",
+    "!",
+    "{",
+    "}",
+    "%",
+    "+",
+    String.fromCharCode(0),
+  ];
+  let fn = s.toLowerCase();
+  toReplace.forEach((ch) => (fn = fn.replaceAll(ch, "_")));
+  return fn;
+};
