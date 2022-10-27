@@ -276,16 +276,21 @@ export const SEP_ALGO: string = "|";
 export interface IFreqTableProps {
   bins: number[] | string[];
   values: number[] | string[];
-  title: string;
-  yScale: ScaleType;
+  title?: string;
+  subTitle?: string;
+  yScale?: ScaleType;
   mean?: number;
   median?: number;
   dropLastFromGraph?: boolean;
+  addTotals?: boolean;
+  addPercentageColumn?: boolean;
+  cnt?: number;
 }
 
 export interface IFreqTableRow {
   bin: number | string;
   val: number | string;
+  percentage?: number | string;
 }
 
 export interface IFreqTableProps2D {
