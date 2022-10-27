@@ -35,6 +35,8 @@
 
   "col.bin": "Bin",
   "col.count": "Count",
+  "col.percent": "%",
+  "row.total": "TOTAL",
 
   "col.measure": "Measure",
   "col.value": "Value",
