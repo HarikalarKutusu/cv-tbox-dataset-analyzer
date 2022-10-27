@@ -436,6 +436,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       bins: number[] | string[];
       values: number[] | string[];
       title: string;
+      addTotals?: boolean;
+      addPercentageColumn?: boolean;
       dropLastFromGraph?: boolean;
     };
 
@@ -450,6 +452,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: DATASET_INFO_DURATION_BINS,
             values: data.dur_freq as number[],
             title: intl.get("col.duration_distribution"),
+            addTotals: true,
+            addPercentageColumn: true,
+            dropLastFromGraph: true,
           },
         ];
         break;
@@ -459,6 +464,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: DATASET_INFO_VOICE_BINS,
             values: data.v_freq as number[],
             title: intl.get("col.voice_distribution"),
+            addTotals: true,
+            addPercentageColumn: true,
+            dropLastFromGraph: true,
           },
         ];
         break;
@@ -468,6 +476,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CV_GENDERS as string[],
             values: getLastRow(data.dem_table as number[][]) as number[],
             title: intl.get("tbl.gender_distribution"),
+            addPercentageColumn: true,
             dropLastFromGraph: true,
           },
           // {
@@ -486,6 +495,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CV_GENDERS as string[],
             values: getLastRow(data.dem_uq as number[][]) as number[],
             title: intl.get("tbl.gender_uq_distribution"),
+            addPercentageColumn: true,
             dropLastFromGraph: true,
           },
           {
@@ -495,7 +505,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               getLastRow(data.dem_uq as number[][]) as number[],
             ),
             title: intl.get("tbl.gender_recs_per_person"),
-            dropLastFromGraph: false,
+            dropLastFromGraph: true,
           },
         ];
         break;
@@ -505,12 +515,14 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CV_AGES as string[],
             values: getLastCol(data.dem_table as number[][]) as number[],
             title: intl.get("tbl.age_distribution"),
+            addPercentageColumn: true,
             dropLastFromGraph: true,
           },
           {
             bins: CV_AGES as string[],
             values: getLastCol(data.dem_uq as number[][]) as number[],
             title: intl.get("tbl.age_uq_distribution"),
+            addPercentageColumn: true,
             dropLastFromGraph: true,
           },
           {
@@ -520,7 +532,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               getLastCol(data.dem_uq as number[][]) as number[],
             ),
             title: intl.get("tbl.age_recs_per_person"),
-            dropLastFromGraph: false,
+            dropLastFromGraph: true,
           },
         ];
         break;
@@ -539,6 +551,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: DATASET_INFO_SENTENCE_BINS,
             values: data.s_freq as number[],
             title: intl.get("col.sentences_distribution"),
+            addTotals: true,
+            addPercentageColumn: true,
+            dropLastFromGraph: true,
           },
         ];
         break;
@@ -555,6 +570,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               values={v.values}
               title={v.title}
               yScale="linear"
+              addTotals={v.addTotals}
+              addPercentageColumn={v.addPercentageColumn}
               dropLastFromGraph={v.dropLastFromGraph}
             />
           );
