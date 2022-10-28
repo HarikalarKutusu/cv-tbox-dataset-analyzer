@@ -34,6 +34,7 @@ export const FreqChart = (props: IFreqChartProps) => {
     yScale = "linear",
     title,
     subTitle,
+    isXNumber = false,
   } = props;
   let { cnt } = props;
   const { langCode } = useStore();
@@ -43,7 +44,7 @@ export const FreqChart = (props: IFreqChartProps) => {
     ? cnt
     : Math.floor(Math.random() * GRAPH_COLORS.length) % GRAPH_COLORS.length;
 
-    const handleDownload = useCallback(async () => {
+  const handleDownload = useCallback(async () => {
     const png = await getPng();
     if (png) {
       FileSaver.saveAs(png, cleanFn(title + "-" + subTitle + ".png"));
@@ -63,6 +64,7 @@ export const FreqChart = (props: IFreqChartProps) => {
           >
             <XAxis
               dataKey={xKey}
+              type={isXNumber ? "number" : "category"}
               style={{
                 fontSize: "0.8rem",
                 fontFamily: "Arial",
@@ -125,6 +127,35 @@ export const FreqChart = (props: IFreqChartProps) => {
               dataKey={yKey}
               fill={GRAPH_COLORS[cnt! % GRAPH_COLORS.length]}
             />
+            {mean ? (
+              <ReferenceLine
+                x={mean}
+                stroke="gray"
+                label={{
+                  position: "insideBottomRight",
+                  value: "x\u0305=" + mean.toFixed(1),
+                  fill: "black",
+                  fontSize: 14,
+                }}
+              />
+            ) : (
+              <></>
+            )}
+            {median ? (
+              <ReferenceLine
+                x={median}
+                stroke="gray"
+                label={{
+                  position: "insideTopLeft",
+                  value: "̃̃x\u0303=" + median.toFixed(1),
+                  fill: "black",
+                  fontSize: 14,
+                  // angle: -90
+                }}
+              />
+            ) : (
+              <></>
+            )}
           </BarChart>
           <div style={{ position: "absolute", top: -5, left: 30 }}>
             <DownloadForOfflineIcon

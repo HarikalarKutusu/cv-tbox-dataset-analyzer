@@ -276,7 +276,7 @@ export const SEP_ALGO: string = "|";
 export interface IFreqTableProps {
   bins: number[] | string[];
   values: number[] | string[];
-  title?: string;
+  title: string;
   subTitle?: string;
   yScale?: ScaleType;
   mean?: number;
@@ -284,6 +284,7 @@ export interface IFreqTableProps {
   dropLastFromGraph?: boolean;
   addTotals?: boolean;
   addPercentageColumn?: boolean;
+  isXNumber?: boolean;
   cnt?: number;
 }
 
@@ -369,16 +370,9 @@ export const addTotals = (
     res[i][colCnt] = rowTotal;
   });
   res.push(totalRow);
-  // console.log(res);
   return res;
 };
 
 export const expandTable = (arr: number[][]): number[][] => {
   return addTotals(addTotals(arr, true));
 };
-
-export const selectFromDataset = (
-  algos: string[],
-  splits: string[],
-  columns: string[],
-) => {};

@@ -201,9 +201,12 @@ export const TextCorpus = (props: TextCorpusProps) => {
               title={"Common Voice " + lc}
               subTitle={intl.get("col.character_distribution")}
               yScale="linear"
+              mean={textCorpusRec?.c_mean}
+              median={textCorpusRec?.c_median}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
+              isXNumber={true}
               cnt={cnt++}
             />
           </div>
@@ -215,9 +218,12 @@ export const TextCorpus = (props: TextCorpusProps) => {
               title={"Common Voice " + lc}
               subTitle={intl.get("col.word_distribution")}
               yScale="linear"
+              mean={textCorpusRec?.w_mean}
+              median={textCorpusRec?.w_median}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
+              isXNumber={true}
               cnt={cnt++}
             />
           </div>
@@ -229,6 +235,8 @@ export const TextCorpus = (props: TextCorpusProps) => {
               title={"Common Voice " + lc}
               subTitle={intl.get("col.token_distribution")}
               yScale="log"
+              mean={textCorpusRec?.t_mean}
+              median={textCorpusRec?.t_median}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}

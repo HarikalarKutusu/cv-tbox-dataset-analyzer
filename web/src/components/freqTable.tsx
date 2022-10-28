@@ -15,7 +15,7 @@ import {
 import { FreqChart } from "./graphs/freqChart";
 
 export const FreqTable = (props: IFreqTableProps) => {
-  let {
+  const {
     bins,
     values,
     title,
@@ -26,17 +26,18 @@ export const FreqTable = (props: IFreqTableProps) => {
     dropLastFromGraph = false,
     addTotals = false,
     addPercentageColumn = false,
+    isXNumber = false,
     cnt,
   } = props;
 
   const { langCode } = useStore();
 
-  if (!bins || !values || !title) {
-    console.log("bins=", bins);
-    console.log("values=", values);
-    console.log("title=", title);
-    return <></>;
-  }
+  // if (!bins || !values || !title) {
+  //   console.log("bins=", bins);
+  //   console.log("values=", values);
+  //   console.log("title=", title);
+  //   return <></>;
+  // }
 
   const getColumns = (): TableColumn<IFreqTableRow>[] => {
     const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -143,6 +144,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                   median={median}
                   title={title}
                   subTitle={subTitle}
+                  isXNumber={isXNumber}
                   cnt={cnt}
                 />
               </div>

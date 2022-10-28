@@ -90,6 +90,7 @@ export interface IFreqChartProps {
   median?: number;
   title?: string;
   subTitle?: string;
+  isXNumber?: boolean;
   cnt?: number;
 }
 
