@@ -24,8 +24,17 @@ import { GRAPH_COLORS, IAppChartProps } from "../../helpers/graphHelper";
 import { cleanFn } from "../../helpers/appHelper";
 
 export const AppBarChart = (props: IAppChartProps) => {
-  const { data, xKey, yKeys, stacked, seriesNames, title, subTitle, cnt } =
-    props;
+  const {
+    data,
+    xKey,
+    yKeys,
+    stacked,
+    seriesNames,
+    title,
+    subTitle,
+    fillPercent = false,
+    cnt,
+  } = props;
   const { langCode } = useStore();
   const [getPng, { ref }] = useCurrentPng();
 
@@ -62,6 +71,7 @@ export const AppBarChart = (props: IAppChartProps) => {
               tickFormatter={(val) => {
                 return val.toLocaleString(langCode);
               }}
+              domain={!fillPercent ? ["auto", "auto"] : [0, 100]}
             />
             <CartesianGrid
               strokeDasharray="3 3"

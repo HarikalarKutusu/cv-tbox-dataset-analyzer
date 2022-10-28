@@ -1,6 +1,6 @@
 // App related / app-wide stuff
 
-export const appVersion = "v0.4.1b";
+export const appVersion = "v0.5.0b";
 export const appDataDate = "2022-10-22";
 export const appCopyrightText = "Copyright";
 
@@ -10,6 +10,7 @@ export const appGithubURL =
   "https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer";
 export const appLicenseURL =
   "https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/blob/main/LICENSE";
+export const appMetadataViewerURL = "https://cv-metadata-viewer.netlify.app/";
 
 // Fisher-Yates (aka Knuth) Shuffle
 export const shuffle = (arr: any[]): any[] => {

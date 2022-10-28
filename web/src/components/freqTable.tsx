@@ -15,7 +15,7 @@ import {
 import { FreqChart } from "./graphs/freqChart";
 
 export const FreqTable = (props: IFreqTableProps) => {
-  let {
+  const {
     bins,
     values,
     title,
@@ -26,17 +26,18 @@ export const FreqTable = (props: IFreqTableProps) => {
     dropLastFromGraph = false,
     addTotals = false,
     addPercentageColumn = false,
+    isXNumber = false,
     cnt,
   } = props;
 
   const { langCode } = useStore();
 
-  if (!bins || !values || !title) {
-    console.log("bins=", bins);
-    console.log("values=", values);
-    console.log("title=", title);
-    return <></>;
-  }
+  // if (!bins || !values || !title) {
+  //   console.log("bins=", bins);
+  //   console.log("values=", values);
+  //   console.log("title=", title);
+  //   return <></>;
+  // }
 
   const getColumns = (): TableColumn<IFreqTableRow>[] => {
     const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -107,19 +108,23 @@ export const FreqTable = (props: IFreqTableProps) => {
         overflow: "auto",
       }}
     >
-      <Container maxWidth={false} sx={{ mt: 4, mb: 10 }}>
+      <Container
+        maxWidth={false}
+        sx={{ p: "0", mt: "10px", mb: "10px", width: "100%" }}
+      >
         <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
           <Grid
             container
             alignItems="stretch"
-            spacing={2}
-            sx={{ width: "100%" }}
+            spacing={0}
+            sx={{ width: "100%", mb: "10px" }}
           >
             <Grid item xs={12} sm={6} md={4}>
               <DataTable
                 columns={getColumns()}
                 data={tableData}
-                title={title}
+                // title={title}
+                title={subTitle}
                 responsive
                 dense
                 direction={Direction.AUTO}
@@ -137,6 +142,9 @@ export const FreqTable = (props: IFreqTableProps) => {
                   yScale={yScale}
                   mean={mean}
                   median={median}
+                  title={title}
+                  subTitle={subTitle}
+                  isXNumber={isXNumber}
                   cnt={cnt}
                 />
               </div>
