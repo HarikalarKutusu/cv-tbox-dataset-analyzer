@@ -1,6 +1,6 @@
 // App related / app-wide stuff
 
-export const appVersion = "v0.4.0b";
+export const appVersion = "v0.4.1b";
 export const appDataDate = "2022-10-22";
 export const appCopyrightText = "Copyright";
 

@@ -24,24 +24,17 @@ import { GRAPH_COLORS, IAppChartProps } from "../../helpers/graphHelper";
 import { cleanFn } from "../../helpers/appHelper";
 
 export const AppBarChart = (props: IAppChartProps) => {
-  const { data, xKey, yKeys, stacked, seriesNames, title, subTitle, cnt } = props;
+  const { data, xKey, yKeys, stacked, seriesNames, title, subTitle, cnt } =
+    props;
   const { langCode } = useStore();
-  const [getPng, { ref: refBar, isLoading }] = useCurrentPng();
+  const [getPng, { ref }] = useCurrentPng();
 
-  const handleBarDownload = useCallback(async () => {
-    if (isLoading) return;
-    console.log("here");
+  const handleDownload = useCallback(async () => {
     const png = await getPng();
     if (png) {
       FileSaver.saveAs(png, cleanFn(title + "-" + subTitle + ".png"));
     }
-  }, [getPng, isLoading, subTitle, title]);
-
-  const DLIcon = () => {
-    return (
-      <DownloadForOfflineIcon color="secondary" onClick={handleBarDownload} />
-    );
-  };
+  }, [getPng, subTitle, title]);
 
   return (
     <AutoSizer>
@@ -52,7 +45,7 @@ export const AppBarChart = (props: IAppChartProps) => {
             height={height}
             data={data}
             margin={{ top: 50, bottom: 0, left: 25, right: 10 }}
-            ref={refBar}
+            ref={ref}
           >
             <XAxis
               dataKey={xKey}
@@ -127,26 +120,21 @@ export const AppBarChart = (props: IAppChartProps) => {
                     name={seriesNames[inx]}
                     key={xKey + "-" + yKey}
                     dataKey={yKey}
-                    // fill={GRAPH_COLORS[i++ % GRAPH_COLORS.length]}
                     fill={
                       yKeys.length > 1
                         ? GRAPH_COLORS[(cnt + inx) % GRAPH_COLORS.length]
                         : GRAPH_COLORS[cnt % GRAPH_COLORS.length]
                     }
-                    //     : GRAPH_COLORS[
-                    //         Math.floor(Math.random() * GRAPH_COLORS.length)
-                    //       ]
-                    // }
                   >
                     {/* <LabelList dataKey={yKey} color="grey" /> */}
                   </Bar>
                 ))}
           </BarChart>
-          <div
-            style={{ position: "absolute", top: -5, left: -5 }}
-            onClick={handleBarDownload}
-          >
-            <DLIcon />
+          <div style={{ position: "absolute", top: -5, left: -5 }}>
+            <DownloadForOfflineIcon
+              color="secondary"
+              onClick={handleDownload}
+            />
           </div>
         </div>
       )}

@@ -26,22 +26,14 @@ import { cleanFn } from "../../helpers/appHelper";
 export const AppLineChart = (props: IAppChartProps) => {
   const { data, xKey, yKeys, seriesNames, title, subTitle, cnt } = props;
   const { langCode } = useStore();
-  const [getPng, { ref: refLine, isLoading }] = useCurrentPng();
+  const [getPng, { ref }] = useCurrentPng();
 
-  const handleLineDownload = useCallback(async () => {
-    if (isLoading) return;
-    console.log("here");
+  const handleDownload = useCallback(async () => {
     const png = await getPng();
     if (png) {
       FileSaver.saveAs(png, cleanFn(title + "-" + subTitle + ".png"));
     }
-  }, [getPng, isLoading, subTitle, title]);
-
-  const DLIcon = () => {
-    return (
-      <DownloadForOfflineIcon color="secondary" onClick={handleLineDownload} />
-    );
-  };
+  }, [getPng, subTitle, title]);
 
   return (
     <AutoSizer>
@@ -52,7 +44,7 @@ export const AppLineChart = (props: IAppChartProps) => {
             height={height}
             data={data}
             margin={{ top: 50, bottom: 0, left: 25, right: 10 }}
-            ref={refLine}
+            ref={ref}
           >
             <XAxis
               dataKey={xKey}
@@ -116,16 +108,15 @@ export const AppLineChart = (props: IAppChartProps) => {
                 name={seriesNames[inx]}
                 key={xKey + "-" + yKey}
                 dataKey={yKey}
-                // fill={GRAPH_COLORS[i]}
                 stroke={GRAPH_COLORS[(cnt + inx) % GRAPH_COLORS.length]}
               />
             ))}
           </LineChart>
-          <div
-            style={{ position: "absolute", top: -5, left: -5 }}
-            onClick={handleLineDownload}
-          >
-            <DLIcon />
+          <div style={{ position: "absolute", top: -5, left: -5 }}>
+            <DownloadForOfflineIcon
+              color="secondary"
+              onClick={handleDownload}
+            />
           </div>
         </div>
       )}
