@@ -128,6 +128,7 @@ export const GraphBuilder = () => {
               gd.title ? intl.get(gd.title) : "Common Voice " + lc + " v" + ver
             }
             subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+            fillPercent={gd.fillPercent}
             cnt={cnt}
           />
         ) : (
@@ -145,6 +146,7 @@ export const GraphBuilder = () => {
                     : "Common Voice " + lc + " v" + ver
                 }
                 subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                fillPercent={gd.fillPercent}
                 cnt={cnt}
               />
             ) : (
@@ -162,6 +164,7 @@ export const GraphBuilder = () => {
                         : "Common Voice " + lc + " v" + ver
                     }
                     subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                    fillPercent={gd.fillPercent}
                     cnt={cnt}
                   />
                 ) : (
@@ -192,6 +195,7 @@ export const GraphBuilder = () => {
               gd.title ? intl.get(gd.title) : "Common Voice " + lc + " v" + ver
             }
             subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+            fillPercent={gd.fillPercent}
             cnt={cnt}
           />
         ) : (
@@ -209,6 +213,7 @@ export const GraphBuilder = () => {
                     : "Common Voice " + lc + " v" + ver
                 }
                 subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                fillPercent={gd.fillPercent}
                 cnt={cnt}
               />
             ) : (
@@ -226,6 +231,7 @@ export const GraphBuilder = () => {
                         : "Common Voice " + lc + " v" + ver
                     }
                     subTitle={gd.subTitle ? intl.get(gd.subTitle) : undefined}
+                    fillPercent={gd.fillPercent}
                     cnt={cnt}
                   />
                 ) : (

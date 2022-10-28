@@ -250,7 +250,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_genders_male_per
-          ? (100 * row.calc_genders_male_per).toLocaleString(langCode, dec2)
+          ? row.calc_genders_male_per.toLocaleString(langCode, dec2)
           : "-",
     };
     // female percentage in recordings
@@ -261,7 +261,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_genders_female_per
-          ? (100 * row.calc_genders_female_per).toLocaleString(langCode, dec2)
+          ? row.calc_genders_female_per.toLocaleString(langCode, dec2)
           : "-",
     };
     // Unique male voices
@@ -308,7 +308,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_age_0_39
-          ? (100 * row.calc_age_0_39).toLocaleString(langCode, dec2)
+          ? row.calc_age_0_39.toLocaleString(langCode, dec2)
           : "-",
     };
     const calc_age_40_69: TableColumn<DATASET_INFO_ROW_TYPE> = {
@@ -318,7 +318,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_age_40_69
-          ? (100 * row.calc_age_40_69).toLocaleString(langCode, dec2)
+          ? row.calc_age_40_69.toLocaleString(langCode, dec2)
           : "-",
     };
     const calc_age_70_99: TableColumn<DATASET_INFO_ROW_TYPE> = {
@@ -328,7 +328,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_age_70_99
-          ? (100 * row.calc_age_70_99).toLocaleString(langCode, dec2)
+          ? row.calc_age_70_99.toLocaleString(langCode, dec2)
           : "-",
     };
     // Percentage of age groups based on unique voices
@@ -339,7 +339,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_age_uq_0_39
-          ? (100 * row.calc_age_uq_0_39).toLocaleString(langCode, dec2)
+          ? row.calc_age_uq_0_39.toLocaleString(langCode, dec2)
           : "-",
     };
     const calc_age_uq_40_69: TableColumn<DATASET_INFO_ROW_TYPE> = {
@@ -349,7 +349,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_age_uq_40_69
-          ? (100 * row.calc_age_uq_40_69).toLocaleString(langCode, dec2)
+          ? row.calc_age_uq_40_69.toLocaleString(langCode, dec2)
           : "-",
     };
     const calc_age_uq_70_99: TableColumn<DATASET_INFO_ROW_TYPE> = {
@@ -359,7 +359,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
         row.calc_age_uq_70_99
-          ? (100 * row.calc_age_uq_70_99).toLocaleString(langCode, dec2)
+          ? row.calc_age_uq_70_99.toLocaleString(langCode, dec2)
           : "-",
     };
 
@@ -608,15 +608,16 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         if (newRow.calc_genders_male !== 0)
           newRow.calc_genders_fm_ratio =
             newRow.calc_genders_female / newRow.calc_genders_male;
-        newRow.calc_genders_male_per = newRow.calc_genders_male / total;
-        newRow.calc_genders_female_per = newRow.calc_genders_female / total;
+        newRow.calc_genders_male_per = (100 * newRow.calc_genders_male) / total;
+        newRow.calc_genders_female_per =
+          (100 * newRow.calc_genders_female) / total;
         // age
         if (total > 0) {
-          newRow.calc_age_0_39 = (lastcol[0] + lastcol[1] + lastcol[2]) / total;
+          newRow.calc_age_0_39 = 100 * (lastcol[0] + lastcol[1] + lastcol[2]) / total;
           newRow.calc_age_40_69 =
-            (lastcol[3] + lastcol[4] + lastcol[5]) / total;
+            100 * (lastcol[3] + lastcol[4] + lastcol[5]) / total;
           newRow.calc_age_70_99 =
-            (lastcol[0] + lastcol[1] + lastcol[3]) / total;
+            100 * (lastcol[0] + lastcol[1] + lastcol[3]) / total;
         }
       }
 
@@ -633,11 +634,11 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         // age
         if (total > 0) {
           newRow.calc_age_uq_0_39 =
-            (lastcol[0] + lastcol[1] + lastcol[2]) / total;
+            100 * (lastcol[0] + lastcol[1] + lastcol[2]) / total;
           newRow.calc_age_uq_40_69 =
-            (lastcol[3] + lastcol[4] + lastcol[5]) / total;
+            100 * (lastcol[3] + lastcol[4] + lastcol[5]) / total;
           newRow.calc_age_uq_70_99 =
-            (lastcol[0] + lastcol[1] + lastcol[3]) / total;
+            100* (lastcol[0] + lastcol[1] + lastcol[3]) / total;
         }
       }
 

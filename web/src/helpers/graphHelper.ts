@@ -54,6 +54,7 @@ export type GRAPH_VIEW_TYPE = {
   stacked?: boolean;
   title?: string;
   subTitle?: string;
+  fillPercent?: boolean;
 };
 
 export interface ICrossTabGraphProps {
@@ -77,6 +78,7 @@ export interface IAppChartProps {
   stacked?: boolean;
   title?: string;
   subTitle?: string;
+  fillPercent?: boolean;
   cnt: number;
 }
 
@@ -349,6 +351,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     yKeys: ["calc_genders_male_per"],
     seriesNames: ["calc.male_percentage"],
     subTitle: "calc.male_percentage",
+    fillPercent: true,
   },
   {
     view: "gender",
@@ -362,6 +365,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "calc.male_percentage",
+    fillPercent: true,
   },
   {
     view: "gender",
@@ -373,6 +377,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     yKeys: ["calc_genders_female_per"],
     seriesNames: ["calc.female_percentage"],
     subTitle: "calc.female_percentage",
+    fillPercent: true,
   },
   {
     view: "gender",
@@ -386,6 +391,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "calc.female_percentage",
+    fillPercent: true,
   },
   {
     view: "gender",
@@ -495,6 +501,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["calc.age_0_39", "calc.age_40_69", "calc.age_70_99"],
     // stacked: true,
     subTitle: "graph.subtitle.age_groups",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -507,6 +514,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["calc.age_uq_0_39", "calc.age_uq_40_69", "calc.age_uq_70_99"],
     // stacked: true,
     subTitle: "graph.subtitle.uq_age_groups",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -520,6 +528,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "graph.subtitle.age_group_0_39",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -533,6 +542,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "graph.subtitle.uq_age_group_0_39",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -546,6 +556,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "graph.subtitle.age_group_40_69",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -559,6 +570,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "graph.subtitle.uq_age_group_40_69",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -572,6 +584,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "graph.subtitle.age_group_70_99",
+    fillPercent: true,
   },
   {
     view: "age",
@@ -585,6 +598,7 @@ export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
     seriesNames: ["col.buckets_train", "col.buckets_dev", "col.buckets_test"],
     // stacked: true,
     subTitle: "graph.subtitle.uq_age_group_70_99",
+    fillPercent: true,
   },
   // votes
 
