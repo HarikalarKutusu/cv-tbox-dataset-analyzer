@@ -1,5 +1,10 @@
 import { ScaleType } from "recharts/types/util/types";
-import { CROSSTAB_ROW_TYPE, DATASET_INFO_ROW_TYPE, DATASET_INFO_VIEW_TYPE, IFreqTableRow } from "./tableHelper";
+import {
+  CROSSTAB_ROW_TYPE,
+  DATASET_INFO_ROW_TYPE,
+  DATASET_INFO_VIEW_TYPE,
+  IFreqTableRow,
+} from "./tableHelper";
 
 export const GRAPH_COLORS = [
   "#4e79a7",
@@ -25,11 +30,7 @@ export type CHART_TYPES =
   | "scatter"
   | "funnel";
 
-export type ALGORITM_TYPE =
-  | ""
-  | "s1"
-  | "s99"
-  | "v1";
+export type ALGORITM_TYPE = "" | "s1" | "s99" | "v1";
 
 export type SPLIT_TYPE =
   | "clips"
@@ -67,7 +68,6 @@ export interface IDatasetGraphProps {
   cnt: number;
 }
 
-
 export interface IAppChartProps {
   data: DATASET_INFO_ROW_TYPE[] | CROSSTAB_ROW_TYPE[];
   xKey: string;
@@ -88,9 +88,10 @@ export interface IFreqChartProps {
   yScale: ScaleType;
   mean?: number;
   median?: number;
+  title?: string;
+  subTitle?: string;
   cnt?: number;
 }
-
 
 export const GRAPH_DATA: GRAPH_VIEW_TYPE[] = [
   // view = general

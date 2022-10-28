@@ -143,9 +143,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
         columns={columns}
         data={tbl}
         title={intl.get("examinepage.tab.text-corpus")}
-        // pagination
-        // paginationPerPage={bins.length}
-        // paginationComponent={undefined}
         responsive
         dense
         direction={Direction.AUTO}
@@ -201,7 +198,8 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"c_freq"}
               bins={TEXT_CORPUS_CHAR_BINS}
               values={textCorpusRec?.c_freq as number[]}
-              title={intl.get("col.character_distribution")}
+              title={"Common Voice " + lc}
+              subTitle={intl.get("col.character_distribution")}
               yScale="linear"
               addTotals={true}
               addPercentageColumn={true}
@@ -214,7 +212,8 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"w_freq"}
               bins={TEXT_CORPUS_WORD_BINS}
               values={textCorpusRec?.w_freq as number[]}
-              title={intl.get("col.word_distribution")}
+              title={"Common Voice " + lc}
+              subTitle={intl.get("col.word_distribution")}
               yScale="linear"
               addTotals={true}
               addPercentageColumn={true}
@@ -227,7 +226,8 @@ export const TextCorpus = (props: TextCorpusProps) => {
               key={"t_freq"}
               bins={TEXT_CORPUS_TOKEN_BINS}
               values={textCorpusRec?.t_freq as number[]}
-              title={intl.get("col.token_distribution")}
+              title={"Common Voice " + lc}
+              subTitle={intl.get("col.token_distribution")}
               yScale="log"
               addTotals={true}
               addPercentageColumn={true}
