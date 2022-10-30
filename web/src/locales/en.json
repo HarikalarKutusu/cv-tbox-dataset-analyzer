@@ -56,15 +56,26 @@
   "col.duplicate_sentences_lower": "Duplicate Lower",
 
   "col.duration_total": "Total Hours",
-  "col.duration_mean": "Avg. Duration",
-  "col.duration_median": "Median Duration",
+  "col.duration_avg": "Avg. Duration",
+  "col.duration_med": "Median",
+  "col.duration_std": "Std.Dev.",
   "col.duration_distribution": "Recording Duration",
 
-  "col.voice_mean": "Avg. Recs/Voice",
-  "col.voice_median": "Median Recs/Voice",
+  "col.voice_avg": "Avg. Recs/Voice",
+  "col.voice_med": "Median",
+  "col.voice_std": "Std.Dev.",
   "col.voice_distribution": "Recordings per Voice",
 
-  "calc.votes_total": "Total Votes",
+  "col.uv_sum": "Up-votes",
+  "col.uv_avg": "Avg. Up-votes",
+  "col.uv_med": "Median",
+  "col.uv_std": "Std.Dev.",
+  "col.dv_sum": "Down-Votes",
+  "col.dv_avg": "Avg. Down-votes",
+  "col.dv_med": "Median",
+  "col.dv_std": "Std.Dev.",
+  "tbl.up_votes": "Up-Vote Distribution",
+  "tbl.down_votes": "Down-Vote Distribution",
 
   "col.genders": "Gender Info",
   "calc.genders_male": "Male Recs",
@@ -102,8 +113,9 @@
   "tbl.age_uq_distribution": "Unique Age",
   "tbl.age_recs_per_person": "Recordings per Person",
 
-  "col.sentences_mean": "Avg. Recs/Sentence",
-  "col.sentences_median": "Median Recs/Sentence",
+  "col.sentences_avg": "Avg. Recs/Sentence",
+  "col.sentences_med": "Median",
+  "col.sentences_std": "Std.Dev.",
   "col.sentences_distribution": "Recordings/Sentence Distribution",
 
   "col.demographic_distribution": "Demographic Distribution",
