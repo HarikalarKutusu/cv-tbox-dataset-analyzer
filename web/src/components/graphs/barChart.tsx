@@ -71,7 +71,7 @@ export const AppBarChart = (props: IAppChartProps) => {
               tickFormatter={(val) => {
                 return val.toLocaleString(langCode);
               }}
-              domain={!fillPercent ? ["auto", "auto"] : [0, 100]}
+              domain={!fillPercent ? [0, "auto"] : [0, 100]}
             />
             <CartesianGrid
               strokeDasharray="3 3"
