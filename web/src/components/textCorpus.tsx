@@ -11,13 +11,14 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
+import { CONF } from "./../helpers/appHelper";
 import {
   convertStrList,
   TABLE_STYLE,
-  TEXT_CORPUS_CHAR_BINS,
   TEXT_CORPUS_STATS_ROW_TYPE,
-  TEXT_CORPUS_TOKEN_BINS,
-  TEXT_CORPUS_WORD_BINS,
+  // TEXT_CORPUS_CHAR_BINS,
+  // TEXT_CORPUS_TOKEN_BINS,
+  // TEXT_CORPUS_WORD_BINS,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
 
@@ -196,7 +197,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
           <div>
             <FreqTable
               key={"c_freq"}
-              bins={TEXT_CORPUS_CHAR_BINS}
+              bins={CONF.bins_chars}
               values={textCorpusRec?.c_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("col.character_distribution")}
@@ -213,7 +214,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
           <div>
             <FreqTable
               key={"w_freq"}
-              bins={TEXT_CORPUS_WORD_BINS}
+              bins={CONF.bins_words}
               values={textCorpusRec?.w_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("col.word_distribution")}
@@ -230,7 +231,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
           <div>
             <FreqTable
               key={"t_freq"}
-              bins={TEXT_CORPUS_TOKEN_BINS}
+              bins={CONF.bins_tokens}
               values={textCorpusRec?.t_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("col.token_distribution")}
