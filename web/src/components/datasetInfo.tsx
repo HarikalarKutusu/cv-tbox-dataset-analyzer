@@ -15,25 +15,23 @@ import DataTable, {
 import { useStore } from "../stores/store";
 
 // App
+import { CONF } from "./../helpers/appHelper";
 import { CV_AGES, CV_GENDERS } from "../helpers/cvHelper";
 
 import {
   convertStrArr,
   convertStrList,
-  getLastCol,
-  getLastRow,
-  getTotal,
+  getArrLastCol,
+  getArrLastRow,
+  getArrTotal,
   listDivide,
   sumArrays,
   expandTable,
-  addTotals,
+  // addArrTotals,
   TABLE_STYLE,
-  DATASET_INFO_DURATION_BINS,
   DATASET_INFO_ROW_TYPE,
-  DATASET_INFO_SENTENCE_BINS,
   DATASET_INFO_VIEW_TYPE,
   DATASET_INFO_VIEW_TYPES,
-  DATASET_INFO_VOICE_BINS,
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 
@@ -136,58 +134,85 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         row.dur_total ? row.dur_total.toLocaleString(langCode, dec3) : "-",
     };
 
-    const col_dur_mean: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "dur_mean",
-      name: intl.get("col.duration_mean"),
+    const col_dur_avg: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dur_avg",
+      name: intl.get("col.duration_avg"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.dur_mean ? row.dur_mean.toLocaleString(langCode, dec3) : "-",
+        row.dur_avg ? row.dur_avg.toLocaleString(langCode, dec3) : "-",
     };
 
-    const col_dur_median: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "dur_median",
-      name: intl.get("col.duration_median"),
+    const col_dur_med: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dur_med",
+      name: intl.get("col.duration_med"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.dur_median ? row.dur_median.toLocaleString(langCode, dec3) : "-",
+        row.dur_med ? row.dur_med.toLocaleString(langCode, dec3) : "-",
     };
 
-    const col_v_mean: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "v_mean",
-      name: intl.get("col.voice_mean"),
+    const col_dur_std: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dur_std",
+      name: intl.get("col.duration_std"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.v_mean ? row.v_mean.toLocaleString(langCode, dec3) : "-",
+        row.dur_std ? row.dur_std.toLocaleString(langCode, dec3) : "-",
     };
 
-    const col_v_median: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "v_median",
-      name: intl.get("col.voice_median"),
+    const col_v_avg: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "v_avg",
+      name: intl.get("col.voice_avg"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.v_median ? row.v_median.toLocaleString(langCode, dec3) : "-",
+        row.v_avg ? row.v_avg.toLocaleString(langCode, dec3) : "-",
     };
 
-    const col_s_mean: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "s_mean",
-      name: intl.get("col.sentences_mean"),
+    const col_v_med: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "v_med",
+      name: intl.get("col.voice_med"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.s_mean ? row.s_mean.toLocaleString(langCode, dec3) : "-",
+        row.v_med ? row.v_med.toLocaleString(langCode, dec3) : "-",
     };
 
-    const col_s_median: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "s_median",
-      name: intl.get("col.sentences_median"),
+    const col_v_std: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "v_std",
+      name: intl.get("col.voice_std"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.s_median ? row.s_median.toLocaleString(langCode, dec3) : "-",
+        row.v_std ? row.v_std.toLocaleString(langCode, dec3) : "-",
+    };
+
+    const col_s_avg: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "s_avg",
+      name: intl.get("col.sentences_avg"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.s_avg ? row.s_avg.toLocaleString(langCode, dec3) : "-",
+    };
+
+    const col_s_med: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "s_med",
+      name: intl.get("col.sentences_med"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.s_med ? row.s_med.toLocaleString(langCode, dec3) : "-",
+    };
+
+    const col_s_std: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "s_std",
+      name: intl.get("col.sentences_std"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.s_std ? row.s_std.toLocaleString(langCode, dec3) : "-",
     };
 
     // CALCULATED COLUMNS
@@ -195,15 +220,76 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     //
     // VOTES
     //
-    const calc_votes_total: TableColumn<DATASET_INFO_ROW_TYPE> = {
-      id: "calc_votes_total",
-      name: intl.get("calc.votes_total"),
+    const col_uv_sum: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "uv_sum",
+      name: intl.get("col.uv_sum"),
       sortable: true,
       right: true,
       selector: (row: DATASET_INFO_ROW_TYPE) =>
-        row.calc_votes_total
-          ? row.calc_votes_total.toLocaleString(langCode)
-          : "-",
+        row.uv_sum ? row.uv_sum.toLocaleString(langCode) : "-",
+    };
+
+    const col_dv_sum: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dv_sum",
+      name: intl.get("col.dv_sum"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.dv_sum ? row.dv_sum.toLocaleString(langCode) : "-",
+    };
+
+    const col_uv_avg: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "uv_avg",
+      name: intl.get("col.uv_avg"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.uv_avg ? row.uv_avg.toLocaleString(langCode, dec2) : "-",
+    };
+
+    const col_uv_med: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "uv_med",
+      name: intl.get("col.uv_med"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.uv_med ? row.uv_med.toLocaleString(langCode, dec2) : "-",
+    };
+
+    const col_uv_std: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "uv_std",
+      name: intl.get("col.uv_std"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.uv_std ? row.uv_std.toLocaleString(langCode, dec2) : "-",
+    };
+
+    const col_dv_avg: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dv_avg",
+      name: intl.get("col.dv_avg"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.dv_avg ? row.dv_avg.toLocaleString(langCode, dec2) : "-",
+    };
+
+    const col_dv_med: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dv_med",
+      name: intl.get("col.dv_med"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.dv_med ? row.dv_med.toLocaleString(langCode, dec2) : "-",
+    };
+
+    const col_dv_std: TableColumn<DATASET_INFO_ROW_TYPE> = {
+      id: "dv_std",
+      name: intl.get("col.dv_std"),
+      sortable: true,
+      right: true,
+      selector: (row: DATASET_INFO_ROW_TYPE) =>
+        row.dv_std ? row.dv_std.toLocaleString(langCode, dec2) : "-",
     };
 
     //
@@ -370,10 +456,17 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         res = [col_alg, col_sp, col_dur_total, col_clips, col_uq_v, col_uq_s];
         break;
       case "duration":
-        res = [col_alg, col_sp, col_dur_total, col_dur_mean, col_dur_median];
+        res = [
+          col_alg,
+          col_sp,
+          col_dur_total,
+          col_dur_avg,
+          col_dur_med,
+          col_dur_std,
+        ];
         break;
       case "voices":
-        res = [col_alg, col_sp, col_uq_v, col_v_mean, col_v_median];
+        res = [col_alg, col_sp, col_uq_v, col_v_avg, col_v_med, col_v_std];
         break;
       case "gender":
         res = [
@@ -404,10 +497,29 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         ];
         break;
       case "votes":
-        res = [col_alg, col_sp, calc_votes_total];
+        res = [
+          col_alg,
+          col_sp,
+          col_uv_sum,
+          col_uv_avg,
+          col_uv_med,
+          col_uv_std,
+          col_dv_sum,
+          col_dv_avg,
+          col_dv_med,
+          col_dv_std,
+        ];
         break;
       case "sentences":
-        res = [col_alg, col_sp, col_uq_s, col_uq_sl, col_s_mean, col_s_median];
+        res = [
+          col_alg,
+          col_sp,
+          col_uq_s,
+          col_uq_sl,
+          col_s_avg,
+          col_s_med,
+          col_s_std,
+        ];
         break;
       // case "comperative":
       //   res = [col_alg, col_sp];
@@ -451,7 +563,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       case "duration":
         expViews = [
           {
-            bins: DATASET_INFO_DURATION_BINS,
+            bins: CONF.bins_duration,
             values: data.dur_freq as number[],
             subTitle: intl.get("col.duration_distribution"),
             addTotals: true,
@@ -463,7 +575,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       case "voices":
         expViews = [
           {
-            bins: DATASET_INFO_VOICE_BINS,
+            bins: CONF.bins_voices,
             values: data.v_freq as number[],
             subTitle: intl.get("col.voice_distribution"),
             addTotals: true,
@@ -476,7 +588,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         expViews = [
           {
             bins: CV_GENDERS as string[],
-            values: getLastRow(data.dem_table as number[][]) as number[],
+            values: getArrLastRow(data.dem_table as number[][]) as number[],
             subTitle: intl.get("tbl.gender_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -495,7 +607,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           // },
           {
             bins: CV_GENDERS as string[],
-            values: getLastRow(data.dem_uq as number[][]) as number[],
+            values: getArrLastRow(data.dem_uq as number[][]) as number[],
             subTitle: intl.get("tbl.gender_uq_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -503,8 +615,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           {
             bins: CV_GENDERS as string[],
             values: listDivide(
-              getLastRow(data.dem_table as number[][]) as number[],
-              getLastRow(data.dem_uq as number[][]) as number[],
+              getArrLastRow(data.dem_table as number[][]) as number[],
+              getArrLastRow(data.dem_uq as number[][]) as number[],
             ),
             subTitle: intl.get("tbl.gender_recs_per_person"),
             dropLastFromGraph: true,
@@ -515,14 +627,14 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         expViews = [
           {
             bins: CV_AGES as string[],
-            values: getLastCol(data.dem_table as number[][]) as number[],
+            values: getArrLastCol(data.dem_table as number[][]) as number[],
             subTitle: intl.get("tbl.age_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
           },
           {
             bins: CV_AGES as string[],
-            values: getLastCol(data.dem_uq as number[][]) as number[],
+            values: getArrLastCol(data.dem_uq as number[][]) as number[],
             subTitle: intl.get("tbl.age_uq_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -530,8 +642,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           {
             bins: CV_AGES as string[],
             values: listDivide(
-              getLastCol(data.dem_table as number[][]) as number[],
-              getLastCol(data.dem_uq as number[][]) as number[],
+              getArrLastCol(data.dem_table as number[][]) as number[],
+              getArrLastCol(data.dem_uq as number[][]) as number[],
             ),
             subTitle: intl.get("tbl.age_recs_per_person"),
             dropLastFromGraph: true,
@@ -539,18 +651,23 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         ];
         break;
       case "votes":
-        // expViews = [
-        //   {
-        //     bins: DATASET_INFO_SENTENCE_BINS,
-        //     values: data.votes as number[][],
-        //     title: intl.get("tbl.votes"),
-        //   },
-        // ];
+        expViews = [
+          {
+            bins: CONF.bins_votes_up,
+            values: data.uv_freq as number[],
+            title: intl.get("tbl.up_votes"),
+          },
+          {
+            bins: CONF.bins_votes_down,
+            values: data.dv_freq as number[],
+            title: intl.get("tbl.down_votes"),
+          },
+        ];
         break;
       case "sentences":
         expViews = [
           {
-            bins: DATASET_INFO_SENTENCE_BINS,
+            bins: CONF.bins_sentences,
             values: data.s_freq as number[],
             subTitle: intl.get("col.sentences_distribution"),
             addTotals: true,
@@ -587,22 +704,19 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     const newData: DATASET_INFO_ROW_TYPE[] = [];
     data.forEach((row) => {
       // initialize with loaded data
-      const newRow: DATASET_INFO_ROW_TYPE = row;
+      // const newRow: DATASET_INFO_ROW_TYPE = row;
+      const newRow: DATASET_INFO_ROW_TYPE = JSON.parse(JSON.stringify(row));
       let total: number;
       let lastrow: number[];
       let lastcol: number[];
-      // calculated fields (round them for visibity)
-
-      // votes
-      if (row.votes)
-        newRow.calc_votes_total = getTotal(row.votes as number[][]);
+      // calculated fields
 
       // demographics
       if (row.dem_table) {
         // gender
-        lastrow = getLastRow(row.dem_table as number[][]);
-        lastcol = getLastCol(row.dem_table as number[][]);
-        total = getTotal(row.dem_table as number[][]);
+        lastrow = getArrLastRow(row.dem_table as number[][]);
+        lastcol = getArrLastCol(row.dem_table as number[][]);
+        total = getArrTotal(row.dem_table as number[][]);
         newRow.calc_genders_male = lastrow[0];
         newRow.calc_genders_female = lastrow[1];
         if (newRow.calc_genders_male !== 0)
@@ -613,19 +727,20 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           (100 * newRow.calc_genders_female) / total;
         // age
         if (total > 0) {
-          newRow.calc_age_0_39 = 100 * (lastcol[0] + lastcol[1] + lastcol[2]) / total;
+          newRow.calc_age_0_39 =
+            (100 * (lastcol[0] + lastcol[1] + lastcol[2])) / total;
           newRow.calc_age_40_69 =
-            100 * (lastcol[3] + lastcol[4] + lastcol[5]) / total;
+            (100 * (lastcol[3] + lastcol[4] + lastcol[5])) / total;
           newRow.calc_age_70_99 =
-            100 * (lastcol[0] + lastcol[1] + lastcol[3]) / total;
+            (100 * (lastcol[0] + lastcol[1] + lastcol[3])) / total;
         }
       }
 
       if (row.dem_uq) {
         // gender
-        lastrow = getLastRow(row.dem_uq as number[][]);
-        lastcol = getLastCol(row.dem_uq as number[][]);
-        total = getTotal(row.dem_uq as number[][]);
+        lastrow = getArrLastRow(row.dem_uq as number[][]);
+        lastcol = getArrLastCol(row.dem_uq as number[][]);
+        total = getArrTotal(row.dem_uq as number[][]);
         newRow.calc_genders_uq_male = lastrow[0];
         newRow.calc_genders_uq_female = lastrow[1];
         if (newRow.calc_genders_uq_male !== 0)
@@ -634,11 +749,11 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         // age
         if (total > 0) {
           newRow.calc_age_uq_0_39 =
-            100 * (lastcol[0] + lastcol[1] + lastcol[2]) / total;
+            (100 * (lastcol[0] + lastcol[1] + lastcol[2])) / total;
           newRow.calc_age_uq_40_69 =
-            100 * (lastcol[3] + lastcol[4] + lastcol[5]) / total;
+            (100 * (lastcol[3] + lastcol[4] + lastcol[5])) / total;
           newRow.calc_age_uq_70_99 =
-            100* (lastcol[0] + lastcol[1] + lastcol[3]) / total;
+            (100 * (lastcol[0] + lastcol[1] + lastcol[3])) / total;
         }
       }
 
@@ -673,8 +788,10 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               if (row.s_freq && row.s_freq !== "")
                 row.s_freq = convertStrList(row.s_freq as string);
 
-              if (row.votes && row.votes !== "")
-                row.votes = addTotals(convertStrArr(row.votes as string));
+              if (row.uv_freq && row.uv_freq !== "")
+                row.uv_freq = convertStrList(row.uv_freq as string);
+              if (row.dv_freq && row.dv_freq !== "")
+                row.dv_freq = convertStrList(row.dv_freq as string);
 
               if (row.dem_table)
                 row.dem_table = convertStrArr(row.dem_table as string);
