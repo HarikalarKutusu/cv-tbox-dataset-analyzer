@@ -1,8 +1,31 @@
+//
 // App related / app-wide stuff
+//
+import config from "./../assets/data/$config.json"
 
+// config
+
+export type CONFIG_TYPE = {
+    date: string;
+    cv_versions: string[];
+    cv_dates: string[];
+    cv_locales: string[];
+    algorithms: string[];
+    bins_duration: number[];
+    bins_voices: number[];
+    bins_votes_up: number[];
+    bins_votes_down: number[];
+    bins_sentences: number[];
+    bins_chars: number[];
+    bins_words: number[];
+    bins_tokens: number[];
+}
+
+export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
+
+// Versioning
 export const appVersion = "v0.5.0b";
 export const appDataDate = "2022-10-22";
-export const appCopyrightText = "Copyright";
 
 // URLs
 export const appCommonVoiceURL = "https://commonvoice.mozilla.org/";
