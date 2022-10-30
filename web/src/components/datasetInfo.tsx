@@ -655,12 +655,18 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           {
             bins: CONF.bins_votes_up,
             values: data.uv_freq as number[],
-            title: intl.get("tbl.up_votes"),
+            subTitle: intl.get("tbl.up_votes"),
+            addPercentageColumn: true,
+            addTotals: true,
+            dropLastFromGraph: true,
           },
           {
             bins: CONF.bins_votes_down,
             values: data.dv_freq as number[],
-            title: intl.get("tbl.down_votes"),
+            subTitle: intl.get("tbl.down_votes"),
+            addPercentageColumn: true,
+            addTotals: true,
+            dropLastFromGraph: true,
           },
         ];
         break;
@@ -869,7 +875,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     "voices",
     "gender",
     "age",
-    // "votes",
+    "votes",
     "sentences",
   ];
 
