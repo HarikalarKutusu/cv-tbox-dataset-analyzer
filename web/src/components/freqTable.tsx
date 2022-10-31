@@ -50,7 +50,7 @@ export const FreqTable = (props: IFreqTableProps) => {
       {
         id: "count",
         name: intl.get("col.count"),
-        // width: "150px",
+        width: "100px",
         right: true,
         selector: (row) => row.val.toLocaleString(langCode),
       },
@@ -59,7 +59,7 @@ export const FreqTable = (props: IFreqTableProps) => {
       cols.push({
         id: "percentage",
         name: intl.get("col.percent"),
-        // width: "150px",
+        width: "100px",
         right: true,
         selector: (row) =>
           row.percentage ? row.percentage.toLocaleString(langCode, dec2) : "-",
@@ -107,7 +107,13 @@ export const FreqTable = (props: IFreqTableProps) => {
     >
       <Container
         maxWidth={false}
-        sx={{ p: "0", mt: "10px", mb: "10px", width: "100%" }}
+        sx={{
+          pl: "1px !important",
+          pr: "1px !important",
+          mt: "10px",
+          mb: "10px",
+          width: "100%",
+        }}
       >
         <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
           <Grid
