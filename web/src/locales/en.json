@@ -179,6 +179,14 @@
   "measures.tokens_med": "Median Token Occurrance",
   "measures.tokens_std": "Token Occurrance Std.Dev.",
 
+  "measures.reported_sum": "Total reports",
+  "measures.reported_sen": "Total reported sentences",
+  "measures.reported_avg": "Average",
+  "measures.reported_med": "Median",
+  "measures.reported_tsd": "Std.Dev.",
+  "tbl.reported_freq": "Reports per Sentence",
+  "tbl.reported_reasons_freq": "Reporting Reasons",
+
   "col.character_distribution": "Characters/Sentence Distribution",
   "col.word_distribution": "Words/Sentence Distribution",
   "col.token_distribution": "Distribution of Token Occurrences",
@@ -212,10 +220,17 @@
   "examinepage.tab.gender": "Gender",
   "examinepage.tab.age": "Age",
   "examinepage.tab.votes": "Votes",
+  "examinepage.tab.reported": "Reported",
   "examinepage.tab.sentences": "Sentences",
   "examinepage.tab.text-corpus": "Text Corpus",
   "examinepage.tab.comperative": "Comperative",
   "examinepage.tab.health": "Health",
+
+  "bins_reasons.offensive-language": "Offensive Language",
+  "bins_reasons.grammar-or-spelling": "Grammer or Spelling",
+  "bins_reasons.different-language": "Different Language",
+  "bins_reasons.difficult-pronounce": "Difficult to Pronounce",
+  "bins_reasons.other": "Other Reasons",
 
   "warn.no_data": "Not enough data to show."
 }
