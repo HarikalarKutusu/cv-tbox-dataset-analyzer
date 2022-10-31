@@ -19,6 +19,8 @@ export type CONFIG_TYPE = {
     bins_chars: number[];
     bins_words: number[];
     bins_tokens: number[];
+    bins_reported: number[];
+    bins_reasons: string[];
 }
 export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
 

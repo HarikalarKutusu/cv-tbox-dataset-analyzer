@@ -42,6 +42,7 @@ export type DATASET_INFO_VIEW_TYPE =
   | "gender"
   | "age"
   | "votes"
+  | "reported"
   | "sentences"
   | "text-corpus";
 // | "comperative"
@@ -54,6 +55,7 @@ export const DATASET_INFO_VIEW_TYPES: DATASET_INFO_VIEW_TYPE[] = [
   "gender",
   "age",
   "votes",
+  "reported",
   "sentences",
   "text-corpus",
   // "comperative",
@@ -189,12 +191,33 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   t_freq: string | number[];
 };
 
-// SEPARATORS
+//======================================
+//== reported.tsv Statistics
+//======================================
+
+export type REPORTED_STATS_ROW_TYPE = {
+  ver: string;
+  lc: string;
+  rep_sum: number;
+  rep_sen: number;
+  rep_avg: number;
+  rep_med: number;
+  rep_std: number;
+  rep_freq: string | number[];
+  rea_freq: string | number[];
+};
+
+
+//======================================
+//== SEPARATORS
+//======================================
 export const SEP_ROW: string = "|";
 export const SEP_COL: string = "#";
 export const SEP_ALGO: string = "|";
 
-// Frequency Tables
+//======================================
+//== Frequency Tables
+//======================================
 export interface IFreqTableProps {
   bins: number[] | string[];
   values: number[] | string[];
@@ -228,9 +251,9 @@ export interface IFreqTableRow2D {
   val: number | string;
 }
 
-//
-// Methods
-//
+//======================================
+//== Methods
+//======================================
 
 export const convertStrList = (s: string): number[] => {
   return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
