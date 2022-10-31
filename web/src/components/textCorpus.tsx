@@ -85,40 +85,52 @@ export const TextCorpus = (props: TextCorpusProps) => {
           val: textCorpusRec.has_val === 1 ? textCorpusRec.s_cnt - textCorpusRec.val : "?",
         },
         {
-          measure: intl.get("measures.characters_total"),
-          val: textCorpusRec.c_total,
+          measure: intl.get("measures.characters_sum"),
+          val: textCorpusRec.c_sum,
         },
         {
-          measure: intl.get("measures.characters_mean"),
-          val: textCorpusRec.c_mean,
+          measure: intl.get("measures.characters_avg"),
+          val: textCorpusRec.c_avg,
         },
         {
-          measure: intl.get("measures.characters_median"),
-          val: textCorpusRec.c_median,
+          measure: intl.get("measures.characters_med"),
+          val: textCorpusRec.c_med,
         },
         {
-          measure: intl.get("measures.words_total"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_total : "?",
+          measure: intl.get("measures.characters_std"),
+          val: textCorpusRec.c_std,
         },
         {
-          measure: intl.get("measures.words_mean"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_mean : "?",
+          measure: intl.get("measures.words_sum"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_sum : "?",
         },
         {
-          measure: intl.get("measures.words_median"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_median : "?",
+          measure: intl.get("measures.words_avg"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_avg : "?",
         },
         {
-          measure: intl.get("measures.tokens_total"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_total : "?",
+          measure: intl.get("measures.words_med"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_med : "?",
         },
         {
-          measure: intl.get("measures.tokens_mean"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_mean : "?",
+          measure: intl.get("measures.words_std"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.w_std : "?",
         },
         {
-          measure: intl.get("measures.tokens_median"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_median: "?",
+          measure: intl.get("measures.tokens_sum"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_sum : "?",
+        },
+        {
+          measure: intl.get("measures.tokens_avg"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_avg : "?",
+        },
+        {
+          measure: intl.get("measures.tokens_med"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_med: "?",
+        },
+        {
+          measure: intl.get("measures.tokens_std"),
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_std: "?",
         },
       ];
     }
@@ -202,12 +214,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
               title={"Common Voice " + lc}
               subTitle={intl.get("col.character_distribution")}
               yScale="linear"
-              mean={textCorpusRec?.c_mean}
-              median={textCorpusRec?.c_median}
+              mean={textCorpusRec?.c_avg}
+              median={textCorpusRec?.c_med}
+              std={textCorpusRec?.c_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
-              isXNumber={true}
+              isXNumber={false}
               cnt={cnt++}
             />
           </div>
@@ -219,12 +232,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
               title={"Common Voice " + lc}
               subTitle={intl.get("col.word_distribution")}
               yScale="linear"
-              mean={textCorpusRec?.w_mean}
-              median={textCorpusRec?.w_median}
+              mean={textCorpusRec?.w_avg}
+              median={textCorpusRec?.w_med}
+              std={textCorpusRec?.w_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
-              isXNumber={true}
+              isXNumber={false}
               cnt={cnt++}
             />
           </div>
@@ -236,8 +250,9 @@ export const TextCorpus = (props: TextCorpusProps) => {
               title={"Common Voice " + lc}
               subTitle={intl.get("col.token_distribution")}
               yScale="log"
-              mean={textCorpusRec?.t_mean}
-              median={textCorpusRec?.t_median}
+              mean={textCorpusRec?.t_avg}
+              median={textCorpusRec?.t_med}
+              std={textCorpusRec?.t_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}

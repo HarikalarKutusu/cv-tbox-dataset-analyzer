@@ -170,19 +170,22 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   has_val: number;
   val: number;
 
-  c_total: number;
-  c_mean: number;
-  c_median: number;
+  c_sum: number;
+  c_avg: number;
+  c_med: number;
+  c_std: number;
   c_freq: string | number[];
 
-  w_total: number;
-  w_mean: number;
-  w_median: number;
+  w_sum: number;
+  w_avg: number;
+  w_med: number;
+  w_std: number;
   w_freq: string | number[];
 
-  t_total: number;
-  t_mean: number;
-  t_median: number;
+  t_sum: number;
+  t_avg: number;
+  t_med: number;
+  t_std: number;
   t_freq: string | number[];
 };
 
