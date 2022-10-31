@@ -133,7 +133,6 @@ export type DATASET_INFO_ROW_TYPE = {
   dem_ctable?: number[][];
   dem_cuq?: number[][];
 
-
   calc_genders_male?: number;
   calc_genders_female?: number;
   calc_genders_fm_ratio?: number;
@@ -149,8 +148,6 @@ export type DATASET_INFO_ROW_TYPE = {
   calc_age_uq_0_39?: number;
   calc_age_uq_40_69?: number;
   calc_age_uq_70_99?: number;
-
-  // xxx?: string | number;
 };
 
 // For temporary tables to view algorithm-vs-split data
@@ -160,50 +157,6 @@ export type CROSSTAB_ROW_TYPE = {
   dev: number; // value for dev split
   test: number; // value for test split
 };
-
-// export const DATASET_INFO_DURATION_BINS: number[] = [
-//   // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
-//   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
-// ];
-
-// export const DATASET_INFO_VOICE_BINS: number[] = [
-//   1,
-//   2,
-//   4,
-//   8,
-//   16,
-//   32,
-//   64,
-//   128,
-//   256,
-//   512,
-//   1024,
-//   2048,
-//   4096,
-//   8192,
-//   16384,
-//   32768,
-//   65536, // 999999,
-// ];
-
-// export const DATASET_INFO_SENTENCE_BINS: number[] = [
-//   0,
-//   1,
-//   2,
-//   3,
-//   4,
-//   5,
-//   6,
-//   7,
-//   8,
-//   9,
-//   10,
-//   20,
-//   30,
-//   40,
-//   50,
-//   100, // 999999,
-// ];
 
 //======================================
 //== Text Corpus Statistics
@@ -233,67 +186,6 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   t_freq: string | number[];
 };
 
-// export const TEXT_CORPUS_CHAR_BINS: number[] = [
-//   10,
-//   20,
-//   30,
-//   40,
-//   50,
-//   60,
-//   70,
-//   80,
-//   90,
-//   100,
-//   110,
-//   120,
-//   130,
-//   140,
-//   150, //, 99999,
-// ];
-
-// export const TEXT_CORPUS_WORD_BINS: number[] = [
-//   1,
-//   2,
-//   3,
-//   4,
-//   5,
-//   6,
-//   7,
-//   8,
-//   9,
-//   10,
-//   11,
-//   12,
-//   13,
-//   14,
-//   15,
-//   16,
-//   17,
-//   18,
-//   19,
-//   20, //, 99999,
-// ];
-
-// export const TEXT_CORPUS_TOKEN_BINS: number[] = [
-//   1,
-//   2,
-//   4,
-//   8,
-//   16,
-//   32,
-//   64,
-//   128,
-//   256,
-//   512,
-//   1024,
-//   2048,
-//   4096,
-//   8192,
-//   16384,
-//   32768,
-//   65536, //, 999999,
-// ];
-
 // SEPARATORS
 export const SEP_ROW: string = "|";
 export const SEP_COL: string = "#";
@@ -308,6 +200,7 @@ export interface IFreqTableProps {
   yScale?: ScaleType;
   mean?: number;
   median?: number;
+  std?: number;
   dropLastFromGraph?: boolean;
   addTotals?: boolean;
   addPercentageColumn?: boolean;
