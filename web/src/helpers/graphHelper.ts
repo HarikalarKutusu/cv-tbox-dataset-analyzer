@@ -90,6 +90,7 @@ export interface IFreqChartProps {
   yScale: ScaleType;
   mean?: number;
   median?: number;
+  std?: number;
   title?: string;
   subTitle?: string;
   isXNumber?: boolean;

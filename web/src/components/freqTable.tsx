@@ -23,6 +23,7 @@ export const FreqTable = (props: IFreqTableProps) => {
     yScale = "linear",
     mean,
     median,
+    std,
     dropLastFromGraph = false,
     addTotals = false,
     addPercentageColumn = false,
@@ -32,14 +33,8 @@ export const FreqTable = (props: IFreqTableProps) => {
 
   const { langCode } = useStore();
 
-  if (!values || values.length !== bins.length) return <Alert severity="warning">{intl.get("warn.no_data")}</Alert>;
-
-  // if (!bins || !values || !title) {
-  //   console.log("bins=", bins);
-  //   console.log("values=", values);
-  //   console.log("title=", title);
-  //   return <></>;
-  // }
+  if (!values || values.length !== bins.length)
+    return <Alert severity="warning">{intl.get("warn.no_data")}</Alert>;
 
   const getColumns = (): TableColumn<IFreqTableRow>[] => {
     const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -144,6 +139,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                   yScale={yScale}
                   mean={mean}
                   median={median}
+                  std={std}
                   title={title}
                   subTitle={subTitle}
                   isXNumber={isXNumber}

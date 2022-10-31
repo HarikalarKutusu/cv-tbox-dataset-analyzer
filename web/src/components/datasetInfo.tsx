@@ -549,6 +549,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       values: number[] | string[];
       title?: string;
       subTitle?: string;
+      mean?: number;
+      median?: number;
+      std?: number;
       addTotals?: boolean;
       addPercentageColumn?: boolean;
       dropLastFromGraph?: boolean;
@@ -566,6 +569,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CONF.bins_duration,
             values: data.dur_freq as number[],
             subTitle: intl.get("col.duration_distribution"),
+            mean: data.dur_avg,
+            median: data.dur_med,
+            std: data.dur_std,
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -578,6 +584,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CONF.bins_voices,
             values: data.v_freq as number[],
             subTitle: intl.get("col.voice_distribution"),
+            mean: data.v_avg,
+            median: data.v_med,
+            std: data.v_std,
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -656,6 +665,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CONF.bins_votes_up,
             values: data.uv_freq as number[],
             subTitle: intl.get("tbl.up_votes"),
+            mean: data.uv_avg,
+            median: data.uv_med,
+            std: data.uv_std,
             addPercentageColumn: true,
             addTotals: true,
             dropLastFromGraph: true,
@@ -664,6 +676,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CONF.bins_votes_down,
             values: data.dv_freq as number[],
             subTitle: intl.get("tbl.down_votes"),
+            mean: data.dv_avg,
+            median: data.dv_med,
+            std: data.dv_std,
             addPercentageColumn: true,
             addTotals: true,
             dropLastFromGraph: true,
@@ -676,6 +691,9 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             bins: CONF.bins_sentences,
             values: data.s_freq as number[],
             subTitle: intl.get("col.sentences_distribution"),
+            mean: data.s_avg,
+            median: data.s_med,
+            std: data.s_std,
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -687,18 +705,21 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
 
     return (
       <>
-        {expViews.map((v, index) => {
+        {expViews.map((ev, index) => {
           return (
             <FreqTable
               key={"c_freq_" + index}
-              bins={v.bins}
-              values={v.values}
+              bins={ev.bins}
+              values={ev.values}
               title={title}
-              subTitle={v.subTitle}
+              subTitle={ev.subTitle}
               yScale="linear"
-              addTotals={v.addTotals}
-              addPercentageColumn={v.addPercentageColumn}
-              dropLastFromGraph={v.dropLastFromGraph}
+              mean={ev.mean}
+              median={ev.median}
+              std={ev.std}
+              addTotals={ev.addTotals}
+              addPercentageColumn={ev.addPercentageColumn}
+              dropLastFromGraph={ev.dropLastFromGraph}
             />
           );
         })}
