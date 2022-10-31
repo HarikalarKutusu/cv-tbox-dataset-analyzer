@@ -1,7 +1,7 @@
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Box, Container, Paper, Grid } from "@mui/material";
+import { Box, Container, Paper, Grid, Alert } from "@mui/material";
 // Table
 import DataTable, { TableColumn, Direction } from "react-data-table-component";
 // Store
@@ -31,6 +31,8 @@ export const FreqTable = (props: IFreqTableProps) => {
   } = props;
 
   const { langCode } = useStore();
+
+  if (!values || values.length !== bins.length) return <Alert severity="warning">{intl.get("warn.no_data")}</Alert>;
 
   // if (!bins || !values || !title) {
   //   console.log("bins=", bins);
