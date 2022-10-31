@@ -214,5 +214,5 @@
   "examinepage.tab.comperative": "Comperative",
   "examinepage.tab.health": "Health",
 
-  "warn.to_view_graphs": "To view graphs, please select a single locale."
+  "warn.no_data": "Not enough data to show."
 }
