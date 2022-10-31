@@ -31,6 +31,7 @@ export const FreqChart = (props: IFreqChartProps) => {
     seriesName,
     mean,
     median,
+    std,
     yScale = "linear",
     title,
     subTitle,
@@ -127,7 +128,7 @@ export const FreqChart = (props: IFreqChartProps) => {
               dataKey={yKey}
               fill={GRAPH_COLORS[cnt! % GRAPH_COLORS.length]}
             />
-            {mean ? (
+            {/* {mean ? (
               <ReferenceLine
                 x={mean}
                 stroke="gray"
@@ -153,6 +154,27 @@ export const FreqChart = (props: IFreqChartProps) => {
                   // angle: -90
                 }}
               />
+            ) : (
+              <></>
+            )} */}
+            {mean || median || std ? (
+              <text
+                x={width - 80}
+                y={50}
+                fill="#999"
+                fontSize="0.8rem"
+                fontWeight={500}
+              >
+                <tspan x={width - 80} dy={15}>
+                  {"x\u0305 = " + (mean ? mean : "-")}
+                </tspan>
+                <tspan x={width - 80} dy={15}>
+                  {"x\u0303 = " + (median ? median : "-")}
+                </tspan>
+                <tspan x={width - 80} dy={15}>
+                  {"\u03c3 = " + (std ? std : "-")}
+                </tspan>
+              </text>
             ) : (
               <></>
             )}

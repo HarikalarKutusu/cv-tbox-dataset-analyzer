@@ -17,7 +17,8 @@ import { SelectChangeEvent } from "@mui/material/Select";
 // App
 import { appTheme } from "./ui/theme";
 import { useStore } from "../stores/store";
-import { CV_LOCALES, CV_VERSIONS } from "../helpers/cvHelper";
+// import { CV_LOCALES, CV_VERSIONS } from "../helpers/cvHelper";
+import { CONF } from "./../helpers/appHelper"
 
 const FilterSelectors = () => {
   const { versionFilter, setVersionFilter } = useStore();
@@ -43,9 +44,9 @@ const FilterSelectors = () => {
     setLanguageFilter(typeof value === "string" ? value.split(",") : value);
   };
 
-  let versionList: string[] = CV_VERSIONS;
+  let versionList: string[] = CONF.cv_versions;
   versionList.reverse();
-  const languageList: string[] = CV_LOCALES;
+  const languageList: string[] = CONF.cv_locales;
 
   // const isDisabled = tableView === "totals";
   const isDisabled = false;
