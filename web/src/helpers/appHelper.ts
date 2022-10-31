@@ -20,12 +20,11 @@ export type CONFIG_TYPE = {
     bins_words: number[];
     bins_tokens: number[];
 }
-
 export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
 
 // Versioning
-export const appVersion = "v0.5.0b";
-export const appDataDate = "2022-10-22";
+export const appVersion = "v0.6.0b";
+export const appDataDate = CONF.date;
 
 // URLs
 export const appCommonVoiceURL = "https://commonvoice.mozilla.org/";
