@@ -14,6 +14,7 @@ import { DATASET_INFO_VIEW_TYPES } from "./../../helpers/tableHelper";
 import { DataSetInfo } from "../datasetInfo";
 import { TextCorpus } from "../textCorpus";
 import { GraphBuilder } from "../graphBuilder";
+import { ReportedSentences } from "../reportedSentences";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -71,7 +72,7 @@ export const ExaminePage = () => {
           <Tabs
             value={tabValue}
             onChange={handleChange}
-            aria-label="basic tabs example"
+            aria-label="Dataset Analyzer Tabs"
           >
             <Tab
               label={intl.get("examinepage.tab.general")}
@@ -96,6 +97,10 @@ export const ExaminePage = () => {
             <Tab
               label={intl.get("examinepage.tab.votes")}
               {...a11yProps("examinepage.tab.votes")}
+            />
+            <Tab
+              label={intl.get("examinepage.tab.reported")}
+              {...a11yProps("examinepage.tab.reported")}
             />
             <Tab
               label={intl.get("examinepage.tab.sentences")}
@@ -139,12 +144,16 @@ export const ExaminePage = () => {
         <TabPanel value={tabValue} index={5}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
-        {/* sentences */}
+        {/* Reported Sentences */}
         <TabPanel value={tabValue} index={6}>
+          <ReportedSentences lc={lc} ver={ver} />
+        </TabPanel>
+        {/* sentences */}
+        <TabPanel value={tabValue} index={7}>
           <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
         </TabPanel>
         {/* text-corpus */}
-        <TabPanel value={tabValue} index={7}>
+        <TabPanel value={tabValue} index={8}>
           <TextCorpus lc={lc} />
         </TabPanel>
       </Box>

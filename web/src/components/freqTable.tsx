@@ -1,7 +1,7 @@
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Box, Container, Paper, Grid } from "@mui/material";
+import { Box, Container, Paper, Grid, Alert } from "@mui/material";
 // Table
 import DataTable, { TableColumn, Direction } from "react-data-table-component";
 // Store
@@ -23,6 +23,7 @@ export const FreqTable = (props: IFreqTableProps) => {
     yScale = "linear",
     mean,
     median,
+    std,
     dropLastFromGraph = false,
     addTotals = false,
     addPercentageColumn = false,
@@ -32,12 +33,8 @@ export const FreqTable = (props: IFreqTableProps) => {
 
   const { langCode } = useStore();
 
-  // if (!bins || !values || !title) {
-  //   console.log("bins=", bins);
-  //   console.log("values=", values);
-  //   console.log("title=", title);
-  //   return <></>;
-  // }
+  if (!values || values.length !== bins.length)
+    return <Alert severity="warning">{intl.get("warn.no_data")}</Alert>;
 
   const getColumns = (): TableColumn<IFreqTableRow>[] => {
     const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -53,7 +50,7 @@ export const FreqTable = (props: IFreqTableProps) => {
       {
         id: "count",
         name: intl.get("col.count"),
-        // width: "150px",
+        width: "100px",
         right: true,
         selector: (row) => row.val.toLocaleString(langCode),
       },
@@ -62,7 +59,7 @@ export const FreqTable = (props: IFreqTableProps) => {
       cols.push({
         id: "percentage",
         name: intl.get("col.percent"),
-        // width: "150px",
+        width: "100px",
         right: true,
         selector: (row) =>
           row.percentage ? row.percentage.toLocaleString(langCode, dec2) : "-",
@@ -110,7 +107,13 @@ export const FreqTable = (props: IFreqTableProps) => {
     >
       <Container
         maxWidth={false}
-        sx={{ p: "0", mt: "10px", mb: "10px", width: "100%" }}
+        sx={{
+          pl: "1px !important",
+          pr: "1px !important",
+          mt: "10px",
+          mb: "10px",
+          width: "100%",
+        }}
       >
         <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
           <Grid
@@ -142,6 +145,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                   yScale={yScale}
                   mean={mean}
                   median={median}
+                  std={std}
                   title={title}
                   subTitle={subTitle}
                   isXNumber={isXNumber}

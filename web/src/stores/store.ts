@@ -5,6 +5,7 @@ import create, { StoreApi, UseBoundStore } from "zustand";
 import {
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
+  REPORTED_STATS_ROW_TYPE,
   SUPPORT_MATRIX_ROW_TYPE,
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
@@ -44,6 +45,12 @@ export type StoreType = {
   // Text Corpus
   textCorpusStats: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined;
   setTextCorpusStats: (data: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined) => void;
+  
+  // Reported Sentences
+  reportedSentencesStats: REPORTED_STATS_ROW_TYPE[] | undefined;
+  setReportedSentencesStats: (
+    data: REPORTED_STATS_ROW_TYPE[] | undefined,
+  ) => void;
 
   // selected version filter
   versionFilter: string[];
@@ -94,6 +101,11 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     textCorpusStats: undefined,
     setTextCorpusStats: (data) =>
       set((state) => ({ ...state, textCorpusStats: data })),
+
+    // Reported Sentences
+    reportedSentencesStats: undefined,
+    setReportedSentencesStats: (data) =>
+      set((state) => ({ ...state, reportedSentencesStats: data })),
 
     // selected version filter
     versionFilter: [],

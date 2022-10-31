@@ -5,11 +5,28 @@ import { PRIMARY_COLOR } from "../components/ui/theme";
 //== Table Styling
 //======================================
 export const TABLE_STYLE = {
+  header: {
+    style: {
+      paddingLeft: "8px",
+      paddingRight: "8px",
+    },
+  },
   headRow: {
     style: {
       backgroundColor: PRIMARY_COLOR,
-      // backgroundColor: "#ee9a9d",
       color: "#ffffff",
+    },
+  },
+  headCells: {
+    style: {
+      paddingLeft: "8px",
+      paddingRight: "8px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "8px",
+      paddingRight: "8px",
     },
   },
 };
@@ -25,6 +42,7 @@ export type DATASET_INFO_VIEW_TYPE =
   | "gender"
   | "age"
   | "votes"
+  | "reported"
   | "sentences"
   | "text-corpus";
 // | "comperative"
@@ -37,6 +55,7 @@ export const DATASET_INFO_VIEW_TYPES: DATASET_INFO_VIEW_TYPE[] = [
   "gender",
   "age",
   "votes",
+  "reported",
   "sentences",
   "text-corpus",
   // "comperative",
@@ -81,19 +100,31 @@ export type DATASET_INFO_ROW_TYPE = {
   uq_sl: number; // unique lowercase sentences from split data
   // duration info
   dur_total: number; // total duration measured from clips
-  dur_mean: number; // mean duration measured from clips
-  dur_median: number; // median duration measured from clips
+  dur_avg: number; // mean duration measured from clips
+  dur_med: number; // median duration measured from clips
+  dur_std: number; // standart deviation measured from clips
   dur_freq: string | number[]; // frequency distributions of durations
   // voices
-  v_mean: number;
-  v_median: number;
+  v_avg: number;
+  v_med: number;
+  v_std: number;
   v_freq: string | number[];
   // sentences
-  s_mean: number;
-  s_median: number;
+  s_avg: number;
+  s_med: number;
+  s_std: number;
   s_freq: string | number[];
   // votes
-  votes: string | number[][];
+  uv_sum: number;
+  uv_avg: number;
+  uv_med: number;
+  uv_std: number;
+  uv_freq: string | number[];
+  dv_sum: number;
+  dv_avg: number;
+  dv_med: number;
+  dv_std: number;
+  dv_freq: string | number[];
   // demographics
   dem_table: string | number[][];
   dem_uq: string | number[][];
@@ -103,8 +134,6 @@ export type DATASET_INFO_ROW_TYPE = {
   // CALCULATED VALUES (should be here for graph support)
   dem_ctable?: number[][];
   dem_cuq?: number[][];
-
-  calc_votes_total?: number;
 
   calc_genders_male?: number;
   calc_genders_female?: number;
@@ -121,8 +150,6 @@ export type DATASET_INFO_ROW_TYPE = {
   calc_age_uq_0_39?: number;
   calc_age_uq_40_69?: number;
   calc_age_uq_70_99?: number;
-
-  // xxx?: string | number;
 };
 
 // For temporary tables to view algorithm-vs-split data
@@ -132,51 +159,6 @@ export type CROSSTAB_ROW_TYPE = {
   dev: number; // value for dev split
   test: number; // value for test split
 };
-
-
-export const DATASET_INFO_DURATION_BINS: number[] = [
-  // 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99,
-];
-
-export const DATASET_INFO_VOICE_BINS: number[] = [
-  1,
-  2,
-  4,
-  8,
-  16,
-  32,
-  64,
-  128,
-  256,
-  512,
-  1024,
-  2048,
-  4096,
-  8192,
-  16384,
-  32768,
-  65536, // 999999,
-];
-
-export const DATASET_INFO_SENTENCE_BINS: number[] = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  20,
-  30,
-  40,
-  50,
-  100, // 999999,
-];
 
 //======================================
 //== Text Corpus Statistics
@@ -190,89 +172,52 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   has_val: number;
   val: number;
 
-  c_total: number;
-  c_mean: number;
-  c_median: number;
+  c_sum: number;
+  c_avg: number;
+  c_med: number;
+  c_std: number;
   c_freq: string | number[];
 
-  w_total: number;
-  w_mean: number;
-  w_median: number;
+  w_sum: number;
+  w_avg: number;
+  w_med: number;
+  w_std: number;
   w_freq: string | number[];
 
-  t_total: number;
-  t_mean: number;
-  t_median: number;
+  t_sum: number;
+  t_avg: number;
+  t_med: number;
+  t_std: number;
   t_freq: string | number[];
 };
 
-export const TEXT_CORPUS_CHAR_BINS: number[] = [
-  10,
-  20,
-  30,
-  40,
-  50,
-  60,
-  70,
-  80,
-  90,
-  100,
-  110,
-  120,
-  130,
-  140,
-  150, //, 99999,
-];
+//======================================
+//== reported.tsv Statistics
+//======================================
 
-export const TEXT_CORPUS_WORD_BINS: number[] = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20, //, 99999,
-];
+export type REPORTED_STATS_ROW_TYPE = {
+  ver: string;
+  lc: string;
+  rep_sum: number;
+  rep_sen: number;
+  rep_avg: number;
+  rep_med: number;
+  rep_std: number;
+  rep_freq: string | number[];
+  rea_freq: string | number[];
+};
 
-export const TEXT_CORPUS_TOKEN_BINS: number[] = [
-  1,
-  2,
-  4,
-  8,
-  16,
-  32,
-  64,
-  128,
-  256,
-  512,
-  1024,
-  2048,
-  4096,
-  8192,
-  16384,
-  32768,
-  65536, //, 999999,
-];
 
-// SEPARATORS
+//======================================
+//== SEPARATORS
+//======================================
 export const SEP_ROW: string = "|";
 export const SEP_COL: string = "#";
 export const SEP_ALGO: string = "|";
 
-// Frequency Tables
+//======================================
+//== Frequency Tables
+//======================================
 export interface IFreqTableProps {
   bins: number[] | string[];
   values: number[] | string[];
@@ -281,6 +226,7 @@ export interface IFreqTableProps {
   yScale?: ScaleType;
   mean?: number;
   median?: number;
+  std?: number;
   dropLastFromGraph?: boolean;
   addTotals?: boolean;
   addPercentageColumn?: boolean;
@@ -305,9 +251,9 @@ export interface IFreqTableRow2D {
   val: number | string;
 }
 
-//
-// Methods
-//
+//======================================
+//== Methods
+//======================================
 
 export const convertStrList = (s: string): number[] => {
   return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
@@ -317,7 +263,11 @@ export const convertStrArr = (s: string): number[][] => {
   return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStrList(s));
 };
 
-export const getLastCol = (arr: number[][]): number[] => {
+export const calcListTotal = (lst: number[]): number => {
+  return lst.reduce((pv, cv) => pv + cv, 0);
+};
+
+export const getArrLastCol = (arr: number[][]): number[] => {
   let res: number[] = [];
   arr.forEach((row) => {
     res.push(row[row.length - 1] as number);
@@ -325,12 +275,12 @@ export const getLastCol = (arr: number[][]): number[] => {
   return res;
 };
 
-export const getLastRow = (arr: number[][]): number[] => {
+export const getArrLastRow = (arr: number[][]): number[] => {
   return arr[arr.length - 1];
 };
 
-export const getTotal = (arr: number[][]): number => {
-  const lstRow = getLastRow(arr);
+export const getArrTotal = (arr: number[][]): number => {
+  const lstRow = getArrLastRow(arr);
   return lstRow[lstRow.length - 1];
 };
 
@@ -350,7 +300,7 @@ export const sumArrays = (a1: number[][], a2: number[][]): number[][] => {
   return res;
 };
 
-export const addTotals = (
+export const addArrTotals = (
   arr: number[][],
   negate: boolean = false,
 ): number[][] => {
@@ -374,5 +324,5 @@ export const addTotals = (
 };
 
 export const expandTable = (arr: number[][]): number[][] => {
-  return addTotals(addTotals(arr, true));
+  return addArrTotals(addArrTotals(arr, true));
 };
