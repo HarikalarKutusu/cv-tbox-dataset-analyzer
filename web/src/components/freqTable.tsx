@@ -1,18 +1,23 @@
+// react
+import { useMemo } from "react";
 // i10n
 import intl from "react-intl-universal";
 // MUI
 import { Box, Container, Paper, Grid, Alert } from "@mui/material";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 // Table
 import DataTable, { TableColumn, Direction } from "react-data-table-component";
 // Store
 import { useStore } from "../stores/store";
 // App
 import {
+  downloadCSV,
   IFreqTableProps,
   IFreqTableRow,
   TABLE_STYLE,
 } from "../helpers/tableHelper";
 import { FreqChart } from "./graphs/freqChart";
+import { cleanFn } from "../helpers/appHelper";
 
 export const FreqTable = (props: IFreqTableProps) => {
   const {
@@ -32,9 +37,12 @@ export const FreqTable = (props: IFreqTableProps) => {
   } = props;
 
   const { langCode } = useStore();
+  const { selectedDataset } = useStore();
 
-  if (!values || values.length !== bins.length)
-    return <Alert severity="warning">{intl.get("warn.no_data")}</Alert>;
+  let tableData: IFreqTableRow[];
+
+  // if (!values || values.length !== bins.length)
+  //   return <Alert severity="warning">{intl.get("warn.no_data")}</Alert>;
 
   const getColumns = (): TableColumn<IFreqTableRow>[] => {
     const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -43,13 +51,14 @@ export const FreqTable = (props: IFreqTableProps) => {
       {
         id: "bin",
         name: intl.get("col.bin"),
-        // width: "100px",
+        minWidth: "100px",
+        maxWidth: "150px",
         right: true,
         selector: (row) => row.bin.toLocaleString(langCode),
       },
       {
         id: "count",
-        name: intl.get("col.count"),
+        name: intl.get("col.value"),
         width: "100px",
         right: true,
         selector: (row) => row.val.toLocaleString(langCode),
@@ -74,7 +83,7 @@ export const FreqTable = (props: IFreqTableProps) => {
   }
 
   // Prep table
-  const tableData: IFreqTableRow[] = [];
+  tableData = []
   let total: number = 0;
   for (let i = 0; i < bins.length; i++) {
     total += values[i] as number;
@@ -97,7 +106,26 @@ export const FreqTable = (props: IFreqTableProps) => {
     }
   }
 
-  return (
+  const exportCVSFreqTable = useMemo(
+    () => (
+      <DownloadForOfflineIcon
+        onClick={() =>
+          downloadCSV(
+            tableData!,
+            "cv-dataset-freq-dist-" + cleanFn(subTitle),
+            selectedDataset,
+          )
+        }
+        color="primary"
+        sx={{ cursor: "grab" }}
+      />
+    ),
+    [selectedDataset, subTitle, tableData],
+  );
+
+  return !values || values.length !== bins.length ? (
+    <Alert severity="warning">{intl.get("warn.no_data")}</Alert>
+  ) : (
     <Box
       sx={{
         flexGrow: 1,
@@ -133,6 +161,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                 direction={Direction.AUTO}
                 highlightOnHover
                 customStyles={TABLE_STYLE}
+                actions={exportCVSFreqTable}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={8} sx={{ border: "1px" }}>

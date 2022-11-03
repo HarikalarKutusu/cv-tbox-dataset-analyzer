@@ -15,6 +15,7 @@ import { DataSetInfo } from "../datasetInfo";
 import { TextCorpus } from "../textCorpus";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentences } from "../reportedSentences";
+import { getCVLanguageRecord } from "../../helpers/cvHelper";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,7 +63,14 @@ export const ExaminePage = () => {
     setDatasetInfoView(DATASET_INFO_VIEW_TYPES[newValue])
   };
 
-  const titleAddition = " (" + lc + " - v" + ver + ")"
+  const titleAddition =
+    " (" +
+    lc +
+    " - " +
+    getCVLanguageRecord(lc!).nname +
+    " - v" +
+    ver +
+    ")";
 
   return (
     <>

@@ -44,6 +44,7 @@
   "col.version": "Version",
   "col.date": "Rel.Date",
   "col.locale": "Locale",
+  "col.nname": "Native Name",
   "col.language": "Language",
   "col.algorithm": "Algorithm",
   "col.split": "Split",

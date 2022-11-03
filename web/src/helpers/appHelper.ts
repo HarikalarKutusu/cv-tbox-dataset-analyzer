@@ -25,7 +25,7 @@ export type CONFIG_TYPE = {
 export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
 
 // Versioning
-export const appVersion = "v0.6.0b";
+export const appVersion = "v0.7.0b";
 export const appDataDate = CONF.date;
 
 // URLs
@@ -57,8 +57,10 @@ export const shuffle = (arr: any[]): any[] => {
   return arr;
 };
 
-export const cleanFn = (s: string): string => {
+export const cleanFn = (s: string | undefined): string => {
+  if (!s) return "";
   const toReplace = [
+    " ",
     "?",
     "[",
     "]",

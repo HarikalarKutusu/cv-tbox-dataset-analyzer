@@ -252,6 +252,15 @@ export interface IFreqTableRow2D {
 }
 
 //======================================
+//== Measure-Value table
+//======================================
+
+export interface IMeasureValueTable {
+  measure: string;
+  val: string | number;
+}
+
+//======================================
 //== Methods
 //======================================
 
@@ -325,4 +334,65 @@ export const addArrTotals = (
 
 export const expandTable = (arr: number[][]): number[][] => {
   return addArrTotals(addArrTotals(arr, true));
+};
+
+// Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+const convertArrayOfObjectsToCSV = (
+  array:
+    | DATASET_INFO_ROW_TYPE[]
+    | TEXT_CORPUS_STATS_ROW_TYPE[]
+    | REPORTED_STATS_ROW_TYPE[]
+    | IFreqTableRow[]
+    | IMeasureValueTable[],
+) => {
+  let result: string;
+
+  const columnDelimiter = ",";
+  const lineDelimiter = "\n";
+  const keys = Object.keys(array[0]);
+
+  result = "";
+  result += keys.join(columnDelimiter);
+  result += lineDelimiter;
+
+  array.forEach((item: any) => {
+    let ctr = 0;
+    keys.forEach((key) => {
+      if (ctr > 0) result += columnDelimiter;
+
+      result += item[key];
+
+      ctr++;
+    });
+    result += lineDelimiter;
+  });
+
+  return result;
+};
+
+// Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+export const downloadCSV = (
+  array:
+    | DATASET_INFO_ROW_TYPE[]
+    | TEXT_CORPUS_STATS_ROW_TYPE[]
+    | REPORTED_STATS_ROW_TYPE[]
+    | IFreqTableRow[]
+    | IMeasureValueTable[],
+  fnBase: string,
+  datasetID: string,
+) => {
+  const link = document.createElement("a");
+  let csv = convertArrayOfObjectsToCSV(array);
+  if (csv == null) return;
+
+  const ext: string = ".csv";
+  let fn: string = fnBase + "-" + datasetID;
+
+  if (!csv.match(/^data:text\/csv/i)) {
+    csv = `data:text/csv;charset=utf-8,${csv}`;
+  }
+
+  link.setAttribute("href", encodeURI(csv));
+  link.setAttribute("download", fn + ext);
+  link.click();
 };

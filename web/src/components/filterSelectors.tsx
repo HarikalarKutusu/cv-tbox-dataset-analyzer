@@ -17,8 +17,8 @@ import { SelectChangeEvent } from "@mui/material/Select";
 // App
 import { appTheme } from "./ui/theme";
 import { useStore } from "../stores/store";
-// import { CV_LOCALES, CV_VERSIONS } from "../helpers/cvHelper";
 import { CONF } from "./../helpers/appHelper"
+import { getCVLanguageRecord } from "../helpers/cvHelper";
 
 const FilterSelectors = () => {
   const { versionFilter, setVersionFilter } = useStore();
@@ -137,7 +137,11 @@ const FilterSelectors = () => {
               return (
                 <MenuItem key={x} value={x}>
                   <Checkbox checked={languageFilter.indexOf(x) > -1} />
-                  <ListItemText primary={x} />
+                  <ListItemText
+                    primary={
+                      x + " (" + getCVLanguageRecord(x).nname + ")"
+                    }
+                  />
                 </MenuItem>
               );
             })}

@@ -1,8 +1,10 @@
 // React
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
+// MUI
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -14,6 +16,8 @@ import { useStore } from "../stores/store";
 import { CONF } from "../helpers/appHelper";
 import {
   convertStrList,
+  downloadCSV,
+  IMeasureValueTable,
   TABLE_STYLE,
   REPORTED_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
@@ -33,8 +37,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
 
   const { initDone } = useStore();
   const { langCode } = useStore();
-
-  // const { selectedDataset, setSelectedDataset } = useStore();
+  const { selectedDataset } = useStore();
   const { reportedSentencesStats, setReportedSentencesStats } = useStore();
 
   const [reportedSentencesRec, setReportedSentencesRec] =
@@ -42,13 +45,8 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
 
   const [binsReasons, setBinsReasons] = useState<string[]>([]);
 
-  interface ICustomTable {
-    measure: string;
-    val: string | number;
-  }
-
-  const CustomTable = () => {
-    let tbl: ICustomTable[] = [];
+  const MeasureValueTable = () => {
+    let tbl: IMeasureValueTable[] = [];
     if (reportedSentencesRec) {
       tbl = [
         {
@@ -74,21 +72,38 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
       ];
     }
 
-    const columns: TableColumn<ICustomTable>[] = [
+    const columns: TableColumn<IMeasureValueTable>[] = [
       {
         id: "measure",
         name: intl.get("col.measure"),
         width: "300px",
-        selector: (row: ICustomTable) => row.measure,
+        selector: (row: IMeasureValueTable) => row.measure,
       },
       {
         id: "val",
         name: intl.get("col.value"),
         right: true,
         width: "100px",
-        selector: (row: ICustomTable) => row.val.toLocaleString(langCode),
+        selector: (row: IMeasureValueTable) => row.val.toLocaleString(langCode),
       },
     ];
+
+    const exportCVSReportedMemo = useMemo(
+      () => (
+        <DownloadForOfflineIcon
+          onClick={() =>
+            downloadCSV(
+              new Array<REPORTED_STATS_ROW_TYPE>(reportedSentencesRec!),
+              "cv-dataset-reported-sentences",
+              selectedDataset,
+            )
+          }
+          color="secondary"
+          sx={{ cursor: "grab" }}
+        />
+      ),
+      [],
+    );
 
     return (
       <DataTable
@@ -100,6 +115,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
         direction={Direction.AUTO}
         highlightOnHover
         customStyles={TABLE_STYLE}
+        actions={exportCVSReportedMemo}
       />
     );
   };
@@ -155,7 +171,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
   ) : (
     <>
       <div>
-        <CustomTable />
+        <MeasureValueTable />
       </div>
       {reportedSentencesRec && (
         <>
