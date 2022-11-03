@@ -58,7 +58,7 @@ export const FreqTable = (props: IFreqTableProps) => {
       },
       {
         id: "count",
-        name: intl.get("col.count"),
+        name: intl.get("col.value"),
         width: "100px",
         right: true,
         selector: (row) => row.val.toLocaleString(langCode),
