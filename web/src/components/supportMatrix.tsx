@@ -3,15 +3,16 @@ import { memo, useEffect } from "react";
 import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
+// MUI
+import { Button } from "@mui/material";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
 
 // App
 import { SEP_ALGO, SUPPORT_MATRIX_ROW_TYPE, TABLE_STYLE } from "../helpers/tableHelper";
-
 import { useStore } from "../stores/store";
-import { Button } from "@mui/material";
+import { getCVLanguageRecord } from "../helpers/cvHelper";
 
 //
 // JSX
@@ -56,24 +57,24 @@ export const SupportMatrix = () => {
       sortable: true,
       center: true,
       width: "100px",
-      selector: (row: SUPPORT_MATRIX_ROW_TYPE) => row.lc,
+      selector: (row) => row.lc,
     };
 
-    // const col_lang: TableColumn<SUPPORT_MATRIX_ROW_TYPE> = {
-    //   id: "lang",
-    //   name: intl.get("col.language"),
-    //   sortable: true,
-    //   center: true,
-    //   width: "120px",
-    //   selector: (row: SUPPORT_MATRIX_ROW_TYPE) => row.lang,
-    // };
+    const col_nname: TableColumn<SUPPORT_MATRIX_ROW_TYPE> = {
+      id: "nname",
+      name: intl.get("col.nname"),
+      sortable: true,
+      center: true,
+      width: "120px",
+      selector: (row) => getCVLanguageRecord(row.lc).nname!,
+    };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
         id: "v11_0",
         name: "v11.0",
         center: true,
-        // selector: (row: SUPPORT_MATRIX_ROW_TYPE) =>
+        // selector: (row) =>
         //   row.v11_0 ? row.v11_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="11.0" algos={row.v11_0} />,
       },
@@ -81,7 +82,7 @@ export const SupportMatrix = () => {
         id: "v10_0",
         name: "v10.0",
         center: true,
-        // selector: (row: SUPPORT_MATRIX_ROW_TYPE) =>
+        // selector: (row) =>
         //   row.v10_0 ? row.v10_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="10.0" algos={row.v10_0} />,
       },
@@ -89,7 +90,7 @@ export const SupportMatrix = () => {
         id: "v9_0",
         name: "v9.0",
         center: true,
-        // selector: (row: SUPPORT_MATRIX_ROW_TYPE) =>
+        // selector: (row) =>
         //   row.v9_0 ? row.v9_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="9.0" algos={row.v9_0} />,
       },
@@ -97,7 +98,7 @@ export const SupportMatrix = () => {
         id: "v8_0",
         name: "v8.0",
         center: true,
-        // selector: (row: SUPPORT_MATRIX_ROW_TYPE) =>
+        // selector: (row) =>
         //   row.v8_0 ? row.v8_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="8.0" algos={row.v8_0} />,
       },
@@ -105,7 +106,7 @@ export const SupportMatrix = () => {
         id: "v7_0",
         name: "v7.0",
         center: true,
-        // selector: (row: SUPPORT_MATRIX_ROW_TYPE) =>
+        // selector: (row) =>
         //   row.v7_0 ? row.v7_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="7.0" algos={row.v7_0} />,
       },
@@ -113,7 +114,7 @@ export const SupportMatrix = () => {
         id: "v6_1",
         name: "v6.1",
         center: true,
-        // selector: (row: SUPPORT_MATRIX_ROW_TYPE) =>
+        // selector: (row) =>
         //   row.v6_1 ? row.v6_1.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="6.1" algos={row.v6_1} />,
       },
@@ -121,6 +122,7 @@ export const SupportMatrix = () => {
 
     let res: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       col_lc,
+      col_nname,
       // col_lang,
     ];
     if (versionFilter.length === 0) {
