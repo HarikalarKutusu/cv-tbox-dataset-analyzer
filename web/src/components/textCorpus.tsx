@@ -1,8 +1,10 @@
 // React
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
+// MUI
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -14,6 +16,8 @@ import { useStore } from "../stores/store";
 import { CONF } from "./../helpers/appHelper";
 import {
   convertStrList,
+  downloadCSV,
+  IMeasureValueTable,
   TABLE_STYLE,
   TEXT_CORPUS_STATS_ROW_TYPE,
   // TEXT_CORPUS_CHAR_BINS,
@@ -38,18 +42,14 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   // const { selectedDataset, setSelectedDataset } = useStore();
   const { textCorpusStats, setTextCorpusStats } = useStore();
+  const { selectedDataset } = useStore();
 
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
 
-  interface ICustomTable {
-    measure: string;
-    val: string | number;
-  }
-
-  const CustomTable = () => {
-    let tbl: ICustomTable[] = [];
+  const MeasureValueTable = () => {
+    let tbl: IMeasureValueTable[] = [];
     if (textCorpusRec) {
       tbl = [
         {
@@ -82,7 +82,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
         },
         {
           measure: intl.get("measures.invalidated"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.s_cnt - textCorpusRec.val : "?",
+          val:
+            textCorpusRec.has_val === 1
+              ? textCorpusRec.s_cnt - textCorpusRec.val
+              : "?",
         },
         {
           measure: intl.get("measures.characters_sum"),
@@ -126,30 +129,47 @@ export const TextCorpus = (props: TextCorpusProps) => {
         },
         {
           measure: intl.get("measures.tokens_med"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_med: "?",
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_med : "?",
         },
         {
           measure: intl.get("measures.tokens_std"),
-          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_std: "?",
+          val: textCorpusRec.has_val === 1 ? textCorpusRec.t_std : "?",
         },
       ];
     }
 
-    const columns: TableColumn<ICustomTable>[] = [
+    const columns: TableColumn<IMeasureValueTable>[] = [
       {
         id: "measure",
         name: intl.get("col.measure"),
         width: "300px",
-        selector: (row: ICustomTable) => row.measure,
+        selector: (row: IMeasureValueTable) => row.measure,
       },
       {
         id: "val",
         name: intl.get("col.value"),
         right: true,
         width: "100px",
-        selector: (row: ICustomTable) => row.val.toLocaleString(langCode),
+        selector: (row: IMeasureValueTable) => row.val.toLocaleString(langCode),
       },
     ];
+
+    const exportCVSTextCorpusMemo = useMemo(
+      () => (
+        <DownloadForOfflineIcon
+          onClick={() =>
+            downloadCSV(
+              new Array<TEXT_CORPUS_STATS_ROW_TYPE>(textCorpusRec!),
+              "cv-dataset-text-corpus",
+              selectedDataset,
+            )
+          }
+          color="secondary"
+          sx={{ cursor: "grab" }}
+        />
+      ),
+      [],
+    );
 
     return (
       <DataTable
@@ -161,10 +181,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
         direction={Direction.AUTO}
         highlightOnHover
         customStyles={TABLE_STYLE}
+        actions={exportCVSTextCorpusMemo}
       />
     );
   };
-
 
   useEffect(() => {
     // Text Corpus?
@@ -202,7 +222,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
   ) : (
     <>
       <div>
-        <CustomTable />
+        <MeasureValueTable />
       </div>
       {textCorpusRec && (
         <>

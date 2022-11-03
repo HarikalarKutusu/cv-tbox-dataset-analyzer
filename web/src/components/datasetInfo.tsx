@@ -1,8 +1,10 @@
 // React
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
+// MUI
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 // DataTable
 import DataTable, {
@@ -33,6 +35,7 @@ import {
   DATASET_INFO_VIEW_TYPE,
   DATASET_INFO_VIEW_TYPES,
   TEXT_CORPUS_STATS_ROW_TYPE,
+  downloadCSV,
 } from "../helpers/tableHelper";
 
 import { FreqTable } from "./freqTable";
@@ -791,6 +794,18 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     return newData;
   };
 
+  const exportCVSDatasetMemo = useMemo(
+    () => (
+      <DownloadForOfflineIcon
+        onClick={() => downloadCSV(datasetInfo!, "cv-dataset", selectedDataset)}
+        color="secondary"
+        sx={{ cursor: "grab" }}
+      />
+    ),
+    [datasetInfo, selectedDataset],
+  );
+
+
   useEffect(() => {
     // requested dataset
     const reqds = lc + "_" + ver;
@@ -921,6 +936,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         expandableRows={expandableViews.includes(view!)}
         expandableRowsComponent={ExpandedComponent}
         customStyles={TABLE_STYLE}
+        actions={exportCVSDatasetMemo}
       />
     </>
   );
