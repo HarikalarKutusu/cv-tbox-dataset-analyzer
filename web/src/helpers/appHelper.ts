@@ -1,31 +1,31 @@
 //
 // App related / app-wide stuff
 //
-import config from "./../assets/data/$config.json"
+import config from "./../assets/data/$config.json";
 
 // config
 
 export type CONFIG_TYPE = {
-    date: string;
-    cv_versions: string[];
-    cv_dates: string[];
-    cv_locales: string[];
-    algorithms: string[];
-    bins_duration: number[];
-    bins_voices: number[];
-    bins_votes_up: number[];
-    bins_votes_down: number[];
-    bins_sentences: number[];
-    bins_chars: number[];
-    bins_words: number[];
-    bins_tokens: number[];
-    bins_reported: number[];
-    bins_reasons: string[];
-}
+  date: string;
+  cv_versions: string[];
+  cv_dates: string[];
+  cv_locales: string[];
+  algorithms: string[];
+  bins_duration: number[];
+  bins_voices: number[];
+  bins_votes_up: number[];
+  bins_votes_down: number[];
+  bins_sentences: number[];
+  bins_chars: number[];
+  bins_words: number[];
+  bins_tokens: number[];
+  bins_reported: number[];
+  bins_reasons: string[];
+};
 export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
 
 // Versioning
-export const appVersion = "v0.7.1b";
+export const appVersion = "v0.7.2b";
 export const appDataDate = CONF.date;
 
 // URLs

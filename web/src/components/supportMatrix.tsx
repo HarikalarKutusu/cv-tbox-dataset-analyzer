@@ -10,7 +10,11 @@ import { Button } from "@mui/material";
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
 
 // App
-import { SEP_ALGO, SUPPORT_MATRIX_ROW_TYPE, TABLE_STYLE } from "../helpers/tableHelper";
+import {
+  SEP_ALGO,
+  SUPPORT_MATRIX_ROW_TYPE,
+  TABLE_STYLE,
+} from "../helpers/tableHelper";
 import { useStore } from "../stores/store";
 import { getCVLanguageRecord } from "../helpers/cvHelper";
 
@@ -71,6 +75,12 @@ export const SupportMatrix = () => {
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
+        id: "v12_0",
+        name: "v12.0",
+        center: true,
+        cell: (row) => <VersionCell lc={row.lc} ver="12.0" algos={row.v12_0} />,
+      },
+      {
         id: "v11_0",
         name: "v11.0",
         center: true,
@@ -82,41 +92,55 @@ export const SupportMatrix = () => {
         id: "v10_0",
         name: "v10.0",
         center: true,
-        // selector: (row) =>
-        //   row.v10_0 ? row.v10_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="10.0" algos={row.v10_0} />,
       },
       {
         id: "v9_0",
         name: "v9.0",
         center: true,
-        // selector: (row) =>
-        //   row.v9_0 ? row.v9_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="9.0" algos={row.v9_0} />,
       },
       {
         id: "v8_0",
         name: "v8.0",
         center: true,
-        // selector: (row) =>
-        //   row.v8_0 ? row.v8_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="8.0" algos={row.v8_0} />,
       },
       {
         id: "v7_0",
         name: "v7.0",
         center: true,
-        // selector: (row) =>
-        //   row.v7_0 ? row.v7_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="7.0" algos={row.v7_0} />,
       },
       {
         id: "v6_1",
         name: "v6.1",
         center: true,
-        // selector: (row) =>
-        //   row.v6_1 ? row.v6_1.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="6.1" algos={row.v6_1} />,
+      },
+      {
+        id: "v5_1",
+        name: "v5.1",
+        center: true,
+        cell: (row) => <VersionCell lc={row.lc} ver="5.1" algos={row.v5_1} />,
+      },
+      {
+        id: "v4",
+        name: "v4",
+        center: true,
+        cell: (row) => <VersionCell lc={row.lc} ver="4" algos={row.v4} />,
+      },
+      {
+        id: "v3",
+        name: "v3",
+        center: true,
+        cell: (row) => <VersionCell lc={row.lc} ver="3" algos={row.v3} />,
+      },
+      {
+        id: "v1",
+        name: "v1",
+        center: true,
+        cell: (row) => <VersionCell lc={row.lc} ver="1" algos={row.v1} />,
       },
     ];
 
