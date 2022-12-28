@@ -70,6 +70,7 @@ export type SUPPORT_MATRIX_ROW_TYPE = {
   lc: string;
   lang: string;
 
+  v12_0: string | null;
   v11_0: string | null;
   v10_0: string | null;
   v9_0: string | null;
@@ -206,7 +207,6 @@ export type REPORTED_STATS_ROW_TYPE = {
   rep_freq: string | number[];
   rea_freq: string | number[];
 };
-
 
 //======================================
 //== SEPARATORS
