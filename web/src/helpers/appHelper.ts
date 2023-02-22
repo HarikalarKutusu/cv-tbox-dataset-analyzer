@@ -25,7 +25,7 @@ export type CONFIG_TYPE = {
 export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
 
 // Versioning
-export const appVersion = "v0.7.2b";
+export const appVersion = "v0.7.3b";
 export const appDataDate = CONF.date;
 
 // URLs
