@@ -1,6 +1,6 @@
-# internal dev documents
-
+# Custom
 .doc
+.vscode
 
 # Logs
 logs
