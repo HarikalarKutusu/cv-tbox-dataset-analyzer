@@ -124,11 +124,11 @@
   { "lc": "hyw", "nname": "hyw" },
   { "lc": "co", "nname": "Corsu" },
   { "lc": "gn", "nname": "Guarani" },
-  { "lc": "bm", "nname": "bm" },
+  { "lc": "bm", "nname": "Bamanankan na" },
   { "lc": "kmr", "nname": "Kurdî (Kurmancî)" },
   { "lc": "bas", "nname": "Basaa" },
   { "lc": "yue", "nname": "粵語" },
-  { "lc": "ht", "nname": "ht" },
+  { "lc": "ht", "nname": "Ayisyen" },
   { "lc": "mai", "nname": "mai" },
   { "lc": "mos", "nname": "mos" },
   { "lc": "mr", "nname": "मराठी" },
@@ -142,7 +142,7 @@
   { "lc": "tw", "nname": "Twi" },
   { "lc": "yo", "nname": "Yòrùbá" },
   { "lc": "nyn", "nname": "nyn" },
-  { "lc": "ie", "nname": "ie" },
+  { "lc": "ie", "nname": "Interlingue" },
   { "lc": "sat", "nname": "ᱥᱟᱱᱛᱟᱲᱤ (ᱚᱞ ᱪᱤᱠᱤ)" },
   { "lc": "ki", "nname": "ki" },
   { "lc": "nan-tw", "nname": "臺語" },
@@ -187,5 +187,8 @@
   { "lc": "byv", "nname": "byv" },
   { "lc": "tyv", "nname": "tyv" },
   { "lc": "wo", "nname": "wo" },
-  { "lc": "nhe", "nname": "nhe" }
+  { "lc": "nhe", "nname": "Náhuatl de la Huasteca Oriental" },
+  { "lc": "nhi", "nname": "nhi" },
+  { "lc": "bo", "nname": "bo" },
+  { "lc": "ny", "nname": "ny" }
 ]
