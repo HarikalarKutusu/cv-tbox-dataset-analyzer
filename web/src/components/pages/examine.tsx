@@ -1,16 +1,22 @@
 // react
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
 // MUI
 // import Typography from "@mui/material/Typography";
-import { Box, Tab, Tabs} from "@mui/material"
+import { Box, Button, Tab, Tabs } from "@mui/material";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 // Store
 import { useStore } from "./../../stores/store";
 // App
-import { DATASET_INFO_VIEW_TYPES } from "./../../helpers/tableHelper";
+import {
+  DATASET_INFO_VIEW_TYPES,
+  SEP_ALGO,
+  SUPPORT_MATRIX_ROW_TYPE,
+} from "./../../helpers/tableHelper";
 import { DataSetInfo } from "../datasetInfo";
 import { TextCorpus } from "../textCorpus";
 import { GraphBuilder } from "../graphBuilder";
@@ -54,27 +60,90 @@ function a11yProps(s: string) {
 export const ExaminePage = () => {
   const { lc, ver } = useParams();
   const [tabValue, setTabValue] = useState(0);
+  const [algos, setAlgos] = useState<string[]>([]);
 
   // const { selectedDataset, setSelectedDataset } = useStore();
+  const { matrixLoaded, setMatrixLoaded } = useStore();
+  const { supportMatrix, setSupportMatrix } = useStore();
   const { datasetInfoView, setDatasetInfoView } = useStore();
+
+  interface SplitDownloadLinksProps {
+    algos: string[];
+  }
+
+  const SplitDownloadLinks = (props: SplitDownloadLinksProps): JSX.Element => {
+    const { algos } = props;
+    const dlLinkBase = `/assets/data/${lc}/${lc}_${ver}_`;
+    return (
+      <>
+        {algos.map((algo) => (
+          <a
+            href={dlLinkBase + algo + ".tar.xz"}
+            download
+            key={algo}
+            style={{ textDecoration: "none" }}
+          >
+            <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
+              <DownloadForOfflineIcon
+                sx={{ color: "#f0f0f0", cursor: "grab" }}
+              />{" "}
+              <span style={{ color: "#f0f0f0", textTransform: "none" }}>
+                {algo}
+              </span>
+            </Button>
+          </a>
+        ))}
+      </>
+    );
+  };
+
+  useEffect(() => {
+    // make sure data is ready
+    if (!matrixLoaded) {
+      const url = "/assets/data/$support_matrix.json";
+      axios
+        .get(url, { headers: { "Content-Type": "application/json" } })
+        .then((response) => {
+          const data = response.data.data;
+          setSupportMatrix(data);
+          setMatrixLoaded(true);
+        });
+    }
+  }, [matrixLoaded, setMatrixLoaded, setSupportMatrix]);
+
+  useEffect(() => {
+    if (lc && ver && supportMatrix.length > 0) {
+      const rec = supportMatrix.filter((row) => row.lc === lc)[0];
+      if (rec !== undefined) {
+        const keyInx = `v${ver.replace(".", "_")}`;
+        const key = (
+          Object.keys(rec) as Array<keyof SUPPORT_MATRIX_ROW_TYPE>
+        ).find((k) => k === keyInx);
+        const algoData = rec[key!];
+        setAlgos(algoData ? algoData.split(SEP_ALGO) : []);
+      }
+    }
+  }, [lc, supportMatrix, ver]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
-    setDatasetInfoView(DATASET_INFO_VIEW_TYPES[newValue])
+    setDatasetInfoView(DATASET_INFO_VIEW_TYPES[newValue]);
   };
 
   const titleAddition =
-    " (" +
-    lc +
-    " - " +
-    getCVLanguageRecord(lc!).nname +
-    " - v" +
-    ver +
-    ")";
+    " (" + lc + " - " + getCVLanguageRecord(lc!).nname + " - v" + ver + ")";
+
+  if (!algos) return null;
 
   return (
     <>
-      <h3>{intl.get("examinepage.title") + titleAddition}</h3>
+      <Box>
+        <h3>
+          {intl.get("examinepage.title") + titleAddition}
+          {"   "}
+          <SplitDownloadLinks algos={algos} />
+        </h3>
+      </Box>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
