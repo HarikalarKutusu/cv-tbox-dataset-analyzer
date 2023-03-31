@@ -1,5 +1,5 @@
 // State management / store using zustand
-import create, { StoreApi, UseBoundStore } from "zustand";
+import { create, StoreApi, UseBoundStore } from "zustand";
 
 // App
 import {
