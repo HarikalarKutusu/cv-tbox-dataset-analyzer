@@ -13,18 +13,16 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
-import { CONF } from "./../helpers/appHelper";
+import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import {
   convertStrList,
   downloadCSV,
   IMeasureValueTable,
   TABLE_STYLE,
   TEXT_CORPUS_STATS_ROW_TYPE,
-  // TEXT_CORPUS_CHAR_BINS,
-  // TEXT_CORPUS_TOKEN_BINS,
-  // TEXT_CORPUS_WORD_BINS,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
+import { useLoaderData } from "react-router";
 
 //
 // JSX
@@ -47,6 +45,8 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
+
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
   const MeasureValueTable = () => {
     let tbl: IMeasureValueTable[] = [];
@@ -193,7 +193,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       setTextCorpusRec(textCorpusStats.filter((row) => row.lc === lc)[0]);
     } else {
       // not yet, loaded, load it
-      const url = "/assets/data/$text_corpus_stats.json";
+      const url = `${ANALYZER_DATA_URL}/$text_corpus_stats.json`;
       axios
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {

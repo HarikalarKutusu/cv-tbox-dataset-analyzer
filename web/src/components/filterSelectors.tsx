@@ -1,3 +1,5 @@
+// react
+import { useLoaderData } from "react-router";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -17,12 +19,15 @@ import { SelectChangeEvent } from "@mui/material/Select";
 // App
 import { appTheme } from "./ui/theme";
 import { useStore } from "../stores/store";
-import { CONF } from "./../helpers/appHelper"
-import { getCVLanguageRecord } from "../helpers/cvHelper";
+import { ILoaderData } from "../helpers/appHelper";
+import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
 const FilterSelectors = () => {
   const { versionFilter, setVersionFilter } = useStore();
   const { languageFilter, setLanguageFilter } = useStore();
+
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+  const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
 
   const handleVersionFilterChange = (
     e: SelectChangeEvent<typeof versionFilter>,
@@ -42,6 +47,10 @@ const FilterSelectors = () => {
     } = e;
     // On autofill we get a stringified value.
     setLanguageFilter(typeof value === "string" ? value.split(",") : value);
+  };
+
+  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW => {
+    return cvLanguages.filter((row) => row.name === lc)[0];
   };
 
   let versionList: string[] = CONF.cv_versions;
@@ -139,7 +148,7 @@ const FilterSelectors = () => {
                   <Checkbox checked={languageFilter.indexOf(x) > -1} />
                   <ListItemText
                     primary={
-                      x + " (" + getCVLanguageRecord(x).nname + ")"
+                      x + " (" + getCVLanguageRecord(x).native_name + ")"
                     }
                   />
                 </MenuItem>

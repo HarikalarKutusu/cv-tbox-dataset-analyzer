@@ -1,14 +1,20 @@
-// Data
-import CV_LANGUAGES from "./../assets/data/$cv_languages.json";
+//======================================
+//== CV API Data Types
+//======================================
+
+export type CV_LANGUAGE_ROW = {
+  id: number;
+  name: string;
+  target_sentence_count: number;
+  native_name: string;
+  is_contributable: number;
+  is_translated: number;
+  text_direction: string;
+};
 
 //======================================
 //== CV Internal Types
 //======================================
-
-export interface CV_LANGUAGE_ROW {
-  lc: string;
-  nname: string | null;
-}
 
 export const NODATA = "nodata";
 
@@ -48,10 +54,3 @@ export const CV_AGES: CV_AGE_TYPE[] = [
   "nodata",
   "total",
 ];
-
-
-// Methods
-
-export const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW => {
-  return (CV_LANGUAGES as CV_LANGUAGE_ROW[]).filter((row) => row.lc === lc)[0];
-};

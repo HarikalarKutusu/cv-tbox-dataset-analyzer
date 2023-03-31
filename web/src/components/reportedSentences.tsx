@@ -13,7 +13,7 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
-import { CONF } from "../helpers/appHelper";
+import { ANALYZER_DATA_URL, ILoaderData } from "../helpers/appHelper";
 import {
   convertStrList,
   downloadCSV,
@@ -22,6 +22,7 @@ import {
   REPORTED_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
+import { useLoaderData } from "react-router";
 
 //
 // JSX
@@ -44,6 +45,8 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
     useState<REPORTED_STATS_ROW_TYPE>();
 
   const [binsReasons, setBinsReasons] = useState<string[]>([]);
+
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
   const MeasureValueTable = () => {
     let tbl: IMeasureValueTable[] = [];
@@ -121,12 +124,12 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
   };
 
   useEffect(() => {
-    const res: string[] = []
+    const res: string[] = [];
     CONF.bins_reasons.forEach((s) => {
-      res.push(intl.get('bins_reasons.' + s))
-    })
-    setBinsReasons(res)
-  }, [])
+      res.push(intl.get("bins_reasons." + s));
+    });
+    setBinsReasons(res);
+  }, [CONF.bins_reasons]);
 
   useEffect(() => {
     // Text Corpus?
@@ -140,7 +143,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
       }
     } else {
       // not yet, loaded, load it
-      const url = "/assets/data/$reported.json";
+      const url = `${ANALYZER_DATA_URL}/$reported.json`;
       axios
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {

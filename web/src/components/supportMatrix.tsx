@@ -1,6 +1,6 @@
 // React
-import { memo, useEffect } from "react";
-import axios from "axios";
+import { memo } from "react";
+import { useLoaderData } from "react-router";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -10,24 +10,28 @@ import { Button } from "@mui/material";
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
 
 // App
+import { ILoaderData } from "../helpers/appHelper";
 import {
   SEP_ALGO,
   SUPPORT_MATRIX_ROW_TYPE,
   TABLE_STYLE,
 } from "../helpers/tableHelper";
 import { useStore } from "../stores/store";
-import { getCVLanguageRecord } from "../helpers/cvHelper";
+import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
 //
 // JSX
 //
 
 export const SupportMatrix = () => {
-  const { initDone } = useStore();
-  const { matrixLoaded, setMatrixLoaded } = useStore();
-  const { supportMatrix, setSupportMatrix } = useStore();
-  const { versionFilter } = useStore();
-  const { languageFilter } = useStore();
+  const { initDone, versionFilter, languageFilter } = useStore();
+
+  const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
+  const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
+
+  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW => {
+    return cvLanguages.filter((row) => row.name === lc)[0];
+  };
 
   const getColumns = (): TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] => {
     interface VersionCellProps {
@@ -70,7 +74,7 @@ export const SupportMatrix = () => {
       sortable: true,
       center: true,
       width: "120px",
-      selector: (row) => getCVLanguageRecord(row.lc).nname!,
+      selector: (row) => getCVLanguageRecord(row.lc).native_name!,
     };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
@@ -90,8 +94,6 @@ export const SupportMatrix = () => {
         id: "v11_0",
         name: "v11.0",
         center: true,
-        // selector: (row) =>
-        //   row.v11_0 ? row.v11_0.replaceAll("|", " ") : "-",
         cell: (row) => <VersionCell lc={row.lc} ver="11.0" algos={row.v11_0} />,
       },
       {
@@ -185,20 +187,6 @@ export const SupportMatrix = () => {
     }
     return res;
   };
-
-  useEffect(() => {
-    // make sure data is ready
-    if (!matrixLoaded) {
-      const url = "/assets/data/$support_matrix.json";
-      axios
-        .get(url, { headers: { "Content-Type": "application/json" } })
-        .then((response) => {
-          const data = response.data.data;
-          setSupportMatrix(data);
-          setMatrixLoaded(true);
-        });
-    }
-  }, [matrixLoaded, setMatrixLoaded, setSupportMatrix]);
 
   return !supportMatrix || !initDone ? (
     <div>...</div>

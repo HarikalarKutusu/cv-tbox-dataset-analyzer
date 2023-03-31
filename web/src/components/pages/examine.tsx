@@ -1,7 +1,6 @@
 // react
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useLoaderData, useParams } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -12,6 +11,7 @@ import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 // Store
 import { useStore } from "./../../stores/store";
 // App
+import { ANALYZER_DATA_URL, ILoaderData } from "../../helpers/appHelper";
 import {
   DATASET_INFO_VIEW_TYPES,
   SEP_ALGO,
@@ -21,7 +21,7 @@ import { DataSetInfo } from "../datasetInfo";
 import { TextCorpus } from "../textCorpus";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentences } from "../reportedSentences";
-import { getCVLanguageRecord } from "../../helpers/cvHelper";
+import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -61,11 +61,10 @@ export const ExaminePage = () => {
   const { lc, ver } = useParams();
   const [tabValue, setTabValue] = useState(0);
   const [algos, setAlgos] = useState<string[]>([]);
-
-  // const { selectedDataset, setSelectedDataset } = useStore();
-  const { matrixLoaded, setMatrixLoaded } = useStore();
-  const { supportMatrix, setSupportMatrix } = useStore();
   const { datasetInfoView, setDatasetInfoView } = useStore();
+
+  const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
+  const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
 
   interface SplitDownloadLinksProps {
     algos: string[];
@@ -73,7 +72,7 @@ export const ExaminePage = () => {
 
   const SplitDownloadLinks = (props: SplitDownloadLinksProps): JSX.Element => {
     const { algos } = props;
-    const dlLinkBase = `/assets/data/${lc}/${lc}_${ver}_`;
+    const dlLinkBase = `${ANALYZER_DATA_URL}/${lc}/${lc}_${ver}_`;
     return (
       <>
         {algos.map((algo) => (
@@ -98,23 +97,9 @@ export const ExaminePage = () => {
   };
 
   useEffect(() => {
-    // make sure data is ready
-    if (!matrixLoaded) {
-      const url = "/assets/data/$support_matrix.json";
-      axios
-        .get(url, { headers: { "Content-Type": "application/json" } })
-        .then((response) => {
-          const data = response.data.data;
-          setSupportMatrix(data);
-          setMatrixLoaded(true);
-        });
-    }
-  }, [matrixLoaded, setMatrixLoaded, setSupportMatrix]);
-
-  useEffect(() => {
     if (lc && ver && supportMatrix.length > 0) {
       const rec = supportMatrix.filter((row) => row.lc === lc)[0];
-      if (rec !== undefined) {
+      if (rec) {
         const keyInx = `v${ver.replace(".", "_")}`;
         const key = (
           Object.keys(rec) as Array<keyof SUPPORT_MATRIX_ROW_TYPE>
@@ -130,8 +115,18 @@ export const ExaminePage = () => {
     setDatasetInfoView(DATASET_INFO_VIEW_TYPES[newValue]);
   };
 
+  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW => {
+    return cvLanguages.filter((row) => row.name === lc)[0];
+  };
+
   const titleAddition =
-    " (" + lc + " - " + getCVLanguageRecord(lc!).nname + " - v" + ver + ")";
+    " (" +
+    lc +
+    " - " +
+    getCVLanguageRecord(lc!).native_name +
+    " - v" +
+    ver +
+    ")";
 
   if (!algos) return null;
 
