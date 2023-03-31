@@ -1,5 +1,6 @@
 // React
 import { FC, useEffect, useMemo, useState } from "react";
+import { useLoaderData } from "react-router";
 import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
@@ -17,7 +18,7 @@ import DataTable, {
 import { useStore } from "../stores/store";
 
 // App
-import { CONF } from "./../helpers/appHelper";
+import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import { CV_AGES, CV_GENDERS } from "../helpers/cvHelper";
 
 import {
@@ -55,8 +56,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
 
   const { initDone } = useStore();
   const { langCode } = useStore();
-  // const { versionFilter } = useStore();
-  // const { languageFilter } = useStore();
 
   const { selectedDataset, setSelectedDataset } = useStore();
   const { datasetInfo, setDatasetInfo } = useStore();
@@ -66,6 +65,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
+
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
   const getColumns = (
     view: DATASET_INFO_VIEW_TYPE,
@@ -873,7 +874,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       setTextCorpusRec(textCorpusStats.filter((row) => row.lc === lc)[0]);
     } else {
       // not yet, loaded, load it
-      const url = "/assets/data/$text_corpus_stats.json";
+      const url = `${ANALYZER_DATA_URL}/$text_corpus_stats.json`;
       axios
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {
