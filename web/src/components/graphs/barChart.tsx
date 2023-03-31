@@ -47,7 +47,7 @@ export const AppBarChart = (props: IAppChartProps) => {
 
   return (
     <AutoSizer>
-      {({ width, height }) => (
+      {({ width = 600, height = 300 }) => (
         <div style={{ position: "relative" }}>
           <BarChart
             width={width}
