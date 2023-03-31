@@ -83,7 +83,7 @@ export const FreqTable = (props: IFreqTableProps) => {
   }
 
   // Prep table
-  tableData = []
+  tableData = [];
   let total: number = 0;
   for (let i = 0; i < bins.length; i++) {
     total += values[i] as number;
@@ -98,11 +98,15 @@ export const FreqTable = (props: IFreqTableProps) => {
       bin: intl.get("row.total"),
       val: total,
     });
+  } else {
+    // already has totals
+    total = total / 2;
   }
   // Add percentage column if requested
   if (addPercentageColumn) {
     for (let i = 0; i < tableData.length; i++) {
       tableData[i].percentage = 100 * ((tableData[i].val as number) / total);
+      console.log(total, tableData);
     }
   }
 
