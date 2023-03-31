@@ -762,7 +762,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           newRow.calc_age_40_69 =
             (100 * (lastcol[3] + lastcol[4] + lastcol[5])) / total;
           newRow.calc_age_70_99 =
-            (100 * (lastcol[0] + lastcol[1] + lastcol[3])) / total;
+            (100 * (lastcol[6] + lastcol[7] + lastcol[8])) / total;
         }
       }
 
@@ -783,7 +783,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
           newRow.calc_age_uq_40_69 =
             (100 * (lastcol[3] + lastcol[4] + lastcol[5])) / total;
           newRow.calc_age_uq_70_99 =
-            (100 * (lastcol[0] + lastcol[1] + lastcol[3])) / total;
+            (100 * (lastcol[6] + lastcol[7] + lastcol[8])) / total;
         }
       }
 
@@ -804,7 +804,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     ),
     [datasetInfo, selectedDataset],
   );
-
 
   useEffect(() => {
     // requested dataset

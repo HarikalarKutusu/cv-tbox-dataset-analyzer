@@ -46,7 +46,7 @@ export const AppLineChart = (props: IAppChartProps) => {
 
   return (
     <AutoSizer>
-      {({ width, height }) => (
+      {({ width = 600, height = 300 }) => (
         <div style={{ position: "relative" }}>
           <LineChart
             width={width}
