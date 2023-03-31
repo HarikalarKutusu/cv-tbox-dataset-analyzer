@@ -1,6 +1,6 @@
 import * as React from "react";
 import intl from "react-intl-universal";
-import { NavLink as Link, Outlet } from "react-router-dom";
+import { NavLink as Link, Outlet, useLocation } from "react-router-dom";
 
 // MUI
 import {
@@ -123,6 +123,7 @@ export function AppUI() {
   };
 
   const { initDone } = useStore();
+  const location = useLocation();
 
   // Menu Items
 
@@ -276,11 +277,7 @@ export function AppUI() {
           sx={{ top: "auto", bottom: 0 }}
         >
           <Toolbar sx={{ justifyContent: "center" }}>
-            {window.location.pathname === "/browse" ? (
-              <FilterSelectors />
-            ) : (
-              <></>
-            )}
+            {location.pathname === "/browse" ? <FilterSelectors /> : <></>}
           </Toolbar>
         </AppBar>
       </Box>
