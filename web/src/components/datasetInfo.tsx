@@ -815,7 +815,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       setDatasetInfo(undefined);
       // make sure data is ready
       if (!datasetInfo) {
-        const url = "/assets/data/" + lc + "/" + reqds + "_splits.json";
+        const url = `${ANALYZER_DATA_URL}/${lc}/${reqds}_splits.json`;
         axios
           .get(url, { headers: { "Content-Type": "application/json" } })
           .then((response) => {
