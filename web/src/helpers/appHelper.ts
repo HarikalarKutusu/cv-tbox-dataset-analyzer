@@ -1,7 +1,23 @@
 //
 // App related / app-wide stuff
 //
-import config from "./../assets/data/$config.json";
+import { CV_LANGUAGE_ROW } from "./cvHelper";
+import { SUPPORT_MATRIX_ROW_TYPE } from "./tableHelper";
+
+//
+// Static Data Api
+//
+export const ANALYZER_DATA_URL =
+  "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
+export const CV_DATA_URL =
+  "https://static.cv-toolbox.web.tr/public/cv-api-cache";
+
+// LoaderDataType
+export interface ILoaderData {
+  cvLanguages: CV_LANGUAGE_ROW[];
+  analyzerConfig: CONFIG_TYPE;
+  supportMatrix: SUPPORT_MATRIX_ROW_TYPE[];
+}
 
 // config
 
@@ -22,11 +38,9 @@ export type CONFIG_TYPE = {
   bins_reported: number[];
   bins_reasons: string[];
 };
-export const CONF: CONFIG_TYPE = (config.data as CONFIG_TYPE[])[0];
-
 // Versioning
-export const appVersion = "v0.8.1b";
-export const appDataDate = CONF.date;
+// export const appVersion = "v0.8.2b";
+// export const appDataDate = CONF.date;
 
 // URLs
 export const appCommonVoiceURL = "https://commonvoice.mozilla.org/";
