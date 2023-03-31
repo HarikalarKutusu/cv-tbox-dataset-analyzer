@@ -6,7 +6,6 @@ import {
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
   REPORTED_STATS_ROW_TYPE,
-  SUPPORT_MATRIX_ROW_TYPE,
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 
@@ -20,14 +19,6 @@ export type StoreType = {
   // UI language
   langCode: LanguageCodesType;
   setLangCode: (langCode: LanguageCodesType) => void;
-
-  // Support Matrix
-  matrixLoaded: boolean;
-  setMatrixLoaded: (status: boolean) => void;
-
-  // Support Matrix
-  supportMatrix: SUPPORT_MATRIX_ROW_TYPE[];
-  setSupportMatrix: (data: SUPPORT_MATRIX_ROW_TYPE[]) => void;
 
   // Which Dataset is selected? Kept in "<lc>_<ver>" format
   // TODO : Expand to multiple datasets for comparison
@@ -45,7 +36,7 @@ export type StoreType = {
   // Text Corpus
   textCorpusStats: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined;
   setTextCorpusStats: (data: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined) => void;
-  
+
   // Reported Sentences
   reportedSentencesStats: REPORTED_STATS_ROW_TYPE[] | undefined;
   setReportedSentencesStats: (
@@ -71,16 +62,6 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     langCode: DEFAULT_UI_LOCALE,
     setLangCode: (langCode) =>
       set((state) => ({ ...state, langCode: langCode })),
-
-    // Support Matrix
-    matrixLoaded: false,
-    setMatrixLoaded: (status) =>
-      set((state) => ({ ...state, matrixLoaded: status })),
-
-    // Support Matrix
-    supportMatrix: [],
-    setSupportMatrix: (data) =>
-      set((state) => ({ ...state, supportMatrix: data })),
 
     // Which Dataset is selected? Kept in "<lc>_<ver>" format
     // TODO : Expand to multiple datasets for comparison
