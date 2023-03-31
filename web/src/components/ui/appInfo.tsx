@@ -1,3 +1,5 @@
+// App Version
+import packageJson from "./../../../package.json";
 // MUI
 import PollIcon from "@mui/icons-material/Poll";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -5,17 +7,21 @@ import CopyrightIcon from "@mui/icons-material/Copyright";
 
 // App
 import {
-  appVersion,
-  appDataDate,
   appCommonVoiceURL,
   appGithubURL,
   appLicenseURL,
+  ILoaderData,
 } from "../../helpers/appHelper";
 
-import "./appInfo.css"
+import "./appInfo.css";
 import { PRIMARY_COLOR } from "./theme";
+import { useLoaderData } from "react-router";
 
 export const AppInfo = () => {
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+  const appDataDate = CONF.date;
+  const appVersion = packageJson.version;
+
   return (
     <>
       <div
@@ -31,10 +37,12 @@ export const AppInfo = () => {
       >
         <div>
           <div className="appinfo-vcenter">
-            <PollIcon />
-            {appVersion}
-            <br />
-            {appDataDate}
+            <>
+              <PollIcon />
+              {appVersion}
+              <br />
+              {appDataDate}
+            </>
           </div>
           <br />
           <div className="appinfo-vcenter">
