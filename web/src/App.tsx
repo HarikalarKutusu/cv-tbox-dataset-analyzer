@@ -3,6 +3,8 @@ import { Suspense, useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
+  LoaderFunction,
+  useParams,
   Navigate,
 } from "react-router-dom";
 // i10n
@@ -28,58 +30,91 @@ import {
   ILoaderData,
 } from "./helpers/appHelper";
 import axios from "axios";
-import { SUPPORT_MATRIX_ROW_TYPE } from "./helpers/tableHelper";
+import {
+  DATASET_INFO_ROW_TYPE,
+  REPORTED_STATS_ROW_TYPE,
+  SUPPORT_MATRIX_ROW_TYPE,
+  TEXT_CORPUS_STATS_ROW_TYPE,
+} from "./helpers/tableHelper";
 import { CV_LANGUAGE_ROW } from "./helpers/cvHelper";
 
 function App() {
   // Store
   const { initDone, setInitDone } = useStore();
   const { setLangCode } = useStore();
+  let { lc, ver } = useParams();
 
   //
   // Loaders
   //
-
-  // cvLanguages
-  const loadCvLanguages = async (): Promise<CV_LANGUAGE_ROW[]> => {
-    const url = `${CV_DATA_URL}/$cv_languages.json`;
+  interface IResponse {
+    data: any[];
+    schema: any;
+  }
+  const doAxios = async (url: string) => {
     return await axios
       .get(url, { headers: { "Content-Type": "application/json" } })
       .then((response) => {
         return response.data.data;
+      })
+      .catch((err) => {
+        console.error("ERROR - Could not load:", url);
+        console.error(err);
+        return null;
       });
+  };
+
+  // cvLanguages
+  const loadCvLanguages = async () => {
+    const url = `${CV_DATA_URL}/$cv_languages.json`;
+    return await doAxios(url);
   };
 
   // analyzerConfig
-  const loadConfig = async (): Promise<CONFIG_TYPE> => {
+  const loadConfig = async () => {
     const url = `${ANALYZER_DATA_URL}/$config.json`;
-    return await axios
-      .get(url, { headers: { "Content-Type": "application/json" } })
-      .then((response) => {
-        return response.data.data[0];
-      });
+    return await doAxios(url);
   };
 
   // supportMatrix & matrixLoaded
-  const loadMatrix = async (): Promise<SUPPORT_MATRIX_ROW_TYPE[]> => {
+  const loadMatrix = async () => {
     const url = `${ANALYZER_DATA_URL}/$support_matrix.json`;
-    return await axios
-      .get(url, { headers: { "Content-Type": "application/json" } })
-      .then((response) => {
-        return response.data.data;
-      });
+    return await doAxios(url);
   };
 
-  const appLoader = async () => {
-    const [cvLanguages, analyzerConfig, supportMatrix] = await Promise.all([
+  // textCorpusStats
+  const loadTextCorpusStats = async () => {
+    const url = `${ANALYZER_DATA_URL}/$text_corpus_stats.json`;
+    return await doAxios(url);
+  };
+
+  // textCorpusStats
+  const loadReportedSentencesStats = async () => {
+    const url = `${ANALYZER_DATA_URL}/$reported.json`;
+    return await doAxios(url);
+  };
+
+  // Loader common to all pages
+  const commonLoader = async () => {
+    const [
+      cvLanguages,
+      analyzerConfig,
+      supportMatrix,
+      textCorpusStats,
+      reportedSentencesStats,
+    ] = await Promise.all([
       loadCvLanguages(),
       loadConfig(),
       loadMatrix(),
+      loadTextCorpusStats(),
+      loadReportedSentencesStats(),
     ]);
     const loaderData: ILoaderData = {
       cvLanguages: cvLanguages,
-      analyzerConfig: analyzerConfig,
+      analyzerConfig: analyzerConfig ? analyzerConfig[0] : null,
       supportMatrix: supportMatrix,
+      textCorpusStats: textCorpusStats,
+      reportedSentencesStats: reportedSentencesStats,
     };
     return loaderData;
   };
@@ -90,23 +125,23 @@ function App() {
     {
       path: "/",
       element: <AppUI />,
-      loader: appLoader,
+      loader: commonLoader,
       children: [
         {
           path: "/",
           index: true,
           element: <HomePage />,
-          loader: appLoader,
+          loader: commonLoader,
         },
         {
           path: "browse",
           element: <BrowsePage />,
-          loader: appLoader,
+          loader: commonLoader,
         },
         {
           path: "examine/:lc/:ver",
           element: <ExaminePage />,
-          loader: appLoader,
+          loader: commonLoader,
         },
         {
           path: "*",
