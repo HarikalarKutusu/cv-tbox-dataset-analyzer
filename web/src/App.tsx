@@ -20,7 +20,6 @@ import { HomePage } from "./components/pages/home";
 import { BrowsePage } from "./components/pages/browse";
 import { ExaminePage } from "./components/pages/examine";
 
-import "./App.css";
 import {
   ANALYZER_DATA_URL,
   CV_DATA_URL,
