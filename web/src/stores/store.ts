@@ -5,8 +5,8 @@ import { create, StoreApi, UseBoundStore } from "zustand";
 import {
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
-  REPORTED_STATS_ROW_TYPE,
   TEXT_CORPUS_STATS_ROW_TYPE,
+  REPORTED_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 
 import { LanguageCodesType, DEFAULT_UI_LOCALE } from "../helpers/localeHelper";
@@ -20,18 +20,9 @@ export type StoreType = {
   langCode: LanguageCodesType;
   setLangCode: (langCode: LanguageCodesType) => void;
 
-  // Which Dataset is selected? Kept in "<lc>_<ver>" format
-  // TODO : Expand to multiple datasets for comparison
-  selectedDataset: string;
-  setSelectedDataset: (dsver: string) => void;
-
-  // Split Stats
-  datasetInfo: DATASET_INFO_ROW_TYPE[] | undefined;
-  setDatasetInfo: (data: DATASET_INFO_ROW_TYPE[] | undefined) => void;
-
-  // Table View (same as tabs in Analyzer)
-  datasetInfoView: DATASET_INFO_VIEW_TYPE;
-  setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) => void;
+  //
+  // Big Data which have calculated fields
+  //
 
   // Text Corpus
   textCorpusStats: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined;
@@ -42,6 +33,31 @@ export type StoreType = {
   setReportedSentencesStats: (
     data: REPORTED_STATS_ROW_TYPE[] | undefined,
   ) => void;
+
+  // Dataset Info for selected dataset(lc, ver)
+  datasetInfo: DATASET_INFO_ROW_TYPE[] | undefined;
+  setDatasetInfo: (data: DATASET_INFO_ROW_TYPE[] | undefined) => void;
+
+  //
+  // Smaller Data
+  //
+
+  // Which Dataset is selected? Kept in "<lc>_<ver>" format
+  // TODO : Expand to multiple datasets for comparison
+  selectedDataset: string;
+  setSelectedDataset: (dsver: string) => void;
+
+  // Text Corpus record for selected dataset
+  textCorpusRec: TEXT_CORPUS_STATS_ROW_TYPE | undefined;
+  setTextCorpusRec: (data: TEXT_CORPUS_STATS_ROW_TYPE | undefined) => void;
+
+  // Text Corpus record for selected dataset
+  reportedSentencesRec: REPORTED_STATS_ROW_TYPE | undefined;
+  setReportedSentencesRec: (data: REPORTED_STATS_ROW_TYPE | undefined) => void;
+
+  // Table View (same as tabs in Analyzer)
+  datasetInfoView: DATASET_INFO_VIEW_TYPE;
+  setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) => void;
 
   // selected version filter
   versionFilter: string[];
@@ -63,20 +79,9 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     setLangCode: (langCode) =>
       set((state) => ({ ...state, langCode: langCode })),
 
-    // Which Dataset is selected? Kept in "<lc>_<ver>" format
-    // TODO : Expand to multiple datasets for comparison
-    selectedDataset: "",
-    setSelectedDataset: (dsver) =>
-      set((state) => ({ ...state, selectedDataset: dsver })),
-
-    // Split Stats
-    datasetInfo: undefined,
-    setDatasetInfo: (data) => set((state) => ({ ...state, datasetInfo: data })),
-
-    // Table View (same as tabs in Analyzer)
-    datasetInfoView: "general",
-    setDatasetInfoView: (view) =>
-      set((state) => ({ ...state, datasetInfoView: view })),
+    //
+    // Big Data which have calculated fields
+    //
 
     // Text Corpus
     textCorpusStats: undefined,
@@ -87,6 +92,35 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     reportedSentencesStats: undefined,
     setReportedSentencesStats: (data) =>
       set((state) => ({ ...state, reportedSentencesStats: data })),
+
+    // Split Stats
+    datasetInfo: undefined,
+    setDatasetInfo: (data) => set((state) => ({ ...state, datasetInfo: data })),
+
+    //
+    // Smaller Data
+    //
+
+    // Which Dataset is selected? Kept in "<lc>_<ver>" format
+    // TODO : Expand to multiple datasets for comparison
+    selectedDataset: "",
+    setSelectedDataset: (dsver) =>
+      set((state) => ({ ...state, selectedDataset: dsver })),
+
+    // Text Corpus record for selected dataset
+    textCorpusRec: undefined,
+    setTextCorpusRec: (data) =>
+      set((state) => ({ ...state, textCorpusRec: data })),
+
+    // Text Corpus record for selected dataset
+    reportedSentencesRec: undefined,
+    setReportedSentencesRec: (data) =>
+      set((state) => ({ ...state, reportedSentencesRec: data })),
+
+    // Table View (same as tabs in Analyzer)
+    datasetInfoView: "general",
+    setDatasetInfoView: (view) =>
+      set((state) => ({ ...state, datasetInfoView: view })),
 
     // selected version filter
     versionFilter: [],
