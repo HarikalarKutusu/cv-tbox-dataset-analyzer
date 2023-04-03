@@ -29,8 +29,10 @@ export const SupportMatrix = () => {
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
 
-  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW => {
-    return cvLanguages.filter((row) => row.name === lc)[0];
+  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
+    if (cvLanguages) {
+      return cvLanguages.filter((row) => row.name === lc)[0];
+    } else return null;
   };
 
   const getColumns = (): TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] => {
@@ -74,7 +76,8 @@ export const SupportMatrix = () => {
       sortable: true,
       center: true,
       width: "120px",
-      selector: (row) => getCVLanguageRecord(row.lc).native_name!,
+      selector: (row) =>
+        cvLanguages ? getCVLanguageRecord(row.lc)!.native_name! : "",
     };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
