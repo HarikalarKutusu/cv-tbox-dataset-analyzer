@@ -19,7 +19,7 @@ import { useLoaderData } from "react-router";
 
 export const AppInfo = () => {
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
-  const appDataDate = CONF.date;
+  const appDataDate = CONF ? CONF.date : "";
   const appVersion = packageJson.version;
 
   return (
