@@ -54,7 +54,13 @@ export const SupportMatrix = () => {
           variant="contained"
           color="secondary"
           size="small"
-          sx={{ textTransform: "none", margin: 1, textAlign: "center" }}
+          sx={{
+            textTransform: "none",
+            margin: "4px",
+            padding: "4px",
+            textAlign: "center",
+            wordWrap: "",
+          }}
         >
           {algos.replaceAll(SEP_ALGO, " ")}
         </Button>
@@ -85,72 +91,84 @@ export const SupportMatrix = () => {
         id: "v13_0",
         name: "v13.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="13.0" algos={row.v13_0} />,
       },
       {
         id: "v12_0",
         name: "v12.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="12.0" algos={row.v12_0} />,
       },
       {
         id: "v11_0",
         name: "v11.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="11.0" algos={row.v11_0} />,
       },
       {
         id: "v10_0",
         name: "v10.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="10.0" algos={row.v10_0} />,
       },
       {
         id: "v9_0",
         name: "v9.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="9.0" algos={row.v9_0} />,
       },
       {
         id: "v8_0",
         name: "v8.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="8.0" algos={row.v8_0} />,
       },
       {
         id: "v7_0",
         name: "v7.0",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="7.0" algos={row.v7_0} />,
       },
       {
         id: "v6_1",
         name: "v6.1",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="6.1" algos={row.v6_1} />,
       },
       {
         id: "v5_1",
         name: "v5.1",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="5.1" algos={row.v5_1} />,
       },
       {
         id: "v4",
         name: "v4",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="4" algos={row.v4} />,
       },
       {
         id: "v3",
         name: "v3",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="3" algos={row.v3} />,
       },
       {
         id: "v1",
         name: "v1",
         center: true,
+        width: "70px",
         cell: (row) => <VersionCell lc={row.lc} ver="1" algos={row.v1} />,
       },
     ];
@@ -204,9 +222,9 @@ export const SupportMatrix = () => {
         pagination
         paginationPerPage={10}
         paginationComponentOptions={paginationComponentOptions}
-        direction={Direction.AUTO}
         highlightOnHover
         title={intl.get("browsepage.title")}
+        direction={Direction.AUTO}
         defaultSortFieldId={0}
         persistTableHead
         customStyles={TABLE_STYLE}
