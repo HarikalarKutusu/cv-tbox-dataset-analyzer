@@ -29,6 +29,8 @@ const FilterSelectors = () => {
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
 
+  if (!CONF || !cvLanguages) return <></>;
+
   const handleVersionFilterChange = (
     e: SelectChangeEvent<typeof versionFilter>,
   ) => {
