@@ -1,6 +1,5 @@
 // React
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { useEffect, useMemo } from "react";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -13,7 +12,7 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
-import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
+import { ILoaderData } from "./../helpers/appHelper";
 import {
   convertStrList,
   downloadCSV,
@@ -38,15 +37,17 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const { initDone } = useStore();
   const { langCode } = useStore();
 
-  // const { selectedDataset, setSelectedDataset } = useStore();
-  const { textCorpusStats, setTextCorpusStats } = useStore();
   const { selectedDataset } = useStore();
+  const { textCorpusStats, setTextCorpusStats } = useStore();
+  const { textCorpusRec, setTextCorpusRec } = useStore();
 
-  const [textCorpusRec, setTextCorpusRec] = useState<
-    TEXT_CORPUS_STATS_ROW_TYPE | undefined
-  >(undefined);
+  // const [textCorpusRec, setTextCorpusRec] = useState<
+  //   TEXT_CORPUS_STATS_ROW_TYPE | undefined
+  // >(undefined);
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+  const loaderTextCorpusStats = (useLoaderData() as ILoaderData)
+    .textCorpusStats;
 
   const MeasureValueTable = () => {
     let tbl: IMeasureValueTable[] = [];
@@ -186,30 +187,30 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
   };
 
+  // Pre-process if needed (just loaded)
   useEffect(() => {
-    // Text Corpus?
+    if (loaderTextCorpusStats && !textCorpusStats) {
+      let result: TEXT_CORPUS_STATS_ROW_TYPE[] = [];
+      loaderTextCorpusStats.forEach((row) => {
+        row.c_freq = convertStrList(row.c_freq as string);
+        row.w_freq = convertStrList(row.w_freq as string);
+        row.t_freq = convertStrList(row.t_freq as string);
+        result.push(row);
+      });
+      setTextCorpusStats(result);
+      setTextCorpusRec(result.filter((row) => row.lc === lc)[0]);
+    }
     if (textCorpusStats) {
       // if already loaded, just filter the row
       setTextCorpusRec(textCorpusStats.filter((row) => row.lc === lc)[0]);
-    } else {
-      // not yet, loaded, load it
-      const url = `${ANALYZER_DATA_URL}/$text_corpus_stats.json`;
-      axios
-        .get(url, { headers: { "Content-Type": "application/json" } })
-        .then((response) => {
-          const data: TEXT_CORPUS_STATS_ROW_TYPE[] = response.data.data;
-          let result: TEXT_CORPUS_STATS_ROW_TYPE[] = [];
-          data.forEach((row) => {
-            row.c_freq = convertStrList(row.c_freq as string);
-            row.w_freq = convertStrList(row.w_freq as string);
-            row.t_freq = convertStrList(row.t_freq as string);
-            result.push(row);
-          });
-          setTextCorpusStats(result);
-          setTextCorpusRec(result.filter((row) => row.lc === lc)[0]);
-        });
     }
-  }, [lc, textCorpusStats, setTextCorpusStats]);
+  }, [
+    lc,
+    loaderTextCorpusStats,
+    setTextCorpusRec,
+    setTextCorpusStats,
+    textCorpusStats,
+  ]);
 
   if (!lc) {
     return <div>Error in parameters.</div>;
@@ -217,7 +218,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   let cnt: number = 0;
 
-  return !textCorpusStats || !initDone ? (
+  return !loaderTextCorpusStats || !initDone || !CONF ? (
     <div>...</div>
   ) : (
     <>
