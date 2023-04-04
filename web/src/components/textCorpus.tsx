@@ -1,5 +1,5 @@
 // React
-import { useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -38,16 +38,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const { langCode } = useStore();
 
   const { selectedDataset } = useStore();
-  const { textCorpusStats, setTextCorpusStats } = useStore();
-  const { textCorpusRec, setTextCorpusRec } = useStore();
-
-  // const [textCorpusRec, setTextCorpusRec] = useState<
-  //   TEXT_CORPUS_STATS_ROW_TYPE | undefined
-  // >(undefined);
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
-  const loaderTextCorpusStats = (useLoaderData() as ILoaderData)
-    .textCorpusStats;
+  const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
+
+  const [textCorpusRec, setTextCorpusRec] = useState<
+    TEXT_CORPUS_STATS_ROW_TYPE | undefined
+  >(undefined);
 
   const MeasureValueTable = () => {
     let tbl: IMeasureValueTable[] = [];
@@ -187,40 +184,26 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
   };
 
-  // Pre-process if needed (just loaded)
+  // Pre-process if needed (if just loaded)
   useEffect(() => {
-    if (loaderTextCorpusStats && !textCorpusStats) {
-      let result: TEXT_CORPUS_STATS_ROW_TYPE[] = [];
-      loaderTextCorpusStats.forEach((row) => {
-        row.c_freq = convertStrList(row.c_freq as string);
-        row.w_freq = convertStrList(row.w_freq as string);
-        row.t_freq = convertStrList(row.t_freq as string);
-        result.push(row);
+    if (textCorpusStats && typeof textCorpusStats[0].c_freq === "string") {
+      textCorpusStats.forEach((row, i) => {
+        textCorpusStats[i].c_freq = convertStrList(row.c_freq as string);
+        textCorpusStats[i].w_freq = convertStrList(row.w_freq as string);
+        textCorpusStats[i].t_freq = convertStrList(row.t_freq as string);
       });
-      setTextCorpusStats(result);
-      setTextCorpusRec(result.filter((row) => row.lc === lc)[0]);
     }
-    if (textCorpusStats) {
-      // if already loaded, just filter the row
+    if (textCorpusStats && !textCorpusRec)
       setTextCorpusRec(textCorpusStats.filter((row) => row.lc === lc)[0]);
-    }
-  }, [
-    lc,
-    loaderTextCorpusStats,
-    setTextCorpusRec,
-    setTextCorpusStats,
-    textCorpusStats,
-  ]);
+  }, [lc, setTextCorpusRec, textCorpusRec, textCorpusStats]);
 
-  if (!lc) {
-    return <div>Error in parameters.</div>;
-  }
+  if (!lc) return <div>Error in parameters.</div>;
+
+  if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
 
   let cnt: number = 0;
 
-  return !loaderTextCorpusStats || !initDone || !CONF ? (
-    <div>...</div>
-  ) : (
+  return (
     <>
       <div>
         <MeasureValueTable />
@@ -231,13 +214,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
             <FreqTable
               key={"c_freq"}
               bins={CONF.bins_chars}
-              values={textCorpusRec?.c_freq as number[]}
+              values={textCorpusRec.c_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("col.character_distribution")}
               yScale="linear"
-              mean={textCorpusRec?.c_avg}
-              median={textCorpusRec?.c_med}
-              std={textCorpusRec?.c_std}
+              mean={textCorpusRec.c_avg}
+              median={textCorpusRec.c_med}
+              std={textCorpusRec.c_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
@@ -249,13 +232,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
             <FreqTable
               key={"w_freq"}
               bins={CONF.bins_words}
-              values={textCorpusRec?.w_freq as number[]}
+              values={textCorpusRec.w_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("col.word_distribution")}
               yScale="linear"
-              mean={textCorpusRec?.w_avg}
-              median={textCorpusRec?.w_med}
-              std={textCorpusRec?.w_std}
+              mean={textCorpusRec.w_avg}
+              median={textCorpusRec.w_med}
+              std={textCorpusRec.w_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
@@ -267,13 +250,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
             <FreqTable
               key={"t_freq"}
               bins={CONF.bins_tokens}
-              values={textCorpusRec?.t_freq as number[]}
+              values={textCorpusRec.t_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("col.token_distribution")}
               yScale="log"
-              mean={textCorpusRec?.t_avg}
-              median={textCorpusRec?.t_med}
-              std={textCorpusRec?.t_std}
+              mean={textCorpusRec.t_avg}
+              median={textCorpusRec.t_med}
+              std={textCorpusRec.t_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
@@ -285,3 +268,5 @@ export const TextCorpus = (props: TextCorpusProps) => {
     </>
   );
 };
+
+export const TextCorpusMemo = memo(TextCorpus);
