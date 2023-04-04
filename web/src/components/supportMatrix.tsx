@@ -232,3 +232,5 @@ export const SupportMatrix = () => {
     </>
   );
 };
+
+export const SupportMatrixMemo = memo(SupportMatrix);

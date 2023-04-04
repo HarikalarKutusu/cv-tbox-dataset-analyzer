@@ -1,5 +1,5 @@
-import { SupportMatrix } from "../supportMatrix";
+import { SupportMatrixMemo } from "../supportMatrix";
 
 export const BrowsePage = () => {
-  return <SupportMatrix />;
+  return <SupportMatrixMemo />;
 };
