@@ -55,10 +55,6 @@ export type StoreType = {
   reportedSentencesRec: REPORTED_STATS_ROW_TYPE | undefined;
   setReportedSentencesRec: (data: REPORTED_STATS_ROW_TYPE | undefined) => void;
 
-  // Table View (same as tabs in Analyzer)
-  datasetInfoView: DATASET_INFO_VIEW_TYPE;
-  setDatasetInfoView: (view: DATASET_INFO_VIEW_TYPE) => void;
-
   // selected version filter
   versionFilter: string[];
   setVersionFilter: (lst: string[]) => void;
@@ -116,11 +112,6 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     reportedSentencesRec: undefined,
     setReportedSentencesRec: (data) =>
       set((state) => ({ ...state, reportedSentencesRec: data })),
-
-    // Table View (same as tabs in Analyzer)
-    datasetInfoView: "general",
-    setDatasetInfoView: (view) =>
-      set((state) => ({ ...state, datasetInfoView: view })),
 
     // selected version filter
     versionFilter: [],
