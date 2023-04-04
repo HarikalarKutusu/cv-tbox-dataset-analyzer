@@ -16,7 +16,7 @@ import {
   SUPPORT_MATRIX_ROW_TYPE,
 } from "./../../helpers/tableHelper";
 import { DataSetInfoMemo } from "../datasetInfo";
-import { TextCorpus, TextCorpusMemo } from "../textCorpus";
+import { TextCorpusMemo } from "../textCorpus";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentencesMemo } from "../reportedSentences";
 import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
@@ -230,7 +230,7 @@ export const ExaminePage = () => {
         </TabPanel>
         {/* text-corpus */}
         <TabPanel value={tabValue} index={7}>
-          <TextCorpus lc={lc} />
+          <TextCorpusMemo lc={lc} />
         </TabPanel>
         {/* Reported Sentences */}
         <TabPanel value={tabValue} index={8}>
