@@ -12,6 +12,7 @@ import { ILoaderData } from "../helpers/appHelper";
 import {
   DATASET_INFO_ROW_TYPE,
   CROSSTAB_ROW_TYPE,
+  DATASET_INFO_VIEW_TYPE,
 } from "../helpers/tableHelper";
 
 // App Charts
@@ -30,11 +31,14 @@ import { AppLineChart } from "./graphs/lineChart";
 //
 // Graph Builder
 //
+interface IGraphBuilderProps {
+  view: DATASET_INFO_VIEW_TYPE;
+}
 
-export const GraphBuilder = () => {
+export const GraphBuilder = (props: IGraphBuilderProps) => {
+  const { view } = props;
   const { initDone } = useStore();
   const { datasetInfo } = useStore();
-  const { datasetInfoView } = useStore();
   const { selectedDataset } = useStore();
   // const { versionFilter, languageFilter } = useStore();
 
@@ -252,12 +256,12 @@ export const GraphBuilder = () => {
   useEffect(() => {
     if (datasetInfo) {
       setGEnable(true);
-      setViewGraphs(GRAPH_DATA.filter((row) => row.view === datasetInfoView));
+      setViewGraphs(GRAPH_DATA.filter((row) => row.view === view));
       setGData(datasetInfo);
     } else {
       setGEnable(false);
     }
-  }, [datasetInfo, datasetInfoView, textCorpusStats]);
+  }, [datasetInfo, view, textCorpusStats]);
 
   return !datasetInfo || !initDone || !viewGraphs || !gEnable ? (
     <>...</>
