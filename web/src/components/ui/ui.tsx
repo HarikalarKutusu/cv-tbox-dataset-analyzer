@@ -66,7 +66,7 @@ import { AppInfo } from "./appInfo";
 //   );
 // }
 
-const drawerWidth: number = 240;
+const drawerWidth: number = 220;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -255,7 +255,7 @@ export function AppUI() {
                 ? theme.palette.grey[100]
                 : theme.palette.grey[900],
             flexGrow: 1,
-            height: "97vh",
+            height: "100vh",
             overflow: "auto",
           }}
         >
@@ -274,7 +274,11 @@ export function AppUI() {
         <AppBar
           position="fixed"
           color="primary"
-          sx={{ top: "auto", bottom: 0 }}
+          sx={{
+            top: "auto",
+            bottom: 0,
+            display: location.pathname === "/browse" ? "block" : "none",
+          }}
         >
           <Toolbar sx={{ justifyContent: "center" }}>
             {location.pathname === "/browse" ? <FilterSelectors /> : <></>}

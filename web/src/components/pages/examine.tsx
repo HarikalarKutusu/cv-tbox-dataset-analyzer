@@ -8,8 +8,6 @@ import intl from "react-intl-universal";
 import { Box, Button, Tab, Tabs } from "@mui/material";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
-// Store
-import { useStore } from "./../../stores/store";
 // App
 import { ANALYZER_DATA_URL, ILoaderData } from "../../helpers/appHelper";
 import {
@@ -17,10 +15,10 @@ import {
   SEP_ALGO,
   SUPPORT_MATRIX_ROW_TYPE,
 } from "./../../helpers/tableHelper";
-import { DataSetInfo } from "../datasetInfo";
-import { TextCorpus } from "../textCorpus";
+import { DataSetInfoMemo } from "../datasetInfo";
+import { TextCorpusMemo } from "../textCorpus";
 import { GraphBuilder } from "../graphBuilder";
-import { ReportedSentences } from "../reportedSentences";
+import { ReportedSentencesMemo } from "../reportedSentences";
 import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
 
 interface TabPanelProps {
@@ -38,14 +36,11 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`tabpanel-${index}`}
       aria-labelledby={`tab-${index}`}
+      // style={{ display: value === index ? "block" : "none" }}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 1 }}>
-          {/* <Typography>{children}</Typography> */}
-          {children}
-        </Box>
-      )}
+      {/* {value === index && <Box sx={{ p: 0 }}>{children}</Box>} */}
+      {value === index && <Box sx={{ p: 0 }}>{children}</Box>}
     </div>
   );
 }
@@ -59,12 +54,13 @@ function a11yProps(s: string) {
 
 export const ExaminePage = () => {
   const { lc, ver } = useParams();
-  const [tabValue, setTabValue] = useState(0);
   const [algos, setAlgos] = useState<string[]>([]);
-  const { datasetInfoView, setDatasetInfoView } = useStore();
 
-  const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
-  const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
+  const [tabValue, setTabValue] = useState(0);
+
+  const loaderData = useLoaderData() as ILoaderData;
+  const supportMatrix = loaderData.supportMatrix;
+  const cvLanguages = loaderData.cvLanguages;
 
   interface SplitDownloadLinksProps {
     algos: string[];
@@ -96,10 +92,21 @@ export const ExaminePage = () => {
     );
   };
 
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
+    if (cvLanguages) {
+      return cvLanguages.filter((row) => row.name === lc)[0];
+    } else return null;
+  };
+
+  // get algorithms in the dataset
   useEffect(() => {
-    if (lc && ver && supportMatrix.length > 0) {
+    if (lc && ver && supportMatrix && supportMatrix.length > 0) {
       const rec = supportMatrix.filter((row) => row.lc === lc)[0];
-      if (rec) {
+      if (rec !== undefined) {
         const keyInx = `v${ver.replace(".", "_")}`;
         const key = (
           Object.keys(rec) as Array<keyof SUPPORT_MATRIX_ROW_TYPE>
@@ -108,27 +115,34 @@ export const ExaminePage = () => {
         setAlgos(algoData ? algoData.split(SEP_ALGO) : []);
       }
     }
-  }, [lc, supportMatrix, ver]);
+  }, [lc, ver, supportMatrix]);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-    setDatasetInfoView(DATASET_INFO_VIEW_TYPES[newValue]);
-  };
+  let titleAddition = "";
+  if (cvLanguages)
+    titleAddition =
+      " (" +
+      lc +
+      " - " +
+      getCVLanguageRecord(lc!)!.native_name +
+      " - v" +
+      ver +
+      ")";
 
-  const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW => {
-    return cvLanguages.filter((row) => row.name === lc)[0];
-  };
+  if (!algos || !cvLanguages || !supportMatrix) return <>...</>;
 
-  const titleAddition =
-    " (" +
-    lc +
-    " - " +
-    getCVLanguageRecord(lc!).native_name +
-    " - v" +
-    ver +
-    ")";
-
-  if (!algos) return null;
+  const tab_list = [
+    { id: 0, name: "examinepage.tab.general" },
+    { id: 1, name: "examinepage.tab.duration" },
+    { id: 2, name: "examinepage.tab.voices" },
+    { id: 3, name: "examinepage.tab.gender" },
+    { id: 4, name: "examinepage.tab.age" },
+    { id: 5, name: "examinepage.tab.votes" },
+    { id: 6, name: "examinepage.tab.sentences" },
+    { id: 7, name: "examinepage.tab.text-corpus" },
+    { id: 8, name: "examinepage.tab.reported" },
+    // { id: 9, name: "examinepage.tab.comperative" },
+    // { id: 10, name: "examinepage.tab.health" },
+  ];
 
   return (
     <>
@@ -146,90 +160,85 @@ export const ExaminePage = () => {
             onChange={handleChange}
             aria-label="Dataset Analyzer Tabs"
           >
-            <Tab
-              label={intl.get("examinepage.tab.general")}
-              {...a11yProps("examinepage.tab.general")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.duration")}
-              {...a11yProps("examinepage.tab.duration")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.voices")}
-              {...a11yProps("examinepage.tab.voices")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.gender")}
-              {...a11yProps("examinepage.tab.gender")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.age")}
-              {...a11yProps("examinepage.tab.age")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.votes")}
-              {...a11yProps("examinepage.tab.votes")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.reported")}
-              {...a11yProps("examinepage.tab.reported")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.sentences")}
-              {...a11yProps("examinepage.tab.sentences")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.text-corpus")}
-              {...a11yProps("examinepage.tab.text-corpus")}
-            />
-            {/* <Tab
-              label={intl.get("examinepage.tab.comperative")}
-              {...a11yProps("examinepage.tab.comperative")}
-            />
-            <Tab
-              label={intl.get("examinepage.tab.health")}
-              {...a11yProps("examinepage.tab.health")}
-            /> */}
+            {tab_list.map((item) => {
+              return (
+                <Tab
+                  key={item.id}
+                  label={intl.get(item.name)}
+                  disableRipple
+                  {...a11yProps(item.name)}
+                />
+              );
+            })}
           </Tabs>
         </Box>
         {/* general */}
         <TabPanel value={tabValue} index={0}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* duration */}
         <TabPanel value={tabValue} index={1}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* voices */}
         <TabPanel value={tabValue} index={2}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* GENDER */}
         <TabPanel value={tabValue} index={3}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* AGE */}
         <TabPanel value={tabValue} index={4}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* Votes */}
         <TabPanel value={tabValue} index={5}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
-        </TabPanel>
-        {/* Reported Sentences */}
-        <TabPanel value={tabValue} index={6}>
-          <ReportedSentences lc={lc} ver={ver} />
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* sentences */}
-        <TabPanel value={tabValue} index={7}>
-          <DataSetInfo lc={lc} ver={ver} view={datasetInfoView} />
+        <TabPanel value={tabValue} index={6}>
+          <DataSetInfoMemo
+            lc={lc}
+            ver={ver}
+            view={DATASET_INFO_VIEW_TYPES[tabValue]}
+          />
         </TabPanel>
         {/* text-corpus */}
+        <TabPanel value={tabValue} index={7}>
+          <TextCorpusMemo lc={lc} />
+        </TabPanel>
+        {/* Reported Sentences */}
         <TabPanel value={tabValue} index={8}>
-          <TextCorpus lc={lc} />
+          <ReportedSentencesMemo lc={lc} ver={ver} />
         </TabPanel>
       </Box>
-      <GraphBuilder />
+      <div style={{ height: "4px" }}></div>
+      <GraphBuilder view={DATASET_INFO_VIEW_TYPES[tabValue]} />
     </>
   );
 };

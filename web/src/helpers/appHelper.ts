@@ -2,7 +2,11 @@
 // App related / app-wide stuff
 //
 import { CV_LANGUAGE_ROW } from "./cvHelper";
-import { SUPPORT_MATRIX_ROW_TYPE } from "./tableHelper";
+import {
+  SUPPORT_MATRIX_ROW_TYPE,
+  REPORTED_STATS_ROW_TYPE,
+  TEXT_CORPUS_STATS_ROW_TYPE,
+} from "./tableHelper";
 
 //
 // Static Data Api
@@ -14,9 +18,11 @@ export const CV_DATA_URL =
 
 // LoaderDataType
 export interface ILoaderData {
-  cvLanguages: CV_LANGUAGE_ROW[];
-  analyzerConfig: CONFIG_TYPE;
-  supportMatrix: SUPPORT_MATRIX_ROW_TYPE[];
+  cvLanguages: CV_LANGUAGE_ROW[] | null;
+  analyzerConfig: CONFIG_TYPE | null;
+  supportMatrix: SUPPORT_MATRIX_ROW_TYPE[] | null;
+  textCorpusStats?: TEXT_CORPUS_STATS_ROW_TYPE[] | null;
+  reportedSentencesStats?: REPORTED_STATS_ROW_TYPE[] | null;
 }
 
 // config

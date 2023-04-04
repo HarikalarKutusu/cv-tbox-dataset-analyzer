@@ -1,5 +1,6 @@
 // react
 import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -7,10 +8,11 @@ import { Container, Grid, Paper } from "@mui/material";
 
 // App
 import { useStore } from "./../stores/store";
-
+import { ILoaderData } from "../helpers/appHelper";
 import {
   DATASET_INFO_ROW_TYPE,
   CROSSTAB_ROW_TYPE,
+  DATASET_INFO_VIEW_TYPE,
 } from "../helpers/tableHelper";
 
 // App Charts
@@ -29,18 +31,22 @@ import { AppLineChart } from "./graphs/lineChart";
 //
 // Graph Builder
 //
+interface IGraphBuilderProps {
+  view: DATASET_INFO_VIEW_TYPE;
+}
 
-export const GraphBuilder = () => {
+export const GraphBuilder = (props: IGraphBuilderProps) => {
+  const { view } = props;
   const { initDone } = useStore();
   const { datasetInfo } = useStore();
-  const { textCorpusStats } = useStore();
-  const { datasetInfoView } = useStore();
   const { selectedDataset } = useStore();
   // const { versionFilter, languageFilter } = useStore();
 
   const [gEnable, setGEnable] = useState<boolean>(false);
   const [gData, setGData] = useState<DATASET_INFO_ROW_TYPE[]>();
   const [viewGraphs, setViewGraphs] = useState<GRAPH_VIEW_TYPE[]>();
+
+  const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
 
   const getSeriesNames = (lst: string[]) => {
     let res: string[] = [];
@@ -77,7 +83,9 @@ export const GraphBuilder = () => {
         const reclist = recs.filter((row) => row.alg === a && row.sp === s);
         if (reclist.length === 1) {
           const rec = reclist[0];
-          const entry = Object.entries(rec).find((entry) => entry[0] === gSpecs.crosstabField);
+          const entry = Object.entries(rec).find(
+            (entry) => entry[0] === gSpecs.crosstabField,
+          );
           val = 0;
           if (entry) val = entry[1] as number;
           switch (rec.sp) {
@@ -180,8 +188,8 @@ export const GraphBuilder = () => {
 
   const AppDatasetGraph = (props: IDatasetGraphProps) => {
     const { data, gd, cnt } = props;
-    const lc = selectedDataset.split('_')[0]
-    const ver = selectedDataset.split('_')[1]
+    const lc = selectedDataset.split("_")[0];
+    const ver = selectedDataset.split("_")[1];
     return (
       <>
         {gd.type === "bar" ? (
@@ -248,12 +256,12 @@ export const GraphBuilder = () => {
   useEffect(() => {
     if (datasetInfo) {
       setGEnable(true);
-      setViewGraphs(GRAPH_DATA.filter((row) => row.view === datasetInfoView));
+      setViewGraphs(GRAPH_DATA.filter((row) => row.view === view));
       setGData(datasetInfo);
     } else {
       setGEnable(false);
     }
-  }, [datasetInfo, datasetInfoView, textCorpusStats]);
+  }, [datasetInfo, view, textCorpusStats]);
 
   return !datasetInfo || !initDone || !viewGraphs || !gEnable ? (
     <>...</>

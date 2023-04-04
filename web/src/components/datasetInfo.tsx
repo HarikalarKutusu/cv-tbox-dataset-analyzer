@@ -1,5 +1,5 @@
 // React
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, memo, useEffect, useMemo } from "react";
 import { useLoaderData } from "react-router";
 import axios from "axios";
 // i10n
@@ -35,7 +35,6 @@ import {
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
   DATASET_INFO_VIEW_TYPES,
-  TEXT_CORPUS_STATS_ROW_TYPE,
   downloadCSV,
 } from "../helpers/tableHelper";
 
@@ -59,12 +58,6 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
 
   const { selectedDataset, setSelectedDataset } = useStore();
   const { datasetInfo, setDatasetInfo } = useStore();
-  const { datasetInfoView, setDatasetInfoView } = useStore();
-  const { textCorpusStats, setTextCorpusStats } = useStore();
-
-  const [textCorpusRec, setTextCorpusRec] = useState<
-    TEXT_CORPUS_STATS_ROW_TYPE | undefined
-  >(undefined);
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
@@ -561,6 +554,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
       dropLastFromGraph?: boolean;
     };
 
+    if (!CONF) return <></>;
+
     let expViews: expViewType[] = [];
     const title: string = "Common Voice " + lc + " v" + ver;
 
@@ -862,44 +857,17 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             });
             result = calcCalculatedFields(result);
             setSelectedDataset(reqds);
-            setDatasetInfoView(DATASET_INFO_VIEW_TYPES[0]);
             setDatasetInfo(result);
           });
       }
     }
-
-    // Text Corpus?
-    if (textCorpusStats) {
-      // if already loaded, just filter the row
-      setTextCorpusRec(textCorpusStats.filter((row) => row.lc === lc)[0]);
-    } else {
-      // not yet, loaded, load it
-      const url = `${ANALYZER_DATA_URL}/$text_corpus_stats.json`;
-      axios
-        .get(url, { headers: { "Content-Type": "application/json" } })
-        .then((response) => {
-          const data: TEXT_CORPUS_STATS_ROW_TYPE[] = response.data.data;
-          let result: TEXT_CORPUS_STATS_ROW_TYPE[] = [];
-          data.forEach((row) => {
-            row.c_freq = convertStrList(row.c_freq as string);
-            row.w_freq = convertStrList(row.w_freq as string);
-            row.t_freq = convertStrList(row.t_freq as string);
-            result.push(row);
-          });
-          setTextCorpusStats(result);
-          setTextCorpusRec(result.filter((row) => row.lc === lc)[0]);
-        });
-    }
   }, [
-    lc,
-    ver,
     datasetInfo,
-    setDatasetInfo,
+    lc,
     selectedDataset,
+    setDatasetInfo,
     setSelectedDataset,
-    setDatasetInfoView,
-    textCorpusStats,
-    setTextCorpusStats,
+    ver,
   ]);
 
   if (!lc || !ver) {
@@ -915,12 +883,12 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     "sentences",
   ];
 
-  return !datasetInfo || !initDone ? (
-    <div>...</div>
-  ) : (
+  if (!initDone || !datasetInfo || !view) return <>...</>;
+
+  return (
     <>
       <DataTable
-        columns={getColumns(datasetInfoView)}
+        columns={getColumns(view)}
         data={datasetInfo}
         progressPending={!datasetInfo}
         responsive
@@ -928,10 +896,10 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         pagination
         paginationPerPage={15}
         paginationComponentOptions={paginationComponentOptions}
-        direction={Direction.AUTO}
         highlightOnHover
-        // title={intl.get("examinepage.title")}
+        title={intl.get("examinepage.tab." + view)}
         defaultSortFieldId={0}
+        direction={Direction.AUTO}
         persistTableHead
         expandableRows={expandableViews.includes(view!)}
         expandableRowsComponent={ExpandedComponent}
@@ -941,3 +909,5 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     </>
   );
 };
+
+export const DataSetInfoMemo = memo(DataSetInfo);

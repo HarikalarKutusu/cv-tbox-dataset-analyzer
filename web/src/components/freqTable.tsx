@@ -106,7 +106,6 @@ export const FreqTable = (props: IFreqTableProps) => {
   if (addPercentageColumn) {
     for (let i = 0; i < tableData.length; i++) {
       tableData[i].percentage = 100 * ((tableData[i].val as number) / total);
-      console.log(total, tableData);
     }
   }
 

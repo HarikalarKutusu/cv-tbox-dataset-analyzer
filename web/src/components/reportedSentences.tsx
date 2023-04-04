@@ -1,6 +1,5 @@
 // React
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import { memo, useEffect, useMemo, useState } from "react";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -13,7 +12,7 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
-import { ANALYZER_DATA_URL, ILoaderData } from "../helpers/appHelper";
+import { ILoaderData } from "../helpers/appHelper";
 import {
   convertStrList,
   downloadCSV,
@@ -39,38 +38,40 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
   const { initDone } = useStore();
   const { langCode } = useStore();
   const { selectedDataset } = useStore();
-  const { reportedSentencesStats, setReportedSentencesStats } = useStore();
 
-  const [reportedSentencesRec, setReportedSentencesRec] =
-    useState<REPORTED_STATS_ROW_TYPE>();
+  const [reportedSRec, setReportedSRec] = useState<
+    REPORTED_STATS_ROW_TYPE | undefined
+  >(undefined);
 
   const [binsReasons, setBinsReasons] = useState<string[]>([]);
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+  const reportedSStats = (useLoaderData() as ILoaderData)
+    .reportedSentencesStats;
 
   const MeasureValueTable = () => {
     let tbl: IMeasureValueTable[] = [];
-    if (reportedSentencesRec) {
+    if (reportedSRec) {
       tbl = [
         {
           measure: intl.get("measures.reported_sum"),
-          val: reportedSentencesRec.rep_sum,
+          val: reportedSRec.rep_sum,
         },
         {
           measure: intl.get("measures.reported_sen"),
-          val: reportedSentencesRec.rep_sen,
+          val: reportedSRec.rep_sen,
         },
         {
           measure: intl.get("measures.reported_avg"),
-          val: reportedSentencesRec.rep_avg,
+          val: reportedSRec.rep_avg,
         },
         {
           measure: intl.get("measures.reported_med"),
-          val: reportedSentencesRec.rep_med,
+          val: reportedSRec.rep_med,
         },
         {
           measure: intl.get("measures.reported_tsd"),
-          val: reportedSentencesRec.rep_std,
+          val: reportedSRec.rep_std,
         },
       ];
     }
@@ -96,7 +97,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
         <DownloadForOfflineIcon
           onClick={() =>
             downloadCSV(
-              new Array<REPORTED_STATS_ROW_TYPE>(reportedSentencesRec!),
+              new Array<REPORTED_STATS_ROW_TYPE>(reportedSRec!),
               "cv-dataset-reported-sentences",
               selectedDataset,
             )
@@ -123,72 +124,62 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
     );
   };
 
+  // translate bin names for reporting reasons
   useEffect(() => {
-    const res: string[] = [];
-    CONF.bins_reasons.forEach((s) => {
-      res.push(intl.get("bins_reasons." + s));
-    });
-    setBinsReasons(res);
-  }, [CONF.bins_reasons]);
+    if (CONF) {
+      const res: string[] = [];
+      CONF.bins_reasons.forEach((s) => {
+        res.push(intl.get("bins_reasons." + s));
+      });
+      setBinsReasons(res);
+    }
+  }, [CONF]);
 
+  // Pre-process if needed (if just loaded)
   useEffect(() => {
-    // Text Corpus?
-    if (reportedSentencesStats) {
-      // if already loaded, just filter the row
-      const recs = reportedSentencesStats.filter(
+    if (reportedSStats && typeof reportedSStats[0].rep_freq === "string") {
+      reportedSStats.forEach((row, i) => {
+        reportedSStats[i].rep_freq = convertStrList(row.rep_freq as string);
+        reportedSStats[i].rea_freq = convertStrList(row.rea_freq as string);
+      });
+    }
+    if (reportedSStats && !reportedSRec) {
+      const recs = reportedSStats.filter(
         (row) => row.ver === ver && row.lc === lc,
       );
+      // might not have reported sentences
       if (recs.length === 1) {
-        setReportedSentencesRec(recs[0]);
+        setReportedSRec(recs[0]);
       }
-    } else {
-      // not yet, loaded, load it
-      const url = `${ANALYZER_DATA_URL}/$reported.json`;
-      axios
-        .get(url, { headers: { "Content-Type": "application/json" } })
-        .then((response) => {
-          const data: REPORTED_STATS_ROW_TYPE[] = response.data.data;
-          let result: REPORTED_STATS_ROW_TYPE[] = [];
-          data.forEach((row) => {
-            row.rep_freq = convertStrList(row.rep_freq as string);
-            row.rea_freq = convertStrList(row.rea_freq as string);
-            result.push(row);
-          });
-          setReportedSentencesStats(result);
-          const recs = result.filter((row) => row.ver === ver && row.lc === lc);
-          if (recs.length === 1) {
-            setReportedSentencesRec(recs[0]);
-          }
-        });
     }
-  }, [ver, lc, reportedSentencesStats, setReportedSentencesStats]);
+  }, [lc, reportedSRec, reportedSStats, ver]);
 
   if (!lc || !ver) {
     return <div>Error in parameters.</div>;
   }
 
+  if (!reportedSRec || !initDone || !CONF || !reportedSStats) return <>...</>;
+
   let cnt: number = 0;
 
-  return !reportedSentencesStats || !initDone ? (
-    <div>...</div>
-  ) : (
+  return (
     <>
       <div>
         <MeasureValueTable />
       </div>
-      {reportedSentencesRec && (
+      {reportedSRec && (
         <>
           <div>
             <FreqTable
               key={"rep_freq"}
               bins={CONF.bins_reported}
-              values={reportedSentencesRec?.rep_freq as number[]}
+              values={reportedSRec.rep_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.reported_freq")}
               yScale="linear"
-              mean={reportedSentencesRec?.rep_avg}
-              median={reportedSentencesRec?.rep_med}
-              std={reportedSentencesRec?.rep_std}
+              mean={reportedSRec.rep_avg}
+              median={reportedSRec.rep_med}
+              std={reportedSRec.rep_std}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}
@@ -200,7 +191,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
             <FreqTable
               key={"rea_freq"}
               bins={binsReasons}
-              values={reportedSentencesRec?.rea_freq as number[]}
+              values={reportedSRec.rea_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.reported_reasons_freq")}
               yScale="linear"
@@ -216,3 +207,5 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
     </>
   );
 };
+
+export const ReportedSentencesMemo = memo(ReportedSentences);

@@ -20,16 +20,12 @@ import { HomePage } from "./components/pages/home";
 import { BrowsePage } from "./components/pages/browse";
 import { ExaminePage } from "./components/pages/examine";
 
-import "./App.css";
 import {
   ANALYZER_DATA_URL,
-  CONFIG_TYPE,
   CV_DATA_URL,
   ILoaderData,
 } from "./helpers/appHelper";
 import axios from "axios";
-import { SUPPORT_MATRIX_ROW_TYPE } from "./helpers/tableHelper";
-import { CV_LANGUAGE_ROW } from "./helpers/cvHelper";
 
 function App() {
   // Store
@@ -39,47 +35,40 @@ function App() {
   //
   // Loaders
   //
-
-  // cvLanguages
-  const loadCvLanguages = async (): Promise<CV_LANGUAGE_ROW[]> => {
-    const url = `${CV_DATA_URL}/$cv_languages.json`;
+  const genericLoader = async (url: string) => {
     return await axios
       .get(url, { headers: { "Content-Type": "application/json" } })
       .then((response) => {
         return response.data.data;
+      })
+      .catch((err) => {
+        console.error("ERROR - Could not load:", url);
+        console.error(err);
+        return null;
       });
   };
 
-  // analyzerConfig
-  const loadConfig = async (): Promise<CONFIG_TYPE> => {
-    const url = `${ANALYZER_DATA_URL}/$config.json`;
-    return await axios
-      .get(url, { headers: { "Content-Type": "application/json" } })
-      .then((response) => {
-        return response.data.data[0];
-      });
-  };
-
-  // supportMatrix & matrixLoaded
-  const loadMatrix = async (): Promise<SUPPORT_MATRIX_ROW_TYPE[]> => {
-    const url = `${ANALYZER_DATA_URL}/$support_matrix.json`;
-    return await axios
-      .get(url, { headers: { "Content-Type": "application/json" } })
-      .then((response) => {
-        return response.data.data;
-      });
-  };
-
-  const appLoader = async () => {
-    const [cvLanguages, analyzerConfig, supportMatrix] = await Promise.all([
-      loadCvLanguages(),
-      loadConfig(),
-      loadMatrix(),
+  // Loader common to all pages
+  const commonLoader = async () => {
+    const [
+      cvLanguages,
+      analyzerConfig,
+      supportMatrix,
+      textCorpusStats,
+      reportedSentencesStats,
+    ] = await Promise.all([
+      genericLoader(`${CV_DATA_URL}/$cv_languages.json`),
+      genericLoader(`${ANALYZER_DATA_URL}/$config.json`),
+      genericLoader(`${ANALYZER_DATA_URL}/$support_matrix.json`),
+      genericLoader(`${ANALYZER_DATA_URL}/$text_corpus_stats.json`),
+      genericLoader(`${ANALYZER_DATA_URL}/$reported.json`),
     ]);
     const loaderData: ILoaderData = {
       cvLanguages: cvLanguages,
-      analyzerConfig: analyzerConfig,
+      analyzerConfig: analyzerConfig ? analyzerConfig[0] : null,
       supportMatrix: supportMatrix,
+      textCorpusStats: textCorpusStats,
+      reportedSentencesStats: reportedSentencesStats,
     };
     return loaderData;
   };
@@ -90,23 +79,23 @@ function App() {
     {
       path: "/",
       element: <AppUI />,
-      loader: appLoader,
+      loader: commonLoader,
       children: [
         {
           path: "/",
           index: true,
           element: <HomePage />,
-          loader: appLoader,
+          loader: commonLoader,
         },
         {
           path: "browse",
           element: <BrowsePage />,
-          loader: appLoader,
+          loader: commonLoader,
         },
         {
           path: "examine/:lc/:ver",
           element: <ExaminePage />,
-          loader: appLoader,
+          loader: commonLoader,
         },
         {
           path: "*",

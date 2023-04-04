@@ -7,8 +7,8 @@ import { PRIMARY_COLOR } from "../components/ui/theme";
 export const TABLE_STYLE = {
   header: {
     style: {
-      paddingLeft: "8px",
-      paddingRight: "8px",
+      paddingLeft: "4px",
+      paddingRight: "4px",
     },
   },
   headRow: {
@@ -19,14 +19,14 @@ export const TABLE_STYLE = {
   },
   headCells: {
     style: {
-      paddingLeft: "8px",
-      paddingRight: "8px",
+      paddingLeft: "4px",
+      paddingRight: "4px",
     },
   },
   cells: {
     style: {
-      paddingLeft: "8px",
-      paddingRight: "8px",
+      paddingLeft: "4px",
+      paddingRight: "4px",
     },
   },
 };
@@ -55,9 +55,9 @@ export const DATASET_INFO_VIEW_TYPES: DATASET_INFO_VIEW_TYPE[] = [
   "gender",
   "age",
   "votes",
-  "reported",
   "sentences",
   "text-corpus",
+  "reported",
   // "comperative",
   // "health",
 ];
