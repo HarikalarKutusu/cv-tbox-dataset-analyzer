@@ -897,7 +897,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         paginationPerPage={15}
         paginationComponentOptions={paginationComponentOptions}
         highlightOnHover
-        // title={intl.get("examinepage.title")}
+        title={intl.get("examinepage.tab." + view)}
         defaultSortFieldId={0}
         direction={Direction.AUTO}
         persistTableHead
