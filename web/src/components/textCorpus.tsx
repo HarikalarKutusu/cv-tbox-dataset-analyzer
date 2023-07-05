@@ -21,7 +21,7 @@ import {
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { useLoaderData } from "react-router";
+import { useLoaderData } from "react-router-dom";
 
 //
 // JSX

@@ -15,7 +15,7 @@ import {
 
 import "./appInfo.css";
 import { PRIMARY_COLOR } from "./theme";
-import { useLoaderData } from "react-router";
+import { useLoaderData } from "react-router-dom";
 
 export const AppInfo = () => {
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
