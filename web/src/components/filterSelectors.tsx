@@ -1,5 +1,5 @@
 // react
-import { useLoaderData } from "react-router";
+import { useLoaderData } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI

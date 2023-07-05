@@ -1,6 +1,6 @@
 // React
 import { FC, memo, useEffect, useMemo } from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData } from "react-router-dom";
 import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
