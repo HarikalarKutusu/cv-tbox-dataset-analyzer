@@ -1,6 +1,6 @@
 // React
 import { memo } from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -25,9 +25,14 @@ import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
 export const SupportMatrix = () => {
   const { initDone, versionFilter, languageFilter } = useStore();
+  const navigate = useNavigate();
 
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
+
+  const handleNavigate = (url: string) => {
+    navigate(url, { replace: true });
+  };
 
   const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
     if (cvLanguages) {
@@ -44,28 +49,29 @@ export const SupportMatrix = () => {
 
     const VersionCell = memo((props: VersionCellProps) => {
       const { lc, ver, algos } = props;
-      if (!algos) {
+      if (!algos || !lc || !ver) {
         return <></>;
       }
       const url = "/examine/" + lc + "/" + ver;
       return (
         <Button
-          href={url}
+          onClick={() => handleNavigate(url)}
           variant="contained"
           color="secondary"
           size="small"
           sx={{
             textTransform: "none",
-            margin: "4px",
-            padding: "4px",
+            margin: "2px",
+            padding: "8px 2px",
             textAlign: "center",
-            wordWrap: "",
           }}
         >
           {algos.replaceAll(SEP_ALGO, " ")}
         </Button>
       );
     });
+
+    VersionCell.displayName = "VersionCell";
 
     const col_lc: TableColumn<SUPPORT_MATRIX_ROW_TYPE> = {
       id: "lc",
