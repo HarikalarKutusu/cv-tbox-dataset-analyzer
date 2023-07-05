@@ -2,7 +2,7 @@
 
 WebApp for viewing detailed statistics of Common Voice datasets, along with text-corpora.
 
-![cv-tbox-dataset-analyzer-2](https://user-images.githubusercontent.com/8849617/196783472-c6267eaf-40e5-4cc6-b505-37c925775330.png)
+![analyzer-1](https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/assets/8849617/d1ebe0ad-8467-4a6f-8289-5eec612c3232)
 
 ## Description
 
@@ -22,7 +22,8 @@ In this application, under each dataset, you may see results for multiple splitt
 
 A working (beta) version is here for your use: [Common Voice Dataset Analyzer - Beta](https://cv-dataset-analyzer.netlify.app/)
 
-![cv-tbox-dataset-analyzer-1](https://user-images.githubusercontent.com/8849617/196783531-97c07548-0432-4725-8a45-1f760b62fff3.png)
+![analyzer-2](https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/assets/8849617/439de45b-2f50-45d7-98ca-224c97f8305d)
+
 
 ## More
 
@@ -35,7 +36,7 @@ A working (beta) version is here for your use: [Common Voice Dataset Analyzer - 
 
 ```sh
 git clone https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer.git
-cd cv-tbox-metadata-viewer
+cd cv-tbox-dataset-analyzer
 cd web
 npm install
 npm start
