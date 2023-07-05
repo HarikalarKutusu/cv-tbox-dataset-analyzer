@@ -58,12 +58,18 @@ export const SupportMatrix = () => {
           onClick={() => handleNavigate(url)}
           variant="contained"
           color="secondary"
-          size="small"
+          size="medium"
           sx={{
+            color: "#eee",
             textTransform: "none",
             margin: "2px",
             padding: "8px 2px",
             textAlign: "center",
+            width: "40px",
+            maxWidth: "40px",
+            height: "50px",
+            maxHeight: "50px",
+            whiteSpace: "pre-wrap"
           }}
         >
           {algos.replaceAll(SEP_ALGO, " ")}
@@ -78,7 +84,7 @@ export const SupportMatrix = () => {
       name: intl.get("col.locale"),
       sortable: true,
       center: true,
-      width: "100px",
+      width: "80px",
       selector: (row) => row.lc,
     };
 
