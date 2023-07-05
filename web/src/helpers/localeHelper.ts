@@ -4,16 +4,18 @@ import intl from "react-intl-universal";
 import "intl/locale-data/jsonp/en";
 import "intl/locale-data/jsonp/tr";
 // app locale data (translated strings)
+import msgCA from "./../locales/ca.json";
 import msgEN from "./../locales/en.json";
 import msgTR from "./../locales/tr.json";
 
 export const INTL_LOCALES = {
+  ca: msgCA,
   en: msgEN,
   tr: msgTR,
 };
 
-export type LanguageCodesType = "en" | "tr";
-export const LANGUAGES: LanguageCodesType[] = ["en", "tr"];
+export type LanguageCodesType = "ca" | "en" | "tr";
+export const LANGUAGES: LanguageCodesType[] = ["ca", "en", "tr"];
 export const DEFAULT_UI_LOCALE: LanguageCodesType = "en";
 
 // Extended list
@@ -26,6 +28,12 @@ export type UILocaleType = {
 
 // app locale data (translated strings)
 export const UI_LANGUAGES: UILocaleType[] = [
+  {
+    code: "ca",
+    name: "Catalan",
+    nativeName: "Català",
+    enabled: 1,
+  },
   {
     code: "en",
     name: "English",
