@@ -12,7 +12,7 @@ The user interface currently supports the following languages: `Catalan`, `Engli
 
 Because the data is rather large it is divided and related portions will be loaded whenever you click a language-version pair. The table below shows all languages Common Voice supports, with version info this application supports. To shorten the list, please use the filter feature at the bottom to select one or more locales you are interested in.
 
-If you are just interested in the general status between versions, you can use the sister app [Common Voice Metadata Viewer](https://metadata.cv-toolbox.web.tr/) [Beta Mirror](https://cv-metadata-viewer.netlify.app/).
+If you are just interested in the general status between versions, you can use the sister app [Common Voice Metadata Viewer](https://metadata.cv-toolbox.web.tr/) ([Beta Mirror](https://cv-metadata-viewer.netlify.app/)).
 
 In this application, under each dataset, you may see results for multiple splitting algorithms, namely `s1`, `s99`, and `v1` for now (some older datasets may miss some). These splitting algorithms are:
 
@@ -22,7 +22,7 @@ In this application, under each dataset, you may see results for multiple splitt
 
 ## Working Version
 
-A working (beta) version is here for your use: [Common Voice Dataset Analyzer](https://analyzer.cv-toolbox.web.tr) [Beta Mirror](https://cv-dataset-analyzer.netlify.app/)
+A working (beta) version is here for your use: [Common Voice Dataset Analyzer](https://analyzer.cv-toolbox.web.tr) ([Beta Mirror](https://cv-dataset-analyzer.netlify.app/))
 
 ![analyzer-2](https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/assets/8849617/439de45b-2f50-45d7-98ca-224c97f8305d)
 
