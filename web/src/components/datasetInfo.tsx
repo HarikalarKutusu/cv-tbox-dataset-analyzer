@@ -817,7 +817,10 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             const data: DATASET_INFO_ROW_TYPE[] = response.data.data;
             let result: DATASET_INFO_ROW_TYPE[] = [];
             data.forEach((row) => {
-              if (row.dur_total) row.dur_total = row.dur_total / 3600;
+              if (row.dur_total) row.dur_total = row.dur_total / 1000 / 3600;
+              if (row.dur_avg) row.dur_avg = row.dur_avg / 1000;
+              if (row.dur_med) row.dur_med = row.dur_med / 1000;
+              if (row.dur_std) row.dur_std = row.dur_std / 1000;
               if (row.dur_freq && row.dur_freq !== "")
                 row.dur_freq = convertStrList(row.dur_freq as string);
               if (row.v_freq && row.v_freq !== "")
