@@ -34,7 +34,7 @@ import {
   TABLE_STYLE,
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
-  DATASET_INFO_VIEW_TYPES,
+//  DATASET_INFO_VIEW_TYPES,
   downloadCSV,
 } from "../helpers/tableHelper";
 
@@ -463,17 +463,19 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         ];
         break;
       case "voices":
-        res = [col_alg, col_sp, col_uq_v, col_v_avg, col_v_med, col_v_std];
+        res = [col_alg, col_sp, col_dur_total, col_uq_v, col_v_avg, col_v_med, col_v_std];
         break;
       case "gender":
         res = [
           col_alg,
           col_sp,
+          col_clips,
           calc_genders_male,
           calc_genders_female,
           calc_genders_fm_ratio,
           calc_genders_male_per,
           calc_genders_female_per,
+          col_uq_v,
           calc_genders_uq_male,
           calc_genders_uq_female,
           calc_genders_fm_uq_ratio,
@@ -817,10 +819,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             const data: DATASET_INFO_ROW_TYPE[] = response.data.data;
             let result: DATASET_INFO_ROW_TYPE[] = [];
             data.forEach((row) => {
-              if (row.dur_total) row.dur_total = row.dur_total / 1000 / 3600;
-              if (row.dur_avg) row.dur_avg = row.dur_avg / 1000;
-              if (row.dur_med) row.dur_med = row.dur_med / 1000;
-              if (row.dur_std) row.dur_std = row.dur_std / 1000;
+              if (row.dur_total) row.dur_total = row.dur_total / 3600;
               if (row.dur_freq && row.dur_freq !== "")
                 row.dur_freq = convertStrList(row.dur_freq as string);
               if (row.v_freq && row.v_freq !== "")
