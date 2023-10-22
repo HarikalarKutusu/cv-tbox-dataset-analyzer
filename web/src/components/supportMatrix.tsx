@@ -36,7 +36,12 @@ export const SupportMatrix = () => {
 
   const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
     if (cvLanguages) {
-      return cvLanguages.filter((row) => row.name === lc)[0];
+      const recs: CV_LANGUAGE_ROW[] = cvLanguages.filter((row) => row.name === lc)
+      if (recs) {
+        return recs[0]
+      } else {
+        return null;
+      }
     } else return null;
   };
 
@@ -79,6 +84,22 @@ export const SupportMatrix = () => {
 
     VersionCell.displayName = "VersionCell";
 
+    const NameCell = (props: {lc: string}) => {
+      const {lc} = props;
+      if (!lc) {
+        return <></>;
+      }
+      const langInfo = getCVLanguageRecord(lc)
+      if (!langInfo) {
+        return <></>;
+      }
+      return (
+        <>{langInfo.native_name}<br />{intl.get("lang." + langInfo.name)}</>
+      );
+    };
+
+    NameCell.displayName = "LanguageNameCell";
+
     const col_lc: TableColumn<SUPPORT_MATRIX_ROW_TYPE> = {
       id: "lc",
       name: intl.get("col.locale"),
@@ -92,10 +113,10 @@ export const SupportMatrix = () => {
       id: "nname",
       name: intl.get("col.nname"),
       sortable: true,
-      center: true,
+      center: false,
       width: "120px",
-      selector: (row) =>
-        cvLanguages ? getCVLanguageRecord(row.lc)!.native_name! : "",
+      cell: (row) =>
+        cvLanguages ? <NameCell lc={row.lc} /> : "",
     };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
