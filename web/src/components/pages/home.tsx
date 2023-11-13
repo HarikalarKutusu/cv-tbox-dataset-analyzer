@@ -15,6 +15,8 @@ export const HomePage = () => {
         <li>{intl.getHTML("homepage.about.li1")}</li>
         <li>{intl.getHTML("homepage.about.li2")}</li>
         <li>{intl.getHTML("homepage.about.li3")}</li>
+        <li>{intl.getHTML("homepage.about.li4")}</li>
+        <li>{intl.getHTML("homepage.about.li5")}</li>
       </ul>
       <p>{intl.get("homepage.about.p5")}</p>
       <p>
