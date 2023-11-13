@@ -74,9 +74,9 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
     gSpecs.algos.forEach((a) => {
       const newRec: CROSSTAB_ROW_TYPE = {
         alg: a,
-        train: -1,
-        dev: -1,
-        test: -1,
+        train: 0,
+        dev: 0,
+        test: 0,
       };
       gSpecs.splits.forEach((s) => {
         let val: number = 0;
