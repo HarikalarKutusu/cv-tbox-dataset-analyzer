@@ -896,7 +896,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         responsive
         dense
         pagination
-        paginationPerPage={15}
+        paginationPerPage={20}
         paginationComponentOptions={paginationComponentOptions}
         highlightOnHover
         title={intl.get("examinepage.tab." + view)}
