@@ -18,7 +18,7 @@ export const isBeta: boolean = packageJson.version.endsWith("b");
 // Static Data Api
 //
 export const ANALYZER_DATA_URL = isBeta ?
-  "https://static.cv-toolbox.web.tr/public/cv-processed-test/analyzer"
+  "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
   :
   "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer"
   ;
