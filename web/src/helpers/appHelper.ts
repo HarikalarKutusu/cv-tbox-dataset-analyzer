@@ -8,11 +8,20 @@ import {
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "./tableHelper";
 
+
+// App Version
+import packageJson from "./../../package.json";
+export const appVersion: string = packageJson.version;
+export const isBeta: boolean = packageJson.version.endsWith("b");
+
 //
 // Static Data Api
 //
-export const ANALYZER_DATA_URL =
-  "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
+export const ANALYZER_DATA_URL = isBeta ?
+  "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
+  :
+  "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer"
+  ;
 export const CV_DATA_URL =
   "https://static.cv-toolbox.web.tr/public/cv-api-cache";
 

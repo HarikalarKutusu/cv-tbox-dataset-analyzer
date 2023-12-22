@@ -63,7 +63,7 @@ export const SupportMatrix = () => {
           onClick={() => handleNavigate(url)}
           variant="contained"
           color="secondary"
-          size="medium"
+          size="small"
           sx={{
             color: "#eee",
             textTransform: "none",

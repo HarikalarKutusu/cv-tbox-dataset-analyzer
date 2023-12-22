@@ -1,6 +1,6 @@
 {
   "name": "cv-toolbox-dataset-analyzer",
-  "version": "0.10.0",
+  "version": "0.11.0b",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
@@ -29,8 +29,9 @@
     "zustand": "^4.1.2"
   },
   "devDependencies": {
-    "@types/react-dom": "^18.0.10",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/file-saver": "^2.0.5",
+    "@types/react-dom": "^18.0.10",
     "@types/react-virtualized-auto-sizer": "^1.0.1",
     "customize-cra": "^1.0.0",
     "env-cmd": "^10.1.0",

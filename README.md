@@ -18,14 +18,15 @@ In this application, under each dataset, you may see results for multiple splitt
 
 - **s1**: Default splits in the distribution, same as using CorporaCreator with -s 1 option, i.e. only 1 recording per sentence is taken. This algorithm creates the most diverse test split and scientifically correct one. On the other hand, it mostly results in taking a small/smaller portion of the dataset, especially for low-resource languages. The training set is generally the least diverse and small, resulting in biasing (voice, gender, etc).
 - **s99**: CorporaCreator output with -s 99 option, i.e. up to 99 recordings per sentence are taken. This mostly results in taking the whole dataset, but for some languages, more than 100 sentences have been recorded. Although using the whole dataset, this does not guarantee the diversity in the train set either but gives better test results in models.
-- **v1**: An alternative adaptive algorithm proposed for Common Voice. It uses the whole dataset, ensures voice diversity in all splits, and you get better training results than the s99 algorithm. It is currently under development and ran on all languages but has only been tested with a few using Coqui STT. Currently, we are working on Whisper fine-tuning experiments (and testing new splitting algorithms). More data will be released later.
+- **v1**: ("Voice First") An alternative adaptive algorithm proposed for Common Voice. It uses the whole dataset, ensures voice diversity in all splits, and you get better training results than the s99 algorithm. It is currently under development and ran on all languages but has only been tested with a few using Coqui STT. Currently, we are working on Whisper fine-tuning experiments (and testing new splitting algorithms). More data will be released later.
+- **vw**: ("Voice first for Whisper") A version of v1 for better OpenAI Whisper fine-tuning, with 90-5-5% splits, keeping 25-25-50% diversity.
+- **vx**: ("Voice first for eXternal test") A version of v1 with 95-5-0% splits and 50-50-0% diversity, so no test split, where you can test your model against other datasets like Fleurs or Voxpopuli.
 
 ## Working Version
 
 A working (beta) version is here for your use: [Common Voice Dataset Analyzer](https://analyzer.cv-toolbox.web.tr) ([Beta Mirror](https://cv-dataset-analyzer.netlify.app/))
 
 ![analyzer-2](https://github.com/HarikalarKutusu/cv-tbox-dataset-analyzer/assets/8849617/439de45b-2f50-45d7-98ca-224c97f8305d)
-
 
 ## More
 

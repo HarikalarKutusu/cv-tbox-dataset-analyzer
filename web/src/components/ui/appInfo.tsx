@@ -1,5 +1,3 @@
-// App Version
-import packageJson from "./../../../package.json";
 // MUI
 import PollIcon from "@mui/icons-material/Poll";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -11,6 +9,8 @@ import {
   appGithubURL,
   appLicenseURL,
   ILoaderData,
+  appVersion,
+  isBeta
 } from "../../helpers/appHelper";
 
 import "./appInfo.css";
@@ -20,7 +20,6 @@ import { useLoaderData } from "react-router-dom";
 export const AppInfo = () => {
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
   const appDataDate = CONF ? CONF.date : "";
-  const appVersion = packageJson.version;
 
   return (
     <>
@@ -36,6 +35,7 @@ export const AppInfo = () => {
         }}
       >
         <div>
+          {isBeta ? <h2 style={{textAlign: "center"}}>BETA</h2> : <p></p>}
           <div className="appinfo-vcenter">
             <>
               <PollIcon />
