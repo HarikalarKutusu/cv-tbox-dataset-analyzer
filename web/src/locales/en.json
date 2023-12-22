@@ -208,8 +208,8 @@
   "homepage.about.li1": "<strong>s1</strong>: Default splits in the Common Voice distribution datasets, same as using CorporaCreator with -s 1 option, i.e. only 1 recording per sentence is taken. This algorithm creates most diverse test split and scientifically most correct one. On the other hand it mostly results in taking a small/smaller portion of the dataset, especially for low resource languages. The training set is generally least diverse and small, resulting in biasing (voice, gender etc).",
   "homepage.about.li2": "<strong>s99</strong>: CorporaCreator output with -s 99 option, i.e. up to 99 recordings per sentence are taken. This mostly results in taking the whole dataset; but for some languages, more than 100 sentences have been recorded. Although using the whole dataset, it does not guarantie the diversity in train set either, but gives better test results in models.",
   "homepage.about.li3": "<strong>v1</strong>: An alternative adaptive algorithm proposed for Common Voice. It uses the whole dataset, ensures voice diversity in all splits, and you get better training results than s99 algorithm. It is currently under development, ran on all languages but only tested with a few using Coqui STT.",
-  "homepage.about.li4": "<strong>vw</strong>: A version of v1 for better Whisper fine-tuning, with 90-5-5% splits.",
-  "homepage.about.li5": "<strong>vx</strong>: A version of v1 with 95-5-0 splits, so no test split, where you can test your model against other datasets like Fleurs or Voxpopuli.",
+  "homepage.about.li4": "<strong>vw</strong>: A version of v1 for better OpenAI Whisper fine-tuning, with 90-5-5% splits, keeping 25-25-50% diversity.",
+  "homepage.about.li5": "<strong>vx</strong>: A version of v1 with 95-5-0% splits and 50-50-0% diversity, so no test split, where you can test your model against other datasets like Fleurs or Voxpopuli.",
   "homepage.about.p5": "Now, as you know what this is about, you can start browsing the provided datasets by clicking the button below, or using the left hand menu.",
   "homepage.button.browse": "Start Browsing",
 
