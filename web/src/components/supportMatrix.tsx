@@ -125,7 +125,7 @@ export const SupportMatrix = () => {
         name: "v16.0",
         center: true,
         width: "70px",
-        cell: (row) => <VersionCell lc={row.lc} ver="16.0" algos={row.v15_0} />,
+        cell: (row) => <VersionCell lc={row.lc} ver="16.0" algos={row.v16_0} />,
       },
       {
         id: "v15_0",
