@@ -150,7 +150,7 @@ export const ExaminePage = () => {
         <h3>
           {intl.get("examinepage.title") + titleAddition}
           {"   "}
-          <SplitDownloadLinks algos={algos} />
+          {/* <SplitDownloadLinks algos={algos} /> */}
         </h3>
       </Box>
       <Box sx={{ width: "100%" }}>
