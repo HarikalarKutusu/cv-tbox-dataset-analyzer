@@ -3,6 +3,7 @@ import intl from "react-intl-universal";
 // common locale data
 import "intl/locale-data/jsonp/en";
 import "intl/locale-data/jsonp/tr";
+import "intl/locale-data/jsonp/ca";
 // app locale data (translated strings)
 import msgCA from "./../locales/ca.json";
 import msgEN from "./../locales/en.json";
