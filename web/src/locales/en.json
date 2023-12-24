@@ -215,6 +215,7 @@
 
   "browsepage.title": "Dataset Browser",
   "browsepage.p1": "Select your language and dataset version to examine.",
+  "browsepage.button.older": "Show/hide older datasets",
 
   "examinepage.title": "Dataset Analyze",
   "examinepage.tab.general": "General",

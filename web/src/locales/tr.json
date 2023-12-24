@@ -205,6 +205,7 @@
 
   "browsepage.title": "Veri Seti Tarayıcısı",
   "browsepage.p1": "İncelemek için dil ve veri seti sürümünü seçiniz.",
+  "browsepage.button.older": "Eski veri setlerini göster/gizle",
 
   "examinepage.title": "Veri Seti Analizi",
   "examinepage.tab.general": "Genel",

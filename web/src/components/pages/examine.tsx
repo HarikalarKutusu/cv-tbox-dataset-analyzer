@@ -62,35 +62,35 @@ export const ExaminePage = () => {
   const supportMatrix = loaderData.supportMatrix;
   const cvLanguages = loaderData.cvLanguages;
 
-  interface SplitDownloadLinksProps {
-    algos: string[];
-  }
+  // interface SplitDownloadLinksProps {
+  //   algos: string[];
+  // }
 
-  const SplitDownloadLinks = (props: SplitDownloadLinksProps): JSX.Element => {
-    const { algos } = props;
-    const dlLinkBase = `${ANALYZER_DATA_URL}/${lc}/${lc}_${ver}_`;
-    return (
-      <>
-        {algos.map((algo) => (
-          <a
-            href={dlLinkBase + algo + ".tar.xz"}
-            download
-            key={algo}
-            style={{ textDecoration: "none" }}
-          >
-            <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
-              <DownloadForOfflineIcon
-                sx={{ color: "#f0f0f0", cursor: "grab" }}
-              />{" "}
-              <span style={{ color: "#f0f0f0", textTransform: "none" }}>
-                {algo}
-              </span>
-            </Button>
-          </a>
-        ))}
-      </>
-    );
-  };
+  // const SplitDownloadLinks = (props: SplitDownloadLinksProps): JSX.Element => {
+  //   const { algos } = props;
+  //   const dlLinkBase = `${ANALYZER_DATA_URL}/${lc}/${lc}_${ver}_`;
+  //   return (
+  //     <>
+  //       {algos.map((algo) => (
+  //         <a
+  //           href={dlLinkBase + algo + ".tar.xz"}
+  //           download
+  //           key={algo}
+  //           style={{ textDecoration: "none" }}
+  //         >
+  //           <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
+  //             <DownloadForOfflineIcon
+  //               sx={{ color: "#f0f0f0", cursor: "grab" }}
+  //             />{" "}
+  //             <span style={{ color: "#f0f0f0", textTransform: "none" }}>
+  //               {algo}
+  //             </span>
+  //           </Button>
+  //         </a>
+  //       ))}
+  //     </>
+  //   );
+  // };
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -150,7 +150,7 @@ export const ExaminePage = () => {
         <h3>
           {intl.get("examinepage.title") + titleAddition}
           {"   "}
-          <SplitDownloadLinks algos={algos} />
+          {/* <SplitDownloadLinks algos={algos} /> */}
         </h3>
       </Box>
       <Box sx={{ width: "100%" }}>

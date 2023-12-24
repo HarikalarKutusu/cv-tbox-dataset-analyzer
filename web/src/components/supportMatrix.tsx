@@ -1,10 +1,11 @@
 // React
-import { memo } from "react";
+import { memo, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -25,6 +26,8 @@ import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
 export const SupportMatrix = () => {
   const { initDone, versionFilter, languageFilter } = useStore();
+  const [showOlder, setShowOlder] = useState(true);
+
   const navigate = useNavigate();
 
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
@@ -121,6 +124,13 @@ export const SupportMatrix = () => {
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
+        id: "v16_0",
+        name: "v16.0",
+        center: true,
+        width: "70px",
+        cell: (row) => <VersionCell lc={row.lc} ver="16.0" algos={row.v16_0} />,
+      },
+      {
         id: "v15_0",
         name: "v15.0",
         center: true,
@@ -167,6 +177,7 @@ export const SupportMatrix = () => {
         name: "v9.0",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="9.0" algos={row.v9_0} />,
       },
       {
@@ -174,6 +185,7 @@ export const SupportMatrix = () => {
         name: "v8.0",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="8.0" algos={row.v8_0} />,
       },
       {
@@ -181,6 +193,7 @@ export const SupportMatrix = () => {
         name: "v7.0",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="7.0" algos={row.v7_0} />,
       },
       {
@@ -188,6 +201,7 @@ export const SupportMatrix = () => {
         name: "v6.1",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="6.1" algos={row.v6_1} />,
       },
       {
@@ -195,6 +209,7 @@ export const SupportMatrix = () => {
         name: "v5.1",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="5.1" algos={row.v5_1} />,
       },
       {
@@ -202,6 +217,7 @@ export const SupportMatrix = () => {
         name: "v4",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="4" algos={row.v4} />,
       },
       {
@@ -209,6 +225,7 @@ export const SupportMatrix = () => {
         name: "v3",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="3" algos={row.v3} />,
       },
       {
@@ -216,6 +233,7 @@ export const SupportMatrix = () => {
         name: "v1",
         center: true,
         width: "70px",
+        omit: showOlder,
         cell: (row) => <VersionCell lc={row.lc} ver="1" algos={row.v1} />,
       },
     ];
@@ -256,10 +274,31 @@ export const SupportMatrix = () => {
     return res;
   };
 
+  const ToggleOldVersions = (): JSX.Element => {
+    return (
+      <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
+        <ReadMoreIcon
+          sx={{ color: "#f0f0f0", cursor: "e-resize" }}
+        />{" "}
+      </Button>
+    );
+  };
+
   return !supportMatrix || !initDone ? (
     <div>...</div>
   ) : (
     <>
+      <Box>
+        <h3>
+          {intl.get("browsepage.title")}
+          {"   "}
+          <Button variant="contained" color="secondary" title={intl.get("browsepage.button.older")} sx={{ mr: 1 }} onClick={() => setShowOlder(!showOlder) }>
+            <ReadMoreIcon
+              sx={{ color: "#f0f0f0", cursor: "e-resize" }}
+            />{" "}
+          </Button>
+        </h3>
+      </Box>
       <DataTable
         columns={getColumns()}
         data={applyFilters(supportMatrix)}
@@ -270,7 +309,7 @@ export const SupportMatrix = () => {
         paginationPerPage={10}
         paginationComponentOptions={paginationComponentOptions}
         highlightOnHover
-        title={intl.get("browsepage.title")}
+        // title={intl.get("browsepage.title")}
         direction={Direction.AUTO}
         defaultSortFieldId={0}
         persistTableHead
