@@ -124,11 +124,11 @@ export const SupportMatrix = () => {
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
-        id: "v16_0",
-        name: "v16.0",
+        id: "v16_1",
+        name: "v16.1",
         center: true,
         width: "70px",
-        cell: (row) => <VersionCell lc={row.lc} ver="16.0" algos={row.v16_0} />,
+        cell: (row) => <VersionCell lc={row.lc} ver="16.1" algos={row.v16_0} />,
       },
       {
         id: "v15_0",
