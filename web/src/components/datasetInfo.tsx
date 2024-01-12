@@ -34,7 +34,7 @@ import {
   TABLE_STYLE,
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
-//  DATASET_INFO_VIEW_TYPES,
+  //  DATASET_INFO_VIEW_TYPES,
   downloadCSV,
 } from "../helpers/tableHelper";
 
@@ -56,7 +56,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
   const { initDone } = useStore();
   const { langCode } = useStore();
 
-  const { selectedDataset, setSelectedDataset } = useStore();
+  const { selectedLanguage, setSelectedLanguage } = useStore();
+  const { selectedVersion, setSelectedVersion } = useStore();
   const { datasetInfo, setDatasetInfo } = useStore();
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
@@ -463,7 +464,15 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         ];
         break;
       case "voices":
-        res = [col_alg, col_sp, col_dur_total, col_uq_v, col_v_avg, col_v_med, col_v_std];
+        res = [
+          col_alg,
+          col_sp,
+          col_dur_total,
+          col_uq_v,
+          col_v_avg,
+          col_v_med,
+          col_v_std,
+        ];
         break;
       case "gender":
         res = [
@@ -795,12 +804,18 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
   const exportCVSDatasetMemo = useMemo(
     () => (
       <DownloadForOfflineIcon
-        onClick={() => downloadCSV(datasetInfo!, "cv-dataset", selectedDataset)}
+        onClick={() =>
+          downloadCSV(
+            datasetInfo!,
+            "cv-dataset",
+            selectedLanguage + "_" + selectedVersion,
+          )
+        }
         color="secondary"
         sx={{ cursor: "grab" }}
       />
     ),
-    [datasetInfo, selectedDataset],
+    [datasetInfo, selectedLanguage, selectedVersion],
   );
 
   useEffect(() => {
@@ -808,7 +823,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
     const reqds = lc + "_" + ver;
 
     // check if it is the same, if not, we need to reload a new one
-    if (reqds !== selectedDataset) {
+    if (lc !== selectedLanguage || ver !== selectedVersion) {
       setDatasetInfo(undefined);
       // make sure data is ready
       if (!datasetInfo) {
@@ -858,7 +873,8 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               result.push(row);
             });
             result = calcCalculatedFields(result);
-            setSelectedDataset(reqds);
+            setSelectedLanguage(lc);
+            setSelectedVersion(ver);
             setDatasetInfo(result);
           });
       }
@@ -866,10 +882,12 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
   }, [
     datasetInfo,
     lc,
-    selectedDataset,
-    setDatasetInfo,
-    setSelectedDataset,
     ver,
+    setDatasetInfo,
+    selectedLanguage,
+    setSelectedLanguage,
+    selectedVersion,
+    setSelectedVersion,
   ]);
 
   if (!lc || !ver) {

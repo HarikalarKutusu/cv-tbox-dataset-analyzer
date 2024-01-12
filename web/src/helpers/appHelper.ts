@@ -4,7 +4,7 @@
 import { CV_LANGUAGE_ROW } from "./cvHelper";
 import {
   SUPPORT_MATRIX_ROW_TYPE,
-  REPORTED_STATS_ROW_TYPE,
+  // REPORTED_STATS_ROW_TYPE,
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "./tableHelper";
 
@@ -31,7 +31,7 @@ export interface ILoaderData {
   analyzerConfig: CONFIG_TYPE | null;
   supportMatrix: SUPPORT_MATRIX_ROW_TYPE[] | null;
   textCorpusStats?: TEXT_CORPUS_STATS_ROW_TYPE[] | null;
-  reportedSentencesStats?: REPORTED_STATS_ROW_TYPE[] | null;
+  // reportedSentencesStats?: REPORTED_STATS_ROW_TYPE[] | null;
 }
 
 // config

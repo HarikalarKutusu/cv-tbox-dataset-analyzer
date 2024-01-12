@@ -37,7 +37,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const { initDone } = useStore();
   const { langCode } = useStore();
 
-  const { selectedDataset } = useStore();
+  const { selectedLanguage, selectedVersion } = useStore();
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
   const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
@@ -159,7 +159,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
             downloadCSV(
               new Array<TEXT_CORPUS_STATS_ROW_TYPE>(textCorpusRec!),
               "cv-dataset-text-corpus",
-              selectedDataset,
+              selectedLanguage + "_" + selectedVersion,
             )
           }
           color="secondary"

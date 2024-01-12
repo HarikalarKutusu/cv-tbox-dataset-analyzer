@@ -37,7 +37,7 @@ export const FreqTable = (props: IFreqTableProps) => {
   } = props;
 
   const { langCode } = useStore();
-  const { selectedDataset } = useStore();
+  const { selectedLanguage, selectedVersion } = useStore();
 
   let tableData: IFreqTableRow[];
 
@@ -116,14 +116,14 @@ export const FreqTable = (props: IFreqTableProps) => {
           downloadCSV(
             tableData!,
             "cv-dataset-freq-dist-" + cleanFn(subTitle),
-            selectedDataset,
+            selectedLanguage + "_" + selectedVersion,
           )
         }
         color="primary"
         sx={{ cursor: "grab" }}
       />
     ),
-    [selectedDataset, subTitle, tableData],
+    [selectedLanguage, selectedVersion, subTitle, tableData],
   );
 
   return !values || values.length !== bins.length ? (

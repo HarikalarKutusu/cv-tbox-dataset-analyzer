@@ -39,7 +39,7 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
   const { view } = props;
   const { initDone } = useStore();
   const { datasetInfo } = useStore();
-  const { selectedDataset } = useStore();
+  const { selectedLanguage, selectedVersion } = useStore();
   // const { versionFilter, languageFilter } = useStore();
 
   const [gEnable, setGEnable] = useState<boolean>(false);
@@ -112,8 +112,8 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
   const AppCrossTabGraph = (props: ICrossTabGraphProps) => {
     const { data, gd, cnt } = props;
     const [dataReady, setDataReady] = useState<boolean>(false);
-    const lc = selectedDataset.split("_")[0];
-    const ver = selectedDataset.split("_")[1];
+    const lc = selectedLanguage;
+    const ver = selectedVersion;
 
     useEffect(() => {
       if (data && data.length > 0) {
@@ -188,8 +188,8 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
 
   const AppDatasetGraph = (props: IDatasetGraphProps) => {
     const { data, gd, cnt } = props;
-    const lc = selectedDataset.split("_")[0];
-    const ver = selectedDataset.split("_")[1];
+    const lc = selectedLanguage;
+    const ver = selectedVersion;
     return (
       <>
         {gd.type === "bar" ? (
