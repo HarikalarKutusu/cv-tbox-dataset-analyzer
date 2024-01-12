@@ -55,20 +55,20 @@ function App() {
       analyzerConfig,
       supportMatrix,
       textCorpusStats,
-      reportedSentencesStats,
+      // reportedSentencesStats,
     ] = await Promise.all([
       genericLoader(`${CV_DATA_URL}/$cv_languages.json`),
       genericLoader(`${ANALYZER_DATA_URL}/$config.json`),
       genericLoader(`${ANALYZER_DATA_URL}/$support_matrix.json`),
       genericLoader(`${ANALYZER_DATA_URL}/$text_corpus_stats.json`),
-      genericLoader(`${ANALYZER_DATA_URL}/$reported.json`),
+      // genericLoader(`${ANALYZER_DATA_URL}/$reported.json`),
     ]);
     const loaderData: ILoaderData = {
       cvLanguages: cvLanguages,
       analyzerConfig: analyzerConfig ? analyzerConfig[0] : null,
       supportMatrix: supportMatrix,
       textCorpusStats: textCorpusStats,
-      reportedSentencesStats: reportedSentencesStats,
+      // reportedSentencesStats: reportedSentencesStats,
     };
     return loaderData;
   };
