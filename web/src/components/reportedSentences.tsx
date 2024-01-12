@@ -12,7 +12,7 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
-import { ILoaderData } from "../helpers/appHelper";
+import { ANALYZER_DATA_URL, ILoaderData } from "../helpers/appHelper";
 import {
   convertStrList,
   downloadCSV,
@@ -22,6 +22,7 @@ import {
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
 import { useLoaderData } from "react-router-dom";
+import axios from "axios";
 
 //
 // JSX
@@ -37,7 +38,9 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
 
   const { initDone } = useStore();
   const { langCode } = useStore();
-  const { selectedDataset } = useStore();
+  const { selectedLanguage, setSelectedLanguage } = useStore();
+  const { selectedVersion } = useStore();
+  const { reportedSentences, setReportedSentences } = useStore();
 
   const [reportedSRec, setReportedSRec] = useState<
     REPORTED_STATS_ROW_TYPE | undefined
@@ -46,8 +49,8 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
   const [binsReasons, setBinsReasons] = useState<string[]>([]);
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
-  const reportedSStats = (useLoaderData() as ILoaderData)
-    .reportedSentencesStats;
+  // const reportedSStats = (useLoaderData() as ILoaderData)
+  //   .reportedSentencesStats;
 
   const MeasureValueTable = () => {
     let tbl: IMeasureValueTable[] = [];
@@ -99,7 +102,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
             downloadCSV(
               new Array<REPORTED_STATS_ROW_TYPE>(reportedSRec!),
               "cv-dataset-reported-sentences",
-              selectedDataset,
+              selectedLanguage + "_" + selectedVersion,
             )
           }
           color="secondary"
@@ -137,28 +140,56 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
 
   // Pre-process if needed (if just loaded)
   useEffect(() => {
-    if (reportedSStats && typeof reportedSStats[0].rep_freq === "string") {
-      reportedSStats.forEach((row, i) => {
-        reportedSStats[i].rep_freq = convertStrList(row.rep_freq as string);
-        reportedSStats[i].rea_freq = convertStrList(row.rea_freq as string);
-      });
-    }
-    if (reportedSStats && !reportedSRec) {
-      const recs = reportedSStats.filter(
+    if (!reportedSentences || lc !== selectedLanguage) {
+      const url = `${ANALYZER_DATA_URL}/${lc}/$reported.json`;
+      axios
+        .get(url, { headers: { "Content-Type": "application/json" } })
+        .then((response) => {
+          const data: REPORTED_STATS_ROW_TYPE[] = response.data.data;
+          let result: REPORTED_STATS_ROW_TYPE[] = [];
+          data.forEach((row) => {
+            if (typeof row.rep_freq === "string") {
+              row.rep_freq = convertStrList(row.rep_freq as string);
+              row.rea_freq = convertStrList(row.rea_freq as string);
+            }
+            result.push(row);
+          });
+          setReportedSentences(result);
+          setSelectedLanguage(lc);
+        }); // exios
+    } // if
+
+    // If loaded and (record not selected or version changed)
+    if (reportedSentences && (!reportedSRec || ver !== selectedVersion)) {
+      const recs: REPORTED_STATS_ROW_TYPE[] = reportedSentences.filter(
         (row) => row.ver === ver && row.lc === lc,
       );
       // might not have reported sentences
       if (recs.length === 1) {
-        setReportedSRec(recs[0]);
+        const rec: REPORTED_STATS_ROW_TYPE = recs[0];
+        setReportedSRec(rec);
+      } else {
+        setReportedSRec(undefined);
       }
     }
-  }, [lc, reportedSRec, reportedSStats, ver]);
+  }, [
+    lc,
+    ver,
+    selectedLanguage,
+    setSelectedLanguage,
+    selectedVersion,
+    reportedSentences,
+    setReportedSentences,
+    reportedSRec,
+    setReportedSRec,
+  ]);
 
   if (!lc || !ver) {
     return <div>Error in parameters.</div>;
   }
 
-  if (!reportedSRec || !initDone || !CONF || !reportedSStats) return <>...</>;
+  if (!initDone || !CONF || !reportedSentences || !reportedSRec)
+    return <>...</>;
 
   let cnt: number = 0;
 
