@@ -2,7 +2,10 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
 
 // App
-import { DATASET_INFO_ROW_TYPE } from "../helpers/tableHelper";
+import {
+  DATASET_INFO_ROW_TYPE,
+  REPORTED_STATS_ROW_TYPE,
+} from "../helpers/tableHelper";
 
 import { LanguageCodesType, DEFAULT_UI_LOCALE } from "../helpers/localeHelper";
 
@@ -23,14 +26,22 @@ export type StoreType = {
   datasetInfo: DATASET_INFO_ROW_TYPE[] | undefined;
   setDatasetInfo: (data: DATASET_INFO_ROW_TYPE[] | undefined) => void;
 
+  // Reported Sentences data for selected language(lc)
+  reportedSentences: REPORTED_STATS_ROW_TYPE[] | undefined;
+  setReportedSentences: (data: REPORTED_STATS_ROW_TYPE[] | undefined) => void;
+
   //
   // Smaller Data
   //
 
+  // Which Language (lc) is selected?
+  selectedLanguage: string | undefined;
+  setSelectedLanguage: (lc: string | undefined) => void;
+
   // Which Dataset is selected? Kept in "<lc>_<ver>" format
   // TODO : Expand to multiple datasets for comparison
-  selectedDataset: string;
-  setSelectedDataset: (dsver: string) => void;
+  selectedVersion: string | undefined;
+  setSelectedVersion: (ver: string | undefined) => void;
 
   // selected version filter
   versionFilter: string[];
@@ -60,15 +71,25 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     datasetInfo: undefined,
     setDatasetInfo: (data) => set((state) => ({ ...state, datasetInfo: data })),
 
+    // Reported Sentences
+    reportedSentences: undefined,
+    setReportedSentences: (data) =>
+      set((state) => ({ ...state, reportedSentences: data })),
+
     //
     // Smaller Data
     //
 
+    // Which Language (lc) is selected?
+    selectedLanguage: "",
+    setSelectedLanguage: (lc) =>
+      set((state) => ({ ...state, selectedLanguage: lc })),
+
     // Which Dataset is selected? Kept in "<lc>_<ver>" format
     // TODO : Expand to multiple datasets for comparison
-    selectedDataset: "",
-    setSelectedDataset: (dsver) =>
-      set((state) => ({ ...state, selectedDataset: dsver })),
+    selectedVersion: "",
+    setSelectedVersion: (ver) =>
+      set((state) => ({ ...state, selectedVersion: ver })),
 
     // selected version filter
     versionFilter: [],
