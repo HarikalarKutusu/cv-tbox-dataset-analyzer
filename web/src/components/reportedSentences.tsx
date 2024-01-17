@@ -1,5 +1,7 @@
 // React
 import { memo, useEffect, useMemo, useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -21,8 +23,6 @@ import {
   REPORTED_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { useLoaderData } from "react-router-dom";
-import axios from "axios";
 
 //
 // JSX
