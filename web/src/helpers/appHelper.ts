@@ -2,12 +2,7 @@
 // App related / app-wide stuff
 //
 import { CV_LANGUAGE_ROW } from "./cvHelper";
-import {
-  SUPPORT_MATRIX_ROW_TYPE,
-  // REPORTED_STATS_ROW_TYPE,
-  TEXT_CORPUS_STATS_ROW_TYPE,
-} from "./tableHelper";
-
+import { SUPPORT_MATRIX_ROW_TYPE } from "./tableHelper";
 
 // App Version
 import packageJson from "./../../package.json";
@@ -17,11 +12,9 @@ export const isBeta: boolean = packageJson.version.endsWith("b");
 //
 // Static Data Api
 //
-export const ANALYZER_DATA_URL = isBeta ?
-  "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
-  :
-  "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer"
-  ;
+export const ANALYZER_DATA_URL = isBeta
+  ? "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
+  : "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
 export const CV_DATA_URL =
   "https://static.cv-toolbox.web.tr/public/cv-api-cache";
 
@@ -30,8 +23,6 @@ export interface ILoaderData {
   cvLanguages: CV_LANGUAGE_ROW[] | null;
   analyzerConfig: CONFIG_TYPE | null;
   supportMatrix: SUPPORT_MATRIX_ROW_TYPE[] | null;
-  textCorpusStats?: TEXT_CORPUS_STATS_ROW_TYPE[] | null;
-  // reportedSentencesStats?: REPORTED_STATS_ROW_TYPE[] | null;
 }
 
 // config
