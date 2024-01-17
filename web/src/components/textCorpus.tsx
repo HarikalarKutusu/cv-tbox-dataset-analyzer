@@ -1,5 +1,7 @@
 // React
 import { memo, useEffect, useMemo, useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -12,7 +14,7 @@ import DataTable, { Direction, TableColumn } from "react-data-table-component";
 import { useStore } from "../stores/store";
 
 // App
-import { ILoaderData } from "./../helpers/appHelper";
+import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import {
   convertStrList,
   downloadCSV,
@@ -21,26 +23,28 @@ import {
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { useLoaderData } from "react-router-dom";
 
 //
 // JSX
 //
 
 export type TextCorpusProps = {
+  ver?: string;
   lc?: string;
 };
 
 export const TextCorpus = (props: TextCorpusProps) => {
-  const { lc } = props;
+  const { ver, lc } = props;
 
   const { initDone } = useStore();
   const { langCode } = useStore();
 
-  const { selectedLanguage, selectedVersion } = useStore();
+  const { selectedLanguage, setSelectedLanguage } = useStore();
+  const { selectedVersion } = useStore();
+  const { textCorpusStats, setTextCorpusStats } = useStore();
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
-  const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
+  // const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
 
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
@@ -186,16 +190,31 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   // Pre-process if needed (if just loaded)
   useEffect(() => {
-    if (textCorpusStats && typeof textCorpusStats[0].c_freq === "string") {
-      textCorpusStats.forEach((row, i) => {
-        textCorpusStats[i].c_freq = convertStrList(row.c_freq as string);
-        textCorpusStats[i].w_freq = convertStrList(row.w_freq as string);
-        textCorpusStats[i].t_freq = convertStrList(row.t_freq as string);
-      });
-    }
-    if (textCorpusStats && !textCorpusRec)
-      setTextCorpusRec(textCorpusStats.filter((row) => row.lc === lc)[0]);
-  }, [lc, setTextCorpusRec, textCorpusRec, textCorpusStats]);
+    if (!textCorpusStats || lc !== selectedLanguage) {
+      const url = `${ANALYZER_DATA_URL}/${lc}/$text_corpus_stats.json`;
+      axios
+        .get(url, { headers: { "Content-Type": "application/json" } })
+        .then((response) => {
+          const data: TEXT_CORPUS_STATS_ROW_TYPE[] = response.data.data;
+          let result: TEXT_CORPUS_STATS_ROW_TYPE[] = [];
+          data.forEach((row) => {
+            if (typeof row.c_freq === "string") {
+              row.c_freq = convertStrList(row.c_freq as string);
+              row.w_freq = convertStrList(row.w_freq as string);
+              row.t_freq = convertStrList(row.t_freq as string);
+            }
+            result.push(row);
+          });
+          setTextCorpusStats(result);
+          setSelectedLanguage(lc);
+        }); // exios
+    } // if
+
+    if (textCorpusStats && (!textCorpusRec || ver !== selectedVersion))
+      setTextCorpusRec(
+        textCorpusStats.filter((row) => row.lc === lc && row.ver === ver)[0],
+      );
+  }, [ver, lc, selectedLanguage, setSelectedLanguage, textCorpusRec, setTextCorpusRec, textCorpusStats, setTextCorpusStats, selectedVersion]);
 
   if (!lc) return <div>Error in parameters.</div>;
 
