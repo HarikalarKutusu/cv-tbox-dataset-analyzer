@@ -170,6 +170,7 @@ export type CROSSTAB_ROW_TYPE = {
 //======================================
 
 export type TEXT_CORPUS_STATS_ROW_TYPE = {
+  ver: string;
   lc: string;
   s_cnt: number;
   uq_s: number;

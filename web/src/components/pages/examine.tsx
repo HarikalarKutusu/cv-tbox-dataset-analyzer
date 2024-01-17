@@ -230,7 +230,8 @@ export const ExaminePage = () => {
         </TabPanel>
         {/* text-corpus */}
         <TabPanel value={tabValue} index={7}>
-          <TextCorpusMemo lc={lc} />
+          {/* <TextCorpusMemo lc={lc} ver={ver} /> */}
+          <TextCorpusMemo lc={lc} ver="16.1" />
         </TabPanel>
         {/* Reported Sentences */}
         <TabPanel value={tabValue} index={8}>

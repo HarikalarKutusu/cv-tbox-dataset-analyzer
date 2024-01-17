@@ -5,6 +5,7 @@ import { create, StoreApi, UseBoundStore } from "zustand";
 import {
   DATASET_INFO_ROW_TYPE,
   REPORTED_STATS_ROW_TYPE,
+  TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 
 import { LanguageCodesType, DEFAULT_UI_LOCALE } from "../helpers/localeHelper";
@@ -29,6 +30,10 @@ export type StoreType = {
   // Reported Sentences data for selected language(lc)
   reportedSentences: REPORTED_STATS_ROW_TYPE[] | undefined;
   setReportedSentences: (data: REPORTED_STATS_ROW_TYPE[] | undefined) => void;
+
+  // Text Corpus data for selected language(lc)
+  textCorpusStats: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined;
+  setTextCorpusStats: (data: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined) => void;
 
   //
   // Smaller Data
@@ -75,6 +80,11 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     reportedSentences: undefined,
     setReportedSentences: (data) =>
       set((state) => ({ ...state, reportedSentences: data })),
+
+    // Text Corpus Stats
+    textCorpusStats: undefined,
+    setTextCorpusStats: (data) =>
+      set((state) => ({ ...state, textCorpusStats: data })),
 
     //
     // Smaller Data

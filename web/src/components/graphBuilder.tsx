@@ -1,6 +1,5 @@
 // react
 import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI
@@ -8,7 +7,6 @@ import { Container, Grid, Paper } from "@mui/material";
 
 // App
 import { useStore } from "./../stores/store";
-import { ILoaderData } from "../helpers/appHelper";
 import {
   DATASET_INFO_ROW_TYPE,
   CROSSTAB_ROW_TYPE,
@@ -45,8 +43,6 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
   const [gEnable, setGEnable] = useState<boolean>(false);
   const [gData, setGData] = useState<DATASET_INFO_ROW_TYPE[]>();
   const [viewGraphs, setViewGraphs] = useState<GRAPH_VIEW_TYPE[]>();
-
-  const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
 
   const getSeriesNames = (lst: string[]) => {
     let res: string[] = [];
@@ -261,7 +257,7 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
     } else {
       setGEnable(false);
     }
-  }, [datasetInfo, view, textCorpusStats]);
+  }, [datasetInfo, view]);
 
   return !datasetInfo || !initDone || !viewGraphs || !gEnable ? (
     <>...</>
