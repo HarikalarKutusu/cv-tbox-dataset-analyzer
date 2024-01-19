@@ -5,11 +5,13 @@ import { useLoaderData, useParams } from "react-router-dom";
 import intl from "react-intl-universal";
 // MUI
 // import Typography from "@mui/material/Typography";
-import { Box, Button, Tab, Tabs } from "@mui/material";
-import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+// import { Box, Button, Tab, Tabs } from "@mui/material";
+// import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import { Box, Tab, Tabs } from "@mui/material";
 
 // App
-import { ANALYZER_DATA_URL, ILoaderData } from "../../helpers/appHelper";
+// import { ANALYZER_DATA_URL, ILoaderData } from "../../helpers/appHelper";
+import { ILoaderData } from "../../helpers/appHelper";
 import {
   DATASET_INFO_VIEW_TYPES,
   SEP_ALGO,
@@ -230,8 +232,7 @@ export const ExaminePage = () => {
         </TabPanel>
         {/* text-corpus */}
         <TabPanel value={tabValue} index={7}>
-          {/* <TextCorpusMemo lc={lc} ver={ver} /> */}
-          <TextCorpusMemo lc={lc} ver="16.1" />
+          <TextCorpusMemo lc={lc} ver={ver} />
         </TabPanel>
         {/* Reported Sentences */}
         <TabPanel value={tabValue} index={8}>

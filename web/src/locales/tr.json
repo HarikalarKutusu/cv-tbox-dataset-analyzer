@@ -40,6 +40,7 @@
 
   "col.measure": "Ölçüt",
   "col.value": "Değer",
+  "col.symbol": "Sembol",
 
   "col.version": "Sürüm",
   "col.date": "Tarih",
@@ -188,9 +189,11 @@
   "tbl.reported_freq": "Cümle Başına Raporlama",
   "tbl.reported_reasons_freq": "Raporlama Nedenleri",
 
-  "col.character_distribution": "Uzunluk/Cümle Dağılımı",
-  "col.word_distribution": "Kelime/Cümle Dağılımı",
-  "col.token_distribution": "Kelime Sıklığı Dağılımı",
+  "tbl.character_distribution": "Uzunluk/Cümle Dağılımı",
+  "tbl.word_distribution": "Kelime/Cümle Dağılımı",
+  "tbl.token_distribution": "Kelime Sıklığı Dağılımı",
+  "tbl.graphemes": "Grafemler",
+  "tbl.phonemes": "Sesbirimler",
 
   "graph.subtitle.age_groups": "Yaş gruplarında kayıt yüzdesi",
   "graph.subtitle.age_group_0_39": "0-39 yaş grubunda kayıt yüzdesi",

@@ -16,13 +16,15 @@ import { useStore } from "../stores/store";
 // App
 import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import {
-  convertStrList,
+  convertStr2NumList,
+  convertStr2StrArr,
   downloadCSV,
-  IMeasureValueTable,
+  IMeasureValueTableRow,
   TABLE_STYLE,
   TEXT_CORPUS_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
+import { Grid, Paper } from "@mui/material";
 
 //
 // JSX
@@ -43,15 +45,14 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const { selectedVersion } = useStore();
   const { textCorpusStats, setTextCorpusStats } = useStore();
 
-  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
-  // const textCorpusStats = (useLoaderData() as ILoaderData).textCorpusStats;
-
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
 
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+
   const MeasureValueTable = () => {
-    let tbl: IMeasureValueTable[] = [];
+    let tbl: IMeasureValueTableRow[] = [];
     if (textCorpusRec) {
       tbl = [
         {
@@ -140,19 +141,20 @@ export const TextCorpus = (props: TextCorpusProps) => {
       ];
     }
 
-    const columns: TableColumn<IMeasureValueTable>[] = [
+    const measureTableColumns: TableColumn<IMeasureValueTableRow>[] = [
       {
         id: "measure",
         name: intl.get("col.measure"),
         width: "300px",
-        selector: (row: IMeasureValueTable) => row.measure,
+        selector: (row: IMeasureValueTableRow) => row.measure,
       },
       {
         id: "val",
         name: intl.get("col.value"),
         right: true,
         width: "100px",
-        selector: (row: IMeasureValueTable) => row.val.toLocaleString(langCode),
+        selector: (row: IMeasureValueTableRow) =>
+          row.val.toLocaleString(langCode),
       },
     ];
 
@@ -175,7 +177,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
     return (
       <DataTable
-        columns={columns}
+        columns={measureTableColumns}
         data={tbl}
         title={intl.get("examinepage.tab.text-corpus")}
         responsive
@@ -199,9 +201,17 @@ export const TextCorpus = (props: TextCorpusProps) => {
           let result: TEXT_CORPUS_STATS_ROW_TYPE[] = [];
           data.forEach((row) => {
             if (typeof row.c_freq === "string") {
-              row.c_freq = convertStrList(row.c_freq as string);
-              row.w_freq = convertStrList(row.w_freq as string);
-              row.t_freq = convertStrList(row.t_freq as string);
+              row.c_freq = convertStr2NumList(row.c_freq as string);
+              row.w_freq = convertStr2NumList(row.w_freq as string);
+              row.t_freq = convertStr2NumList(row.t_freq as string);
+              if (row.g_freq !== "" && row.g_freq !== undefined)
+                row.g_freq = convertStr2StrArr(
+                  row.g_freq as string,
+                ) as unknown as string[][];
+              if (row.p_freq !== "" && row.p_freq !== undefined)
+                row.p_freq = convertStr2StrArr(
+                  row.p_freq as string,
+                ) as unknown as string[][];
             }
             result.push(row);
           });
@@ -214,13 +224,40 @@ export const TextCorpus = (props: TextCorpusProps) => {
       setTextCorpusRec(
         textCorpusStats.filter((row) => row.lc === lc && row.ver === ver)[0],
       );
-  }, [ver, lc, selectedLanguage, setSelectedLanguage, textCorpusRec, setTextCorpusRec, textCorpusStats, setTextCorpusStats, selectedVersion]);
+  }, [
+    ver,
+    lc,
+    selectedLanguage,
+    setSelectedLanguage,
+    textCorpusRec,
+    setTextCorpusRec,
+    textCorpusStats,
+    setTextCorpusStats,
+    selectedVersion,
+  ]);
 
-  if (!lc) return <div>Error in parameters.</div>;
+  if (!lc || !ver) return <div>Error in parameters.</div>;
 
   if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
 
   let cnt: number = 0;
+
+  const countTableColumns: TableColumn<string[]>[] = [
+    {
+      id: "symbol",
+      name: intl.get("col.symbol"),
+      center: true,
+      width: "50px",
+      selector: (row: string[]) => row[0] ? row[0] : "-",
+    },
+    {
+      id: "val",
+      name: intl.get("col.count"),
+      right: true,
+      width: "100px",
+      selector: (row: string[]) => row[1] ? Number(row[1]).toLocaleString(langCode) : "-",
+    },
+  ];
 
   return (
     <>
@@ -235,7 +272,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               bins={CONF.bins_chars}
               values={textCorpusRec.c_freq as number[]}
               title={"Common Voice " + lc}
-              subTitle={intl.get("col.character_distribution")}
+              subTitle={intl.get("tbl.character_distribution")}
               yScale="linear"
               mean={textCorpusRec.c_avg}
               median={textCorpusRec.c_med}
@@ -253,7 +290,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               bins={CONF.bins_words}
               values={textCorpusRec.w_freq as number[]}
               title={"Common Voice " + lc}
-              subTitle={intl.get("col.word_distribution")}
+              subTitle={intl.get("tbl.word_distribution")}
               yScale="linear"
               mean={textCorpusRec.w_avg}
               median={textCorpusRec.w_med}
@@ -271,7 +308,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               bins={CONF.bins_tokens}
               values={textCorpusRec.t_freq as number[]}
               title={"Common Voice " + lc}
-              subTitle={intl.get("col.token_distribution")}
+              subTitle={intl.get("tbl.token_distribution")}
               yScale="log"
               mean={textCorpusRec.t_avg}
               median={textCorpusRec.t_med}
@@ -282,6 +319,59 @@ export const TextCorpus = (props: TextCorpusProps) => {
               cnt={cnt++}
             />
           </div>
+          <Grid
+            container
+            alignItems="stretch"
+            spacing={1}
+            sx={{ width: "100%", mb: "10px" }}
+          >
+            {textCorpusRec.g_freq === "" ? (
+              <></>
+            ) : (
+              <Grid item sx={{ width: "50%" }}>
+                <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  <DataTable
+                    columns={countTableColumns}
+                    data={
+                      textCorpusRec.g_freq as string[][]
+                    }
+                    title={intl.get("tbl.graphemes")}
+                    responsive
+                    dense
+                    pagination
+                    paginationPerPage={20}
+                    direction={Direction.AUTO}
+                    highlightOnHover
+                    customStyles={TABLE_STYLE}
+                    // actions={exportCVSFreqTable}
+                  />
+                </Paper>
+              </Grid>
+            )}
+            {textCorpusRec.p_freq === "" ? (
+              <></>
+            ) : (
+              <Grid item sx={{ width: "50%" }}>
+                <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  <DataTable
+                    columns={countTableColumns}
+                    data={
+                      textCorpusRec.p_freq as string[][]
+                    }
+                    title={intl.get("tbl.phonemes")}
+                    responsive
+                    dense
+                    pagination
+                    paginationPerPage={20}
+                    direction={Direction.AUTO}
+                    highlightOnHover
+                    customStyles={TABLE_STYLE}
+                    // actions={exportCVSFreqTable}
+                  />
+                </Paper>
+              </Grid>
+            )}
+          </Grid>
         </>
       )}
     </>

@@ -188,9 +188,9 @@
   "tbl.reported_freq": "Notificacions per frase",
   "tbl.reported_reasons_freq": "Raons de notificació",
 
-  "col.character_distribution": "Distribució caràcters/frase",
-  "col.word_distribution": "Distribució paraules/frase",
-  "col.token_distribution": "Distribució d'ocurrència de tokens",
+  "tbl.character_distribution": "Distribució caràcters/frase",
+  "tbl.word_distribution": "Distribució paraules/frase",
+  "tbl.token_distribution": "Distribució d'ocurrència de tokens",
 
   "graph.subtitle.age_groups": "Percentatge d'enregist. a grups d'edat",
   "graph.subtitle.age_group_0_39": "Percentatge d'enregist. al grup d'edat 0-39",

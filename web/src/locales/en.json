@@ -40,6 +40,7 @@
 
   "col.measure": "Measure",
   "col.value": "Value",
+  "col.symbol": "Symbol",
 
   "col.version": "Version",
   "col.date": "Rel.Date",
@@ -188,9 +189,11 @@
   "tbl.reported_freq": "Reports per Sentence",
   "tbl.reported_reasons_freq": "Reporting Reasons",
 
-  "col.character_distribution": "Characters/Sentence Distribution",
-  "col.word_distribution": "Words/Sentence Distribution",
-  "col.token_distribution": "Distribution of Token Occurrences",
+  "tbl.character_distribution": "Characters/Sentence Distribution",
+  "tbl.word_distribution": "Words/Sentence Distribution",
+  "tbl.token_distribution": "Distribution of Token Occurrences",
+  "tbl.graphemes": "Graphemes",
+  "tbl.phonemes": "Phonemes",
 
   "graph.subtitle.age_groups": "Percentage of records in age groups",
   "graph.subtitle.age_group_0_39": "Percentage of records in age group 0-39",
