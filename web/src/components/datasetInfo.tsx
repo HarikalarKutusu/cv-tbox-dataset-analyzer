@@ -22,8 +22,8 @@ import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import { CV_AGES, CV_GENDERS } from "../helpers/cvHelper";
 
 import {
-  convertStrArr,
-  convertStrList,
+  convertStr2NumArr,
+  convertStr2NumList,
   getArrLastCol,
   getArrLastRow,
   getArrTotal,
@@ -836,23 +836,23 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
             data.forEach((row) => {
               if (row.dur_total) row.dur_total = row.dur_total / 3600;
               if (row.dur_freq && row.dur_freq !== "")
-                row.dur_freq = convertStrList(row.dur_freq as string);
+                row.dur_freq = convertStr2NumList(row.dur_freq as string);
               if (row.v_freq && row.v_freq !== "")
-                row.v_freq = convertStrList(row.v_freq as string);
+                row.v_freq = convertStr2NumList(row.v_freq as string);
               if (row.s_freq && row.s_freq !== "")
-                row.s_freq = convertStrList(row.s_freq as string);
+                row.s_freq = convertStr2NumList(row.s_freq as string);
 
               if (row.uv_freq && row.uv_freq !== "")
-                row.uv_freq = convertStrList(row.uv_freq as string);
+                row.uv_freq = convertStr2NumList(row.uv_freq as string);
               if (row.dv_freq && row.dv_freq !== "")
-                row.dv_freq = convertStrList(row.dv_freq as string);
+                row.dv_freq = convertStr2NumList(row.dv_freq as string);
 
               if (row.dem_table)
-                row.dem_table = convertStrArr(row.dem_table as string);
-              if (row.dem_uq) row.dem_uq = convertStrArr(row.dem_uq as string);
+                row.dem_table = convertStr2NumArr(row.dem_table as string);
+              if (row.dem_uq) row.dem_uq = convertStr2NumArr(row.dem_uq as string);
               if (row.dem_fix_r && row.dem_fix_r !== "") {
                 row.dem_fix_r = expandTable(
-                  convertStrArr(row.dem_fix_r as string),
+                  convertStr2NumArr(row.dem_fix_r as string),
                 );
                 if (row.dem_table && row.dem_table !== "")
                   row.dem_ctable = sumArrays(
@@ -862,7 +862,7 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               }
               if (row.dem_fix_v && row.dem_fix_v !== "") {
                 row.dem_fix_v = expandTable(
-                  convertStrArr(row.dem_fix_v as string),
+                  convertStr2NumArr(row.dem_fix_v as string),
                 );
                 if (row.dem_uq && row.dem_uq !== "")
                   row.dem_cuq = sumArrays(

@@ -16,9 +16,9 @@ import { useStore } from "../stores/store";
 // App
 import { ANALYZER_DATA_URL, ILoaderData } from "../helpers/appHelper";
 import {
-  convertStrList,
+  convertStr2NumList,
   downloadCSV,
-  IMeasureValueTable,
+  IMeasureValueTableRow,
   TABLE_STYLE,
   REPORTED_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
@@ -53,7 +53,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
   //   .reportedSentencesStats;
 
   const MeasureValueTable = () => {
-    let tbl: IMeasureValueTable[] = [];
+    let tbl: IMeasureValueTableRow[] = [];
     if (reportedSRec) {
       tbl = [
         {
@@ -79,19 +79,19 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
       ];
     }
 
-    const columns: TableColumn<IMeasureValueTable>[] = [
+    const columns: TableColumn<IMeasureValueTableRow>[] = [
       {
         id: "measure",
         name: intl.get("col.measure"),
         width: "300px",
-        selector: (row: IMeasureValueTable) => row.measure,
+        selector: (row: IMeasureValueTableRow) => row.measure,
       },
       {
         id: "val",
         name: intl.get("col.value"),
         right: true,
         width: "100px",
-        selector: (row: IMeasureValueTable) => row.val.toLocaleString(langCode),
+        selector: (row: IMeasureValueTableRow) => row.val.toLocaleString(langCode),
       },
     ];
 
@@ -149,8 +149,8 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
           let result: REPORTED_STATS_ROW_TYPE[] = [];
           data.forEach((row) => {
             if (typeof row.rep_freq === "string") {
-              row.rep_freq = convertStrList(row.rep_freq as string);
-              row.rea_freq = convertStrList(row.rea_freq as string);
+              row.rep_freq = convertStr2NumList(row.rep_freq as string);
+              row.rea_freq = convertStr2NumList(row.rea_freq as string);
             }
             result.push(row);
           });
