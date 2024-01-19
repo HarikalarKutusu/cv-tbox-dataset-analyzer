@@ -84,7 +84,6 @@ export type SUPPORT_MATRIX_ROW_TYPE = {
   v5_1: string | null;
   v4: string | null;
   v3: string | null;
-  v2: string | null;
   v1: string | null;
 };
 
@@ -195,6 +194,9 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   t_med: number;
   t_std: number;
   t_freq: string | number[];
+
+  g_freq: string | string[][]
+  p_freq: string | string[][]
 };
 
 //======================================
@@ -260,7 +262,7 @@ export interface IFreqTableRow2D {
 //== Measure-Value table
 //======================================
 
-export interface IMeasureValueTable {
+export interface IMeasureValueTableRow {
   measure: string;
   val: string | number;
 }
@@ -269,12 +271,20 @@ export interface IMeasureValueTable {
 //== Methods
 //======================================
 
-export const convertStrList = (s: string): number[] => {
+export const convertStr2NumList = (s: string): number[] => {
   return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
 };
 
-export const convertStrArr = (s: string): number[][] => {
-  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStrList(s));
+export const convertStr2NumArr = (s: string): number[][] => {
+  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2NumList(s));
+};
+
+export const convertStr2StrList = (s: string): string[] => {
+  return s === "" ? [] : s.split(SEP_COL).map((x) => x.toString());
+};
+
+export const convertStr2StrArr = (s: string): string[][] => {
+  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2StrList(s));
 };
 
 export const calcListTotal = (lst: number[]): number => {
@@ -348,7 +358,7 @@ const convertArrayOfObjectsToCSV = (
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
     | IFreqTableRow[]
-    | IMeasureValueTable[],
+    | IMeasureValueTableRow[],
 ) => {
   let result: string;
 
@@ -382,7 +392,7 @@ export const downloadCSV = (
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
     | IFreqTableRow[]
-    | IMeasureValueTable[],
+    | IMeasureValueTableRow[],
   fnBase: string,
   datasetID: string,
 ) => {
