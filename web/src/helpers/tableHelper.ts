@@ -168,10 +168,10 @@ export type CROSSTAB_ROW_TYPE = {
 //== Text Corpus Statistics
 //======================================
 
-export interface IStrValuePair {
-  s: string;
-  v: number;
-}
+// export interface IStrValuePair {
+//   s: string;
+//   v: number;
+// }
 
 export type TEXT_CORPUS_STATS_ROW_TYPE = {
   ver: string;
@@ -203,10 +203,10 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   t_std: number;
   t_freq: number[];
 
-  q_cnt: number;
-  g_freq: IStrValuePair[]
+  g_cnt: number;
+  g_freq: any[][]
   p_cnt: number;
-  p_freq: IStrValuePair[]
+  p_freq: any[][]
 };
 
 //======================================
