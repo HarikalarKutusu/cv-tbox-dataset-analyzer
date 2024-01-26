@@ -22,8 +22,6 @@ import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import { CV_AGES, CV_GENDERS } from "../helpers/cvHelper";
 
 import {
-  convertStr2NumArr,
-  convertStr2NumList,
   getArrLastCol,
   getArrLastRow,
   getArrTotal,
@@ -831,7 +829,28 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
         axios
           .get(url, { headers: { "Content-Type": "application/json" } })
           .then((response) => {
-            const data: DATASET_INFO_ROW_TYPE[] = response.data.data;
+            let data: DATASET_INFO_ROW_TYPE[] = response.data.data;
+            data = data.map((row) => {
+              if (row.dur_total) row.dur_total = row.dur_total / 3600;
+              if (row.dem_fix_r && row.dem_fix_r.length > 0) {
+                row.dem_fix_r = expandTable(row.dem_fix_r);
+                if (row.dem_table && row.dem_table.length > 0)
+                  row.dem_ctable = sumArrays(
+                    row.dem_table as number[][],
+                    row.dem_fix_r,
+                  );
+              }
+              if (row.dem_fix_v && row.dem_fix_v.length > 0) {
+                row.dem_fix_v = expandTable(row.dem_fix_v)
+                if (row.dem_uq && row.dem_uq.length > 0)
+                  row.dem_cuq = sumArrays(
+                    row.dem_uq as number[][],
+                    row.dem_fix_v,
+                  );
+              }
+              return row
+            })
+            /*
             let result: DATASET_INFO_ROW_TYPE[] = [];
             data.forEach((row) => {
               if (row.dur_total) row.dur_total = row.dur_total / 3600;
@@ -850,21 +869,23 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               if (row.dem_table)
                 row.dem_table = convertStr2NumArr(row.dem_table as string);
               if (row.dem_uq) row.dem_uq = convertStr2NumArr(row.dem_uq as string);
-              if (row.dem_fix_r && row.dem_fix_r !== "") {
-                row.dem_fix_r = expandTable(
-                  convertStr2NumArr(row.dem_fix_r as string),
-                );
-                if (row.dem_table && row.dem_table !== "")
+              if (row.dem_fix_r && row.dem_fix_r.length > 0) {
+                // row.dem_fix_r = expandTable(
+                //   convertStr2NumArr(row.dem_fix_r as string),
+                // );
+                row.dem_fix_r = expandTable(row.dem_fix_r);
+                if (row.dem_table && row.dem_table.length > 0)
                   row.dem_ctable = sumArrays(
                     row.dem_table as number[][],
                     row.dem_fix_r,
                   );
               }
-              if (row.dem_fix_v && row.dem_fix_v !== "") {
-                row.dem_fix_v = expandTable(
-                  convertStr2NumArr(row.dem_fix_v as string),
-                );
-                if (row.dem_uq && row.dem_uq !== "")
+              if (row.dem_fix_v && row.dem_fix_v.length > 0) {
+                // row.dem_fix_v = expandTable(
+                //   convertStr2NumArr(row.dem_fix_v as string),
+                // );
+                row.dem_fix_v = expandTable(row.dem_fix_v)
+                if (row.dem_uq && row.dem_uq.length > 0)
                   row.dem_cuq = sumArrays(
                     row.dem_uq as number[][],
                     row.dem_fix_v,
@@ -872,10 +893,11 @@ export const DataSetInfo = (props: DatasetInfoProps) => {
               }
               result.push(row);
             });
-            result = calcCalculatedFields(result);
+            */
+            data = calcCalculatedFields(data);
             setSelectedLanguage(lc);
             setSelectedVersion(ver);
-            setDatasetInfo(result);
+            setDatasetInfo(data);
           });
       }
     }
