@@ -160,12 +160,14 @@
   "col.total_validHrs": "Onaylı Saat",
   "calc.valid_percentage": "%Onaylı/Toplam",
 
+  "measures.has_validation": "Doğrulama/Bölütleme Uygulandı mı?",
+  "measures.has_phonemiser": "Fonem Analizi Yapıldı mı?",
+
   "measures.sentence_count": "Cümle Adedi",
   "measures.unique_lower": "Eşsiz Küçük Harf Cümle",
   "measures.unique_normalized": "Eşsiz Normalize Cümle",
   "measures.dup_lower": "Küçük Harf Çiftler",
   "measures.dup_normalized": "Normalize Çiftler",
-  "measures.has_validation": "Doğrulama/Bölütleme Uygulandı mı?",
   "measures.validated": "Geçerli cümleler",
   "measures.invalidated": "Geçersiz cümleler",
   "measures.characters_sum": "Toplam Vuruş",
@@ -180,6 +182,8 @@
   "measures.tokens_avg": "Ortalama Kelime Sıklığı",
   "measures.tokens_med": "Ortanca Kelime Sıklığı",
   "measures.tokens_std": "Kelime Sıklığı Std.Sap.",
+  "measures.grapheme_count": "Grafem Adedi",
+  "measures.phoneme_count": "Fonem Adedi",
 
   "measures.reported_sum": "Toplam raporlama",
   "measures.reported_sen": "Toplam raporlanmış cümle",

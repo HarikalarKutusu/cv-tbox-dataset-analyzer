@@ -160,12 +160,14 @@
   "col.total_validHrs": "Valid Hours",
   "calc.valid_percentage": "%Valid/Total",
 
+  "measures.has_validation": "Validation/Tokenization Applied?",
+  "measures.has_phonemiser": "Phonemes Analyzed?",
+
   "measures.sentence_count": "Sentences",
   "measures.unique_lower": "Unique Lowercase Sentences",
   "measures.unique_normalized": "Unique Normalized Sentences",
   "measures.dup_lower": "Lowercase Duplicates",
   "measures.dup_normalized": "Normalized Duplicates",
-  "measures.has_validation": "Validation/Tokenization Applied?",
   "measures.validated": "Validated sentences",
   "measures.invalidated": "Invalidated sentences",
   "measures.characters_sum": "Total Characters",
@@ -180,6 +182,8 @@
   "measures.tokens_avg": "Average Token Occurrance",
   "measures.tokens_med": "Median Token Occurrance",
   "measures.tokens_std": "Token Occurrance Std.Dev.",
+  "measures.grapheme_count": "Grapheme Count",
+  "measures.phoneme_count": "Phoneme Count",
 
   "measures.reported_sum": "Total reports",
   "measures.reported_sen": "Total reported sentences",
