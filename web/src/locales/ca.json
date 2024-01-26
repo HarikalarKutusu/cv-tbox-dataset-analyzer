@@ -277,6 +277,7 @@
   "lang.es": "espanyol",
   "lang.et": "estonià",
   "lang.eu": "basc",
+  "lang.ewo": "ewondo",
   "lang.fa": "persa",
   "lang.ff": "ful",
   "lang.fi": "finès",
@@ -287,6 +288,7 @@
   "lang.gl": "gallec",
   "lang.gn": "guaraní",
   "lang.gom": "konkani",
+  "lang.gu-IN": "gujarati",
   "lang.ha": "haussa",
   "lang.he": "hebreu",
   "lang.hi": "hindi",
@@ -306,6 +308,7 @@
   "lang.izh": "ingrià",
   "lang.ja": "japonès",
   "lang.jbo": "lojban",
+  "lang.jv": "javanès",
   "lang.ka": "georgià",
   "lang.kaa": "karakalpak",
   "lang.kab": "cabilenc",
@@ -359,6 +362,7 @@
   "lang.oc": "occità",
   "lang.om": "oromo",
   "lang.or": "oriya",
+  "lang.os": "ossetià",
   "lang.pa-IN": "panjabi",
   "lang.pap-AW": "papiament (Aruba)",
   "lang.pl": "polonès",
@@ -426,5 +430,5 @@
   "lang.zh-HK": "xinès (Hong Kong)",
   "lang.zh-TW": "xinès (Taiwan)",
   "lang.zu": "zulu",
-  "lang.zza": "zaza"  
+  "lang.zza": "zaza"
 }

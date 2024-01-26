@@ -107,33 +107,33 @@ export type DATASET_INFO_ROW_TYPE = {
   dur_avg: number; // mean duration measured from clips
   dur_med: number; // median duration measured from clips
   dur_std: number; // standart deviation measured from clips
-  dur_freq: string | number[]; // frequency distributions of durations
+  dur_freq: number[]; // frequency distributions of durations
   // voices
   v_avg: number;
   v_med: number;
   v_std: number;
-  v_freq: string | number[];
+  v_freq: number[];
   // sentences
   s_avg: number;
   s_med: number;
   s_std: number;
-  s_freq: string | number[];
+  s_freq: number[];
   // votes
   uv_sum: number;
   uv_avg: number;
   uv_med: number;
   uv_std: number;
-  uv_freq: string | number[];
+  uv_freq: number[];
   dv_sum: number;
   dv_avg: number;
   dv_med: number;
   dv_std: number;
-  dv_freq: string | number[];
+  dv_freq: number[];
   // demographics
-  dem_table: string | number[][];
-  dem_uq: string | number[][];
-  dem_fix_r: string | number[][];
-  dem_fix_v: string | number[][];
+  dem_table: number[][];
+  dem_uq: number[][];
+  dem_fix_r: number[][];
+  dem_fix_v: number[][];
 
   // CALCULATED VALUES (should be here for graph support)
   dem_ctable?: number[][];
@@ -168,35 +168,45 @@ export type CROSSTAB_ROW_TYPE = {
 //== Text Corpus Statistics
 //======================================
 
+// export interface IStrValuePair {
+//   s: string;
+//   v: number;
+// }
+
 export type TEXT_CORPUS_STATS_ROW_TYPE = {
   ver: string;
   lc: string;
+  algo: string;
+  sp: string;
+  has_val: number;
+  has_phon: number;
   s_cnt: number;
   uq_s: number;
   uq_n: number;
-  has_val: number;
   val: number;
 
   c_sum: number;
   c_avg: number;
   c_med: number;
   c_std: number;
-  c_freq: string | number[];
+  c_freq: number[];
 
   w_sum: number;
   w_avg: number;
   w_med: number;
   w_std: number;
-  w_freq: string | number[];
+  w_freq: number[];
 
   t_sum: number;
   t_avg: number;
   t_med: number;
   t_std: number;
-  t_freq: string | number[];
+  t_freq: number[];
 
-  g_freq: string | string[][]
-  p_freq: string | string[][]
+  g_cnt: number;
+  g_freq: any[][]
+  p_cnt: number;
+  p_freq: any[][]
 };
 
 //======================================
@@ -211,8 +221,8 @@ export type REPORTED_STATS_ROW_TYPE = {
   rep_avg: number;
   rep_med: number;
   rep_std: number;
-  rep_freq: string | number[];
-  rea_freq: string | number[];
+  rep_freq: number[];
+  rea_freq: number[];
 };
 
 //======================================
@@ -267,25 +277,35 @@ export interface IMeasureValueTableRow {
   val: string | number;
 }
 
+export interface ITextCorpusStatsTableRow {
+  measure: string;
+  // [key: string]: string | number;
+  tc: number | string;
+  validated: number | string;
+  train: number | string;
+  dev: number | string;
+  test: number | string;
+}
+
 //======================================
 //== Methods
 //======================================
 
-export const convertStr2NumList = (s: string): number[] => {
-  return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
-};
+// export const convertStr2NumList = (s: string): number[] => {
+//   return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
+// };
 
-export const convertStr2NumArr = (s: string): number[][] => {
-  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2NumList(s));
-};
+// export const convertStr2NumArr = (s: string): number[][] => {
+//   return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2NumList(s));
+// };
 
-export const convertStr2StrList = (s: string): string[] => {
-  return s === "" ? [] : s.split(SEP_COL).map((x) => x.toString());
-};
+// export const convertStr2StrList = (s: string): string[] => {
+//   return s === "" ? [] : s.split(SEP_COL).map((x) => x.toString());
+// };
 
-export const convertStr2StrArr = (s: string): string[][] => {
-  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2StrList(s));
-};
+// export const convertStr2StrArr = (s: string): string[][] => {
+//   return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2StrList(s));
+// };
 
 export const calcListTotal = (lst: number[]): number => {
   return lst.reduce((pv, cv) => pv + cv, 0);
@@ -358,6 +378,7 @@ const convertArrayOfObjectsToCSV = (
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
     | IFreqTableRow[]
+    | ITextCorpusStatsTableRow[]
     | IMeasureValueTableRow[],
 ) => {
   let result: string;
@@ -392,7 +413,7 @@ export const downloadCSV = (
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
     | IFreqTableRow[]
-    | IMeasureValueTableRow[],
+    | ITextCorpusStatsTableRow[],
   fnBase: string,
   datasetID: string,
 ) => {

@@ -16,7 +16,6 @@ import { useStore } from "../stores/store";
 // App
 import { ANALYZER_DATA_URL, ILoaderData } from "../helpers/appHelper";
 import {
-  convertStr2NumList,
   downloadCSV,
   IMeasureValueTableRow,
   TABLE_STYLE,
@@ -146,16 +145,8 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {
           const data: REPORTED_STATS_ROW_TYPE[] = response.data.data;
-          let result: REPORTED_STATS_ROW_TYPE[] = [];
-          data.forEach((row) => {
-            if (typeof row.rep_freq === "string") {
-              row.rep_freq = convertStr2NumList(row.rep_freq as string);
-              row.rea_freq = convertStr2NumList(row.rea_freq as string);
-            }
-            result.push(row);
-          });
-          setReportedSentences(result);
           setSelectedLanguage(lc);
+          setReportedSentences(data);
         }); // exios
     } // if
 
