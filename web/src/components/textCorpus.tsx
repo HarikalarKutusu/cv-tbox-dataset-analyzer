@@ -17,6 +17,7 @@ import { useStore } from "../stores/store";
 import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import {
   TABLE_STYLE,
+  TABLE_STYLE_DENSE,
   TEXT_CORPUS_STATS_ROW_TYPE,
   ITextCorpusStatsTableRow,
   // IStrValuePair,
@@ -57,6 +58,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
   >(undefined);
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+
+  const paginationComponentOptions = {
+    rowsPerPageText: intl.get("pagination.perpage"),
+    rangeSeparatorText: intl.get("pagination.rangeseparator"),
+    selectAllRowsItem: true,
+    selectAllRowsItemText: intl.get("pagination.selectallrows"),
+  };
 
   const TextCorpusStatsTable = () => {
     let tbl: ITextCorpusStatsTableRow[] = [];
@@ -340,13 +348,17 @@ export const TextCorpus = (props: TextCorpusProps) => {
   };
 
   const mergeCountTableData = (items: string[], values: number[]): any[][] => {
+    const reducer = (oldSum: number, newValue: number): number => {
+      return oldSum + newValue;
+    };
     const res: any[][] = [];
     if (items.length !== values.length) {
       console.log("ERROR: mergeCountTableData item count != value count");
       return res;
     }
+    const total: number = values.reduce(reducer);
     for (let i = 0; i < items.length; i++) {
-      res.push([items[i], values[i]]);
+      res.push([items[i], values[i], values[i]/total]);
     }
     return res;
   };
@@ -355,8 +367,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
     {
       id: "symbol",
       name: intl.get("col.symbol"),
-      center: true,
-      width: "50px",
       selector: (row: any[]) => (row[0] ? row[0] : "-"),
     },
     {
@@ -366,6 +376,14 @@ export const TextCorpus = (props: TextCorpusProps) => {
       width: "100px",
       selector: (row: any[]) =>
         row[1] ? Number(row[1]).toLocaleString(langCode) : "-",
+    },
+    {
+      id: "per",
+      name: intl.get("col.percent"),
+      right: true,
+      width: "60px",
+      selector: (row: any[]) =>
+        row[2] ? (100 * row[2]).toFixed(3) : "-",
     },
   ];
 
@@ -440,14 +458,15 @@ export const TextCorpus = (props: TextCorpusProps) => {
   return (
     <>
       <div>
-        <div>
+        <span>
           {intl.get("measures.has_validation") + ": "}{" "}
           {textCorpusRec.has_val ? "+" : "-"}
-        </div>
-        <div>
+        </span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>
           {intl.get("measures.has_phonemiser") + ": "}{" "}
           {textCorpusRec.has_phon ? "+" : "-"}
-        </div>
+        </span>
       </div>
       <div>
         <TextCorpusStatsTable />
@@ -514,10 +533,39 @@ export const TextCorpus = (props: TextCorpusProps) => {
             spacing={1}
             sx={{ width: "100%", mb: "10px" }}
           >
+            {textCorpusRec.dom_freq.length === 0 ? (
+              <></>
+            ) : (
+              <Grid item sx={{ width: "34%" }}>
+                <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  <DataTable
+                    columns={countTableColumns}
+                    // data={textCorpusRec.g_freq as string[][]}
+                    data={mergeCountTableData(
+                      (textCorpusRec.dom_items as string[]).map((s) => {
+                        return intl.get("dom." + s);
+                      }),
+                      textCorpusRec.dom_freq,
+                    )}
+                    title={intl.get("tbl.domains")}
+                    responsive
+                    dense
+                    pagination
+                    paginationPerPage={20}
+                    paginationComponentOptions={paginationComponentOptions}
+                    direction={Direction.AUTO}
+                    highlightOnHover
+                    customStyles={TABLE_STYLE_DENSE}
+                    // actions={exportCVSFreqTable}
+                  />
+                </Paper>
+              </Grid>
+            )}
+
             {textCorpusRec.g_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={{ width: "33%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}
@@ -531,9 +579,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
                     dense
                     pagination
                     paginationPerPage={20}
+                    paginationComponentOptions={paginationComponentOptions}
                     direction={Direction.AUTO}
                     highlightOnHover
-                    customStyles={TABLE_STYLE}
+                    customStyles={TABLE_STYLE_DENSE}
                     // actions={exportCVSFreqTable}
                   />
                 </Paper>
@@ -543,7 +592,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.p_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={{ width: "33%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}
@@ -556,10 +605,11 @@ export const TextCorpus = (props: TextCorpusProps) => {
                     responsive
                     dense
                     pagination
+                    paginationComponentOptions={paginationComponentOptions}
                     paginationPerPage={20}
                     direction={Direction.AUTO}
                     highlightOnHover
-                    customStyles={TABLE_STYLE}
+                    customStyles={TABLE_STYLE_DENSE}
                     // actions={exportCVSFreqTable}
                   />
                 </Paper>
