@@ -70,6 +70,7 @@ export type SUPPORT_MATRIX_ROW_TYPE = {
   lc: string;
   lang: string;
 
+  v17_0: string | null;
   v16_1: string | null;
   v15_0: string | null;
   v14_0: string | null;
@@ -204,9 +205,16 @@ export type TEXT_CORPUS_STATS_ROW_TYPE = {
   t_freq: number[];
 
   g_cnt: number;
-  g_freq: any[][]
+  g_items: string[] | string;
+  g_freq: number[];
+
   p_cnt: number;
-  p_freq: any[][]
+  p_items: string[] | string;
+  p_freq: number[];
+
+  dom_cnt: number;
+  dom_items: string[] | string;
+  dom_freq: number[];
 };
 
 //======================================
@@ -299,13 +307,13 @@ export interface ITextCorpusStatsTableRow {
 //   return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2NumList(s));
 // };
 
-// export const convertStr2StrList = (s: string): string[] => {
-//   return s === "" ? [] : s.split(SEP_COL).map((x) => x.toString());
-// };
+export const convertStr2StrList = (s: string): string[] => {
+  return s === "" ? [] : s.split(SEP_COL).map((x) => x.toString());
+};
 
-// export const convertStr2StrArr = (s: string): string[][] => {
-//   return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2StrList(s));
-// };
+export const convertStr2StrArr = (s: string): string[][] => {
+  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2StrList(s));
+};
 
 export const calcListTotal = (lst: number[]): number => {
   return lst.reduce((pv, cv) => pv + cv, 0);
