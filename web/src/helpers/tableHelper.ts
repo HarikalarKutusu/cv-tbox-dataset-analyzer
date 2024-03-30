@@ -31,6 +31,33 @@ export const TABLE_STYLE = {
   },
 };
 
+export const TABLE_STYLE_DENSE = {
+  header: {
+    style: {
+      paddingLeft: "2px",
+      paddingRight: "2px",
+    },
+  },
+  headRow: {
+    style: {
+      backgroundColor: PRIMARY_COLOR,
+      color: "#ffffff",
+    },
+  },
+  headCells: {
+    style: {
+      paddingLeft: "2px",
+      paddingRight: "2px",
+    },
+  },
+  cells: {
+    style: {
+      paddingLeft: "2px",
+      paddingRight: "2px",
+    },
+  },
+};
+
 //======================================
 //== Tab Views
 //======================================
