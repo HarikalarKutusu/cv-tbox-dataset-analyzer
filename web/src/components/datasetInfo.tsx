@@ -48,7 +48,7 @@ export type DatasetInfoProps = {
   view?: DATASET_INFO_VIEW_TYPE;
 };
 
-export const DataSetInfo = (props: DatasetInfoProps) => {
+export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
   const { lc, ver, view } = props;
 
   const { initDone } = useStore();
