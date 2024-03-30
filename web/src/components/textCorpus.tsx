@@ -23,6 +23,7 @@ import {
   // convertStr2NumList,
   // convertStr2StrArr,
   downloadCSV,
+  convertStr2StrList,
   // IMeasureValueTableRow,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
@@ -338,6 +339,18 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
   };
 
+  const mergeCountTableData = (items: string[], values: number[]): any[][] => {
+    const res: any[][] = [];
+    if (items.length !== values.length) {
+      console.log("ERROR: mergeCountTableData item count != value count");
+      return res;
+    }
+    for (let i = 0; i < items.length; i++) {
+      res.push([items[i], values[i]]);
+    }
+    return res;
+  };
+
   const countTableColumns: TableColumn<any[]>[] = [
     {
       id: "symbol",
@@ -370,6 +383,15 @@ export const TextCorpus = (props: TextCorpusProps) => {
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {
           let data: TEXT_CORPUS_STATS_ROW_TYPE[] = response.data.data;
+          data = data.map((row) => {
+            if (typeof row.g_items === "string")
+              row.g_items = convertStr2StrList(row.g_items as string);
+            if (typeof row.p_items === "string")
+              row.p_items = convertStr2StrList(row.p_items as string);
+            if (typeof row.dom_items === "string")
+              row.dom_items = convertStr2StrList(row.dom_items as string);
+            return row;
+          });
           setSelectedLanguage(lc);
           setSelectedVersion(ver);
           setTextCorpusStats(data);
@@ -500,7 +522,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.g_freq as string[][]}
-                    data={textCorpusRec.g_freq}
+                    data={mergeCountTableData(
+                      textCorpusRec.g_items as string[],
+                      textCorpusRec.g_freq,
+                    )}
                     title={intl.get("tbl.graphemes")}
                     responsive
                     dense
@@ -523,7 +548,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.p_freq as string[][]}
-                    data={textCorpusRec.p_freq}
+                    data={mergeCountTableData(
+                      textCorpusRec.p_items as string[],
+                      textCorpusRec.p_freq,
+                    )}
                     title={intl.get("tbl.phonemes")}
                     responsive
                     dense
