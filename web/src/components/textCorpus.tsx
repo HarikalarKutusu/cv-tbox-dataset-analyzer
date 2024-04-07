@@ -418,8 +418,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
           );
           if (lst && lst.length > 0) {
             setTextCorpusRec(lst[0]);
-            console.log(lst[0].g_freq);
-            console.log(lst[0].p_freq);
           }
         }); // then-axios
     } // if
