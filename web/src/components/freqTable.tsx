@@ -85,10 +85,23 @@ export const FreqTable = (props: IFreqTableProps) => {
   // Prep table
   tableData = [];
   let total: number = 0;
+  let isNonNumeric: boolean = isNaN(Number(bins[0]));
+  let binstr: string = ""
   for (let i = 0; i < bins.length; i++) {
     total += values[i] as number;
+    if (isNonNumeric) {
+      binstr = bins[i].toString()
+    } else {
+      binstr = bins[i].toLocaleString(langCode);
+      binstr =
+        i < bins.length - 1
+          ? "[" + binstr + " - " + bins[i + 1].toLocaleString(langCode) + ")"
+          : "[" + binstr + " - ... ]";
+    }
+
     tableData.push({
-      bin: bins[i],
+      // bin: bins[i],
+      bin: binstr,
       val: values[i],
     });
   }
@@ -153,7 +166,7 @@ export const FreqTable = (props: IFreqTableProps) => {
             spacing={0}
             sx={{ width: "100%", mb: "10px" }}
           >
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <DataTable
                 columns={getColumns()}
                 data={tableData}
@@ -167,7 +180,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                 actions={exportCVSFreqTable}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={8} sx={{ border: "1px" }}>
+            <Grid item xs={12} sm={6} md={9} sx={{ border: "1px" }}>
               <div style={{ width: "100%", height: "100%" }}>
                 <FreqChart
                   data={dropLastFromGraph ? tableData.slice(0, -1) : tableData}
