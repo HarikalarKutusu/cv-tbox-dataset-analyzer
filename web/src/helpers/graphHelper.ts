@@ -30,8 +30,8 @@ export type CHART_TYPES =
   | "scatter"
   | "funnel";
 
-export type ALGORITM_TYPE = "" | "s1" | "s99" | "v1" | "vw" | "vx";
-export const ALGORITMS: ALGORITM_TYPE[] = ["s1", "s99", "v1", "vw", "vx"];
+export type ALGORITM_TYPE = "" | "s1" | "s5" | "s99" | "v1" | "vw" | "vx";
+export const ALGORITMS: ALGORITM_TYPE[] = ["s1", "s5", "s99", "v1", "vw", "vx"];
 
 export type SPLIT_TYPE =
   | "clips"
