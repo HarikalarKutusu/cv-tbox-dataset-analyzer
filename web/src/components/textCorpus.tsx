@@ -6,6 +6,8 @@ import axios from "axios";
 import intl from "react-intl-universal";
 // MUI
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -28,7 +30,7 @@ import {
   // IMeasureValueTableRow,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { Grid, Paper } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 
 //
 // JSX
@@ -56,6 +58,8 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
+  const [algorithms, setAlgorithms] = useState<string[] | undefined>(undefined);
+  const [curAlgo, setCurAlgo] = useState<string>("s1");
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
@@ -66,7 +70,49 @@ export const TextCorpus = (props: TextCorpusProps) => {
     selectAllRowsItemText: intl.get("pagination.selectallrows"),
   };
 
-  const TextCorpusStatsTable = () => {
+  const handleAlgoSelect = (algo: string) => {
+    setCurAlgo(algo);
+  };
+
+  const AlgoButtons = (): JSX.Element => {
+    return (
+      <div>
+        <Typography align="right">
+          {intl.get("col.algorithm")}
+          <>
+            {algorithms?.map((algo) => {
+              return (
+                <Button
+                  onClick={() => handleAlgoSelect(algo)}
+                  variant="contained"
+                  color={curAlgo === algo ? "primary" : "secondary"}
+                  size="small"
+                  key={algo}
+                  sx={{
+                    color: "#eee",
+                    textTransform: "none",
+                    margin: "4px 2px",
+                    padding: "2px 0px",
+                    textAlign: "center",
+                    width: "30px",
+                    maxWidth: "30px",
+                    height: "30px",
+                    maxHeight: "30px",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {algo}
+                </Button>
+              );
+            })}
+          </>
+        </Typography>
+      </div>
+    );
+  };
+
+  const TextCorpusStatsTable = (): JSX.Element => {
+    const algo = curAlgo;
     let tbl: ITextCorpusStatsTableRow[] = [];
     // const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     // const dec3 = { minimumFractionDigits: 3, maximumFractionDigits: 3 };
@@ -89,15 +135,15 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
     if (lst && lst.length > 0) validated_rec = lst[0];
     lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "train",
+      (row) => row.algo === algo && row.sp === "train",
     );
     if (lst && lst.length > 0) train_rec = lst[0];
     lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "dev",
+      (row) => row.algo === algo && row.sp === "dev",
     );
     if (lst && lst.length > 0) dev_rec = lst[0];
     lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "test",
+      (row) => row.algo === algo && row.sp === "test",
     );
     if (lst && lst.length > 0) test_rec = lst[0];
 
@@ -336,7 +382,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       <DataTable
         columns={tcStatsTableColumns}
         data={tbl}
-        title={intl.get("examinepage.tab.text-corpus")}
+        title={intl.get("examinepage.tab.text-corpus") + " & " + curAlgo}
         responsive
         dense
         direction={Direction.AUTO}
@@ -412,11 +458,18 @@ export const TextCorpus = (props: TextCorpusProps) => {
           setSelectedLanguage(lc);
           setSelectedVersion(ver);
           setTextCorpusStats(data);
-          const lst: TEXT_CORPUS_STATS_ROW_TYPE[] = data.filter(
+          const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = data.filter(
             (row) => row.algo === "" && row.sp === "",
           );
-          if (lst && lst.length > 0) {
-            setTextCorpusRec(lst[0]);
+          if (tcrec && tcrec.length > 0) {
+            setTextCorpusRec(tcrec[0]);
+          }
+          // get unique algorithmn
+          const algos: string[] = [
+            ...new Set(data.map((row) => row.algo)),
+          ].filter((a) => a.length > 0);
+          if (algos) {
+            setAlgorithms(algos);
           }
         }); // then-axios
     } // if
@@ -431,6 +484,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
     setTextCorpusStats,
     textCorpusRec,
     setTextCorpusRec,
+    setAlgorithms,
   ]);
 
   // useEffect(() => {
@@ -454,21 +508,31 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   return (
     <>
-      <div>
-        <span>
-          {intl.get("measures.has_validation") + ": "}{" "}
-          {textCorpusRec.has_val ? "+" : "-"}
-        </span>
+      <Typography align="right" variant="body2">
+        {intl.get("measures.has_validation") + ": "}
+        {textCorpusRec.has_val ? (
+          <CheckBoxIcon color="secondary" sx={{ verticalAlign: "bottom" }} />
+        ) : (
+          <DoNotDisturbOnIcon
+            color="primary"
+            sx={{ verticalAlign: "bottom" }}
+          />
+        )}
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <span>
-          {intl.get("measures.has_phonemiser") + ": "}{" "}
-          {textCorpusRec.has_phon ? "+" : "-"}
-        </span>
-      </div>
+        {intl.get("measures.has_phonemiser") + ": "}
+        {textCorpusRec.has_phon ? (
+          <CheckBoxIcon color="secondary" sx={{ verticalAlign: "bottom" }} />
+        ) : (
+          <DoNotDisturbOnIcon
+            color="primary"
+            sx={{ verticalAlign: "bottom" }}
+          />
+        )}
+      </Typography>
+      <AlgoButtons />
       <div>
         <TextCorpusStatsTable />
       </div>
-
       {textCorpusRec && (
         <>
           <div>
