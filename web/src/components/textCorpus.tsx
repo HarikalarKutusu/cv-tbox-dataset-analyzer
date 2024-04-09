@@ -553,41 +553,47 @@ export const TextCorpus = (props: TextCorpusProps) => {
               cnt={cnt++}
             />
           </div>
-          <div>
-            <FreqTable
-              key={"w_freq"}
-              bins={CONF.bins_words}
-              values={textCorpusRec.w_freq as number[]}
-              title={"Common Voice " + lc}
-              subTitle={intl.get("tbl.word_distribution")}
-              // yScale= {"linear"}
-              mean={textCorpusRec.w_avg}
-              median={textCorpusRec.w_med}
-              std={textCorpusRec.w_std}
-              addTotals={true}
-              addPercentageColumn={true}
-              dropLastFromGraph={true}
-              isXNumber={false}
-              cnt={cnt++}
-            />
-          </div>
-          <div>
-            <FreqTable
-              key={"t_freq"}
-              bins={CONF.bins_tokens}
-              values={textCorpusRec.t_freq as number[]}
-              title={"Common Voice " + lc}
-              subTitle={intl.get("tbl.token_distribution")}
-              // yScale= {"linear"}
-              mean={textCorpusRec.t_avg}
-              median={textCorpusRec.t_med}
-              std={textCorpusRec.t_std}
-              addTotals={true}
-              addPercentageColumn={true}
-              dropLastFromGraph={true}
-              cnt={cnt++}
-            />
-          </div>
+          {textCorpusRec.has_val ? (
+            <>
+              <div>
+                <FreqTable
+                  key={"w_freq"}
+                  bins={CONF.bins_words}
+                  values={textCorpusRec.w_freq as number[]}
+                  title={"Common Voice " + lc}
+                  subTitle={intl.get("tbl.word_distribution")}
+                  // yScale= {"linear"}
+                  mean={textCorpusRec.w_avg}
+                  median={textCorpusRec.w_med}
+                  std={textCorpusRec.w_std}
+                  addTotals={true}
+                  addPercentageColumn={true}
+                  dropLastFromGraph={true}
+                  isXNumber={false}
+                  cnt={cnt++}
+                />
+              </div>
+              <div>
+                <FreqTable
+                  key={"t_freq"}
+                  bins={CONF.bins_tokens}
+                  values={textCorpusRec.t_freq as number[]}
+                  title={"Common Voice " + lc}
+                  subTitle={intl.get("tbl.token_distribution")}
+                  // yScale= {"linear"}
+                  mean={textCorpusRec.t_avg}
+                  median={textCorpusRec.t_med}
+                  std={textCorpusRec.t_std}
+                  addTotals={true}
+                  addPercentageColumn={true}
+                  dropLastFromGraph={true}
+                  cnt={cnt++}
+                />
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
           <Grid
             container
             alignItems="stretch"
