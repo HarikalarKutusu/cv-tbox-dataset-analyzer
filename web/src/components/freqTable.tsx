@@ -86,17 +86,19 @@ export const FreqTable = (props: IFreqTableProps) => {
   tableData = [];
   let total: number = 0;
   let isNonNumeric: boolean = isNaN(Number(bins[0]));
-  let binstr: string = ""
+  let binstr: string = "";
   for (let i = 0; i < bins.length; i++) {
     total += values[i] as number;
     if (isNonNumeric) {
-      binstr = bins[i].toString()
+      binstr = bins[i].toString();
     } else {
       binstr = bins[i].toLocaleString(langCode);
-      binstr =
-        i < bins.length - 1
-          ? "[" + binstr + " - " + bins[i + 1].toLocaleString(langCode) + ")"
-          : "[" + binstr + " - ... ]";
+      if (i < bins.length - 1 && Number(bins[i + 1]) - Number(bins[i]) !== 1) {
+        binstr =
+          "[" + binstr + " - " + bins[i + 1].toLocaleString(langCode) + ")";
+      } else if (i === bins.length - 1) {
+        binstr = "[" + binstr + " + ]";
+      }
     }
 
     tableData.push({
