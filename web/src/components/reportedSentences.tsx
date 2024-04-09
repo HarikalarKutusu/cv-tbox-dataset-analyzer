@@ -90,7 +90,8 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
         name: intl.get("col.value"),
         right: true,
         width: "100px",
-        selector: (row: IMeasureValueTableRow) => row.val.toLocaleString(langCode),
+        selector: (row: IMeasureValueTableRow) =>
+          row.val.toLocaleString(langCode),
       },
     ];
 
@@ -198,7 +199,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
               values={reportedSRec.rep_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.reported_freq")}
-              yScale="linear"
+              // yScale= {"linear"}
               mean={reportedSRec.rep_avg}
               median={reportedSRec.rep_med}
               std={reportedSRec.rep_std}
@@ -216,7 +217,7 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
               values={reportedSRec.rea_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.reported_reasons_freq")}
-              yScale="linear"
+              // yScale= {"linear"}
               addTotals={true}
               addPercentageColumn={true}
               dropLastFromGraph={true}

@@ -79,7 +79,8 @@ export const FreqChart = (props: IFreqChartProps) => {
               tickFormatter={(val) => {
                 return val.toLocaleString(langCode);
               }}
-              // scale={yScale}
+              scale={yScale}
+              domain={["auto", "auto"]}
             />
             <CartesianGrid
               strokeDasharray="3 3"

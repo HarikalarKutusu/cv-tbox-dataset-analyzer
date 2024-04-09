@@ -6,6 +6,8 @@ import axios from "axios";
 import intl from "react-intl-universal";
 // MUI
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -17,16 +19,18 @@ import { useStore } from "../stores/store";
 import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
 import {
   TABLE_STYLE,
+  TABLE_STYLE_DENSE,
   TEXT_CORPUS_STATS_ROW_TYPE,
   ITextCorpusStatsTableRow,
   // IStrValuePair,
   // convertStr2NumList,
   // convertStr2StrArr,
   downloadCSV,
+  convertStr2StrList,
   // IMeasureValueTableRow,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { Grid, Paper } from "@mui/material";
+import { Button, Grid, Paper, Typography } from "@mui/material";
 
 //
 // JSX
@@ -54,10 +58,61 @@ export const TextCorpus = (props: TextCorpusProps) => {
   const [textCorpusRec, setTextCorpusRec] = useState<
     TEXT_CORPUS_STATS_ROW_TYPE | undefined
   >(undefined);
+  const [algorithms, setAlgorithms] = useState<string[] | undefined>(undefined);
+  const [curAlgo, setCurAlgo] = useState<string>("s1");
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
-  const TextCorpusStatsTable = () => {
+  const paginationComponentOptions = {
+    rowsPerPageText: intl.get("pagination.perpage"),
+    rangeSeparatorText: intl.get("pagination.rangeseparator"),
+    selectAllRowsItem: true,
+    selectAllRowsItemText: intl.get("pagination.selectallrows"),
+  };
+
+  const handleAlgoSelect = (algo: string) => {
+    setCurAlgo(algo);
+  };
+
+  const AlgoButtons = (): JSX.Element => {
+    return (
+      <div>
+        <Typography align="right">
+          {intl.get("col.algorithm")}
+          <>
+            {algorithms?.map((algo) => {
+              return (
+                <Button
+                  onClick={() => handleAlgoSelect(algo)}
+                  variant="contained"
+                  color={curAlgo === algo ? "primary" : "secondary"}
+                  size="small"
+                  key={algo}
+                  sx={{
+                    color: "#eee",
+                    textTransform: "none",
+                    margin: "4px 2px",
+                    padding: "2px 0px",
+                    textAlign: "center",
+                    width: "30px",
+                    maxWidth: "30px",
+                    height: "30px",
+                    maxHeight: "30px",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {algo}
+                </Button>
+              );
+            })}
+          </>
+        </Typography>
+      </div>
+    );
+  };
+
+  const TextCorpusStatsTable = (): JSX.Element => {
+    const algo = curAlgo;
     let tbl: ITextCorpusStatsTableRow[] = [];
     // const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     // const dec3 = { minimumFractionDigits: 3, maximumFractionDigits: 3 };
@@ -80,15 +135,15 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
     if (lst && lst.length > 0) validated_rec = lst[0];
     lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "train",
+      (row) => row.algo === algo && row.sp === "train",
     );
     if (lst && lst.length > 0) train_rec = lst[0];
     lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "dev",
+      (row) => row.algo === algo && row.sp === "dev",
     );
     if (lst && lst.length > 0) dev_rec = lst[0];
     lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "test",
+      (row) => row.algo === algo && row.sp === "test",
     );
     if (lst && lst.length > 0) test_rec = lst[0];
 
@@ -327,7 +382,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       <DataTable
         columns={tcStatsTableColumns}
         data={tbl}
-        title={intl.get("examinepage.tab.text-corpus")}
+        title={intl.get("examinepage.tab.text-corpus") + " & " + curAlgo}
         responsive
         dense
         direction={Direction.AUTO}
@@ -338,12 +393,26 @@ export const TextCorpus = (props: TextCorpusProps) => {
     );
   };
 
+  const mergeCountTableData = (items: string[], values: number[]): any[][] => {
+    const reducer = (oldSum: number, newValue: number): number => {
+      return oldSum + newValue;
+    };
+    const res: any[][] = [];
+    if (items.length !== values.length) {
+      console.log("ERROR: mergeCountTableData item count != value count");
+      return res;
+    }
+    const total: number = values.reduce(reducer);
+    for (let i = 0; i < items.length; i++) {
+      res.push([items[i], values[i], values[i] / total]);
+    }
+    return res;
+  };
+
   const countTableColumns: TableColumn<any[]>[] = [
     {
       id: "symbol",
       name: intl.get("col.symbol"),
-      center: true,
-      width: "50px",
       selector: (row: any[]) => (row[0] ? row[0] : "-"),
     },
     {
@@ -353,6 +422,13 @@ export const TextCorpus = (props: TextCorpusProps) => {
       width: "100px",
       selector: (row: any[]) =>
         row[1] ? Number(row[1]).toLocaleString(langCode) : "-",
+    },
+    {
+      id: "per",
+      name: intl.get("col.percent"),
+      right: true,
+      width: "60px",
+      selector: (row: any[]) => (row[2] ? (100 * row[2]).toFixed(3) : "-"),
     },
   ];
 
@@ -370,16 +446,30 @@ export const TextCorpus = (props: TextCorpusProps) => {
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {
           let data: TEXT_CORPUS_STATS_ROW_TYPE[] = response.data.data;
+          data = data.map((row) => {
+            if (typeof row.g_items === "string")
+              row.g_items = convertStr2StrList(row.g_items as string);
+            if (typeof row.p_items === "string")
+              row.p_items = convertStr2StrList(row.p_items as string);
+            if (typeof row.dom_items === "string")
+              row.dom_items = convertStr2StrList(row.dom_items as string);
+            return row;
+          });
           setSelectedLanguage(lc);
           setSelectedVersion(ver);
           setTextCorpusStats(data);
-          const lst: TEXT_CORPUS_STATS_ROW_TYPE[] = data.filter(
+          const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = data.filter(
             (row) => row.algo === "" && row.sp === "",
           );
-          if (lst && lst.length > 0) {
-            setTextCorpusRec(lst[0]);
-            console.log(lst[0].g_freq);
-            console.log(lst[0].p_freq);
+          if (tcrec && tcrec.length > 0) {
+            setTextCorpusRec(tcrec[0]);
+          }
+          // get unique algorithmn
+          const algos: string[] = [
+            ...new Set(data.map((row) => row.algo)),
+          ].filter((a) => a.length > 0);
+          if (algos) {
+            setAlgorithms(algos);
           }
         }); // then-axios
     } // if
@@ -394,6 +484,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
     setTextCorpusStats,
     textCorpusRec,
     setTextCorpusRec,
+    setAlgorithms,
   ]);
 
   // useEffect(() => {
@@ -417,20 +508,31 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   return (
     <>
-      <div>
-        <div>
-          {intl.get("measures.has_validation") + ": "}{" "}
-          {textCorpusRec.has_val ? "+" : "-"}
-        </div>
-        <div>
-          {intl.get("measures.has_phonemiser") + ": "}{" "}
-          {textCorpusRec.has_phon ? "+" : "-"}
-        </div>
-      </div>
+      <Typography align="right" variant="body2">
+        {intl.get("measures.has_validation") + ": "}
+        {textCorpusRec.has_val ? (
+          <CheckBoxIcon color="secondary" sx={{ verticalAlign: "bottom" }} />
+        ) : (
+          <DoNotDisturbOnIcon
+            color="primary"
+            sx={{ verticalAlign: "bottom" }}
+          />
+        )}
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        {intl.get("measures.has_phonemiser") + ": "}
+        {textCorpusRec.has_phon ? (
+          <CheckBoxIcon color="secondary" sx={{ verticalAlign: "bottom" }} />
+        ) : (
+          <DoNotDisturbOnIcon
+            color="primary"
+            sx={{ verticalAlign: "bottom" }}
+          />
+        )}
+      </Typography>
+      <AlgoButtons />
       <div>
         <TextCorpusStatsTable />
       </div>
-
       {textCorpusRec && (
         <>
           <div>
@@ -440,7 +542,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec.c_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.character_distribution")}
-              yScale="linear"
+              // yScale= {"linear"}
               mean={textCorpusRec.c_avg}
               median={textCorpusRec.c_med}
               std={textCorpusRec.c_std}
@@ -451,64 +553,103 @@ export const TextCorpus = (props: TextCorpusProps) => {
               cnt={cnt++}
             />
           </div>
-          <div>
-            <FreqTable
-              key={"w_freq"}
-              bins={CONF.bins_words}
-              values={textCorpusRec.w_freq as number[]}
-              title={"Common Voice " + lc}
-              subTitle={intl.get("tbl.word_distribution")}
-              yScale="linear"
-              mean={textCorpusRec.w_avg}
-              median={textCorpusRec.w_med}
-              std={textCorpusRec.w_std}
-              addTotals={true}
-              addPercentageColumn={true}
-              dropLastFromGraph={true}
-              isXNumber={false}
-              cnt={cnt++}
-            />
-          </div>
-          <div>
-            <FreqTable
-              key={"t_freq"}
-              bins={CONF.bins_tokens}
-              values={textCorpusRec.t_freq as number[]}
-              title={"Common Voice " + lc}
-              subTitle={intl.get("tbl.token_distribution")}
-              yScale="log"
-              mean={textCorpusRec.t_avg}
-              median={textCorpusRec.t_med}
-              std={textCorpusRec.t_std}
-              addTotals={true}
-              addPercentageColumn={true}
-              dropLastFromGraph={true}
-              cnt={cnt++}
-            />
-          </div>
+          {!textCorpusRec.has_val ? (
+            <></>
+          ) : (
+            <>
+              <div>
+                <FreqTable
+                  key={"w_freq"}
+                  bins={CONF.bins_words}
+                  values={textCorpusRec.w_freq as number[]}
+                  title={"Common Voice " + lc}
+                  subTitle={intl.get("tbl.word_distribution")}
+                  // yScale= {"linear"}
+                  mean={textCorpusRec.w_avg}
+                  median={textCorpusRec.w_med}
+                  std={textCorpusRec.w_std}
+                  addTotals={true}
+                  addPercentageColumn={true}
+                  dropLastFromGraph={true}
+                  isXNumber={false}
+                  cnt={cnt++}
+                />
+              </div>
+              <div>
+                <FreqTable
+                  key={"t_freq"}
+                  bins={CONF.bins_tokens}
+                  values={textCorpusRec.t_freq as number[]}
+                  title={"Common Voice " + lc}
+                  subTitle={intl.get("tbl.token_distribution")}
+                  // yScale= {"linear"}
+                  mean={textCorpusRec.t_avg}
+                  median={textCorpusRec.t_med}
+                  std={textCorpusRec.t_std}
+                  addTotals={true}
+                  addPercentageColumn={true}
+                  dropLastFromGraph={true}
+                  cnt={cnt++}
+                />
+              </div>
+            </>
+          )}
           <Grid
             container
             alignItems="stretch"
             spacing={1}
             sx={{ width: "100%", mb: "10px" }}
           >
-            {textCorpusRec.g_freq.length === 0 ? (
+            {textCorpusRec.dom_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={{ width: "34%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.g_freq as string[][]}
-                    data={textCorpusRec.g_freq}
+                    data={mergeCountTableData(
+                      (textCorpusRec.dom_items as string[]).map((s) => {
+                        return intl.get("dom." + s);
+                      }),
+                      textCorpusRec.dom_freq,
+                    )}
+                    title={intl.get("tbl.domains")}
+                    responsive
+                    dense
+                    pagination
+                    paginationPerPage={20}
+                    paginationComponentOptions={paginationComponentOptions}
+                    direction={Direction.AUTO}
+                    highlightOnHover
+                    customStyles={TABLE_STYLE_DENSE}
+                    // actions={exportCVSFreqTable}
+                  />
+                </Paper>
+              </Grid>
+            )}
+
+            {textCorpusRec.g_freq.length === 0 ? (
+              <></>
+            ) : (
+              <Grid item sx={{ width: "33%" }}>
+                <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  <DataTable
+                    columns={countTableColumns}
+                    // data={textCorpusRec.g_freq as string[][]}
+                    data={mergeCountTableData(
+                      textCorpusRec.g_items as string[],
+                      textCorpusRec.g_freq,
+                    )}
                     title={intl.get("tbl.graphemes")}
                     responsive
                     dense
                     pagination
                     paginationPerPage={20}
+                    paginationComponentOptions={paginationComponentOptions}
                     direction={Direction.AUTO}
                     highlightOnHover
-                    customStyles={TABLE_STYLE}
+                    customStyles={TABLE_STYLE_DENSE}
                     // actions={exportCVSFreqTable}
                   />
                 </Paper>
@@ -518,20 +659,24 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.p_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={{ width: "33%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.p_freq as string[][]}
-                    data={textCorpusRec.p_freq}
+                    data={mergeCountTableData(
+                      textCorpusRec.p_items as string[],
+                      textCorpusRec.p_freq,
+                    )}
                     title={intl.get("tbl.phonemes")}
                     responsive
                     dense
                     pagination
+                    paginationComponentOptions={paginationComponentOptions}
                     paginationPerPage={20}
                     direction={Direction.AUTO}
                     highlightOnHover
-                    customStyles={TABLE_STYLE}
+                    customStyles={TABLE_STYLE_DENSE}
                     // actions={exportCVSFreqTable}
                   />
                 </Paper>
