@@ -288,8 +288,8 @@ export interface IFreqTableProps {
 
 export interface IFreqTableRow {
   bin: number | string;
-  val: number | string;
-  percentage?: number | string;
+  val: number;
+  percentage?: number;
 }
 
 export interface IFreqTableProps2D {
