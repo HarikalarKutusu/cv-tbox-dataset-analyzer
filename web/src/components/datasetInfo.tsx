@@ -760,7 +760,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
       // calculated fields
 
       // demographics
-      if (row.dem_table) {
+      if (row.dem_table && row.dem_table.length > 0) {
         // gender
         lastrow = getArrLastRow(row.dem_table as number[][]);
         lastcol = getArrLastCol(row.dem_table as number[][]);
@@ -784,7 +784,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
         }
       }
 
-      if (row.dem_uq) {
+      if (row.dem_uq && row.dem_uq.length > 0) {
         // gender
         lastrow = getArrLastRow(row.dem_uq as number[][]);
         lastcol = getArrLastCol(row.dem_uq as number[][]);
