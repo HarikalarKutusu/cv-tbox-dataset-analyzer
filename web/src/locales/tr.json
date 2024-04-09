@@ -259,6 +259,7 @@
   "bins_reasons.other": "Diğer Nedenler",
 
   "warn.no_data": "Gösterilecek yeterli veri yok.",
+  "error.bad_data": "Kötü formda veri geldi",
 
   "lang.ab": "Abhazca",
   "lang.ace": "Açece",

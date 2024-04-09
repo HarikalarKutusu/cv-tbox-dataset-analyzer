@@ -259,6 +259,7 @@
   "bins_reasons.other": "Other Reasons",
 
   "warn.no_data": "Not enough data to show.",
+  "error.bad_data": "Encountered badly formed data",
 
   "lang.ab": "Abkhaz",
   "lang.ace": "Acehnese",
