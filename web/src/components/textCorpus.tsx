@@ -553,7 +553,9 @@ export const TextCorpus = (props: TextCorpusProps) => {
               cnt={cnt++}
             />
           </div>
-          {textCorpusRec.has_val ? (
+          {!textCorpusRec.has_val ? (
+            <></>
+          ) : (
             <>
               <div>
                 <FreqTable
@@ -591,8 +593,6 @@ export const TextCorpus = (props: TextCorpusProps) => {
                 />
               </div>
             </>
-          ) : (
-            <></>
           )}
           <Grid
             container
