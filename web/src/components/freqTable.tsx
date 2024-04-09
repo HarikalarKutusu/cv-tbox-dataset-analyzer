@@ -54,14 +54,16 @@ export const FreqTable = (props: IFreqTableProps) => {
         minWidth: "100px",
         maxWidth: "150px",
         right: true,
-        selector: (row) => row.bin.toLocaleString(langCode),
+        selector: (row) =>
+          row.bin !== undefined ? row.bin.toLocaleString(langCode) : "?",
       },
       {
         id: "count",
         name: intl.get("col.value"),
         width: "100px",
         right: true,
-        selector: (row) => row.val.toLocaleString(langCode),
+        selector: (row) =>
+          row.val !== undefined ? row.val.toLocaleString(langCode) : "?",
       },
     ];
     if (addPercentageColumn) {
@@ -71,7 +73,9 @@ export const FreqTable = (props: IFreqTableProps) => {
         width: "100px",
         right: true,
         selector: (row) =>
-          row.percentage ? row.percentage.toLocaleString(langCode, dec2) : "-",
+          row.percentage !== undefined
+            ? row.percentage.toLocaleString(langCode, dec2)
+            : "-",
       });
     }
     return cols;
@@ -80,31 +84,37 @@ export const FreqTable = (props: IFreqTableProps) => {
   if (values.length !== bins.length) {
     console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE");
     console.log("BINS=", bins.length, " VALUES=", values.length);
+    console.log("BINS=", bins);
+    console.log("VALUES=", values);
   }
 
   // Prep table
   tableData = [];
   let total: number = 0;
   let isNonNumeric: boolean = isNaN(Number(bins[0]));
-  let binstr: string = "";
+  let binMaybestr: string | number = "";
   for (let i = 0; i < bins.length; i++) {
     total += values[i] as number;
     if (isNonNumeric) {
-      binstr = bins[i].toString();
+      binMaybestr = bins[i].toString();
     } else {
-      binstr = bins[i].toLocaleString(langCode);
+      binMaybestr = bins[i];
       if (i < bins.length - 1 && Number(bins[i + 1]) - Number(bins[i]) !== 1) {
-        binstr =
-          "[" + binstr + " - " + bins[i + 1].toLocaleString(langCode) + ")";
+        binMaybestr =
+          "[" +
+          binMaybestr.toLocaleString(langCode) +
+          " - " +
+          bins[i + 1].toLocaleString(langCode) +
+          ")";
       } else if (i === bins.length - 1) {
-        binstr = "[" + binstr + " + ]";
+        binMaybestr = "[" + binMaybestr.toLocaleString(langCode) + " + ]";
       }
     }
 
     tableData.push({
       // bin: bins[i],
-      bin: binstr,
-      val: values[i],
+      bin: binMaybestr,
+      val: values[i] as number,
     });
   }
   // Add totals if requested
@@ -124,6 +134,13 @@ export const FreqTable = (props: IFreqTableProps) => {
     }
   }
 
+  // const final_bins: (string|number)[] = []
+  // const final_values: (string|number)[] = []
+  // tableData.forEach((row) => {
+  //   final_bins.push(row.bin)
+  //   final_values.push(row.val)
+  // })
+
   const exportCVSFreqTable = useMemo(
     () => (
       <DownloadForOfflineIcon
@@ -141,8 +158,16 @@ export const FreqTable = (props: IFreqTableProps) => {
     [selectedLanguage, selectedVersion, subTitle, tableData],
   );
 
-  return !values || values.length !== bins.length ? (
+  return !values ? (
     <Alert severity="warning">{intl.get("warn.no_data")}</Alert>
+  ) : values.length !== bins.length ? (
+    <Alert severity="error">
+      {intl.get("error.bad_data") +
+        " :" +
+        values.length.toString() +
+        " !== " +
+        bins.length.toString()}
+    </Alert>
   ) : (
     <Box
       sx={{
@@ -168,7 +193,7 @@ export const FreqTable = (props: IFreqTableProps) => {
             spacing={0}
             sx={{ width: "100%", mb: "10px" }}
           >
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
               <DataTable
                 columns={getColumns()}
                 data={tableData}
@@ -182,7 +207,15 @@ export const FreqTable = (props: IFreqTableProps) => {
                 actions={exportCVSFreqTable}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={9} sx={{ border: "1px" }}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={8}
+              lg={8}
+              xl={8}
+              sx={{ border: "1px" }}
+            >
               <div style={{ width: "100%", height: "100%" }}>
                 <FreqChart
                   data={dropLastFromGraph ? tableData.slice(0, -1) : tableData}
