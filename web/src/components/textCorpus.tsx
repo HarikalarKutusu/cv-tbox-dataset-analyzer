@@ -358,7 +358,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
     }
     const total: number = values.reduce(reducer);
     for (let i = 0; i < items.length; i++) {
-      res.push([items[i], values[i], values[i]/total]);
+      res.push([items[i], values[i], values[i] / total]);
     }
     return res;
   };
@@ -382,8 +382,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       name: intl.get("col.percent"),
       right: true,
       width: "60px",
-      selector: (row: any[]) =>
-        row[2] ? (100 * row[2]).toFixed(3) : "-",
+      selector: (row: any[]) => (row[2] ? (100 * row[2]).toFixed(3) : "-"),
     },
   ];
 
@@ -479,7 +478,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec.c_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.character_distribution")}
-              yScale="linear"
+              // yScale= {"linear"}
               mean={textCorpusRec.c_avg}
               median={textCorpusRec.c_med}
               std={textCorpusRec.c_std}
@@ -497,7 +496,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec.w_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.word_distribution")}
-              yScale="linear"
+              // yScale= {"linear"}
               mean={textCorpusRec.w_avg}
               median={textCorpusRec.w_med}
               std={textCorpusRec.w_std}
@@ -515,7 +514,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               values={textCorpusRec.t_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.token_distribution")}
-              yScale="log"
+              // yScale= {"linear"}
               mean={textCorpusRec.t_avg}
               median={textCorpusRec.t_med}
               std={textCorpusRec.t_std}

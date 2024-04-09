@@ -14,6 +14,8 @@ import DataTable, {
   TableColumn,
 } from "react-data-table-component";
 
+import { ScaleType } from "recharts/types/util/types";
+
 // Store
 import { useStore } from "../stores/store";
 
@@ -561,6 +563,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
       addTotals?: boolean;
       addPercentageColumn?: boolean;
       dropLastFromGraph?: boolean;
+      yScale?: ScaleType;
     };
 
     if (!CONF) return <></>;
@@ -583,6 +586,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
         ];
         break;
@@ -598,6 +602,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
         ];
         break;
@@ -609,6 +614,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             subTitle: intl.get("tbl.gender_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
           // {
           //   bins: CV_GENDERS as string[],
@@ -628,6 +634,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             subTitle: intl.get("tbl.gender_uq_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
           {
             bins: CV_GENDERS as string[],
@@ -637,6 +644,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             ),
             subTitle: intl.get("tbl.gender_recs_per_person"),
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
         ];
         break;
@@ -648,6 +656,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             subTitle: intl.get("tbl.age_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
           {
             bins: CV_AGES as string[],
@@ -655,6 +664,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             subTitle: intl.get("tbl.age_uq_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
           {
             bins: CV_AGES as string[],
@@ -664,6 +674,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             ),
             subTitle: intl.get("tbl.age_recs_per_person"),
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
         ];
         break;
@@ -679,6 +690,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             addPercentageColumn: true,
             addTotals: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
           {
             bins: CONF.bins_votes_down,
@@ -690,6 +702,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             addPercentageColumn: true,
             addTotals: true,
             dropLastFromGraph: true,
+            // yScale: "linear",
           },
         ];
         break;
@@ -721,7 +734,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
               values={ev.values}
               title={title}
               subTitle={ev.subTitle}
-              yScale="linear"
+              yScale={ev.yScale}
               mean={ev.mean}
               median={ev.median}
               std={ev.std}
