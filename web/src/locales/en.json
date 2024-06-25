@@ -202,9 +202,12 @@
 
   "dom.nodata": "No Data",
   "dom.agriculture": "Agriculture",
+  "dom.agriculture_food": "Agriculture and Food",
   "dom.automotive": "Automotive",
+  "dom.automotive_transport": "Automotive and Transport",
   "dom.finance": "Finance",
   "dom.food_service_retail": "Food, Service and Retail",
+  "dom.service_retail": "Service and Retail",
   "dom.general": "General",
   "dom.healthcare": "Healthcare",
   "dom.history_law_government": "History, Law and Government",

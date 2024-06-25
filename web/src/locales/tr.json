@@ -202,9 +202,12 @@
 
   "dom.nodata": "Veri Yok",
   "dom.agriculture": "Tarım",
+  "dom.agriculture_food": "Tarım ve Yemek",
   "dom.automotive": "Otomotiv",
+  "dom.automotive_transport": "Otomotiv ve Ulaşım",
   "dom.finance": "Finans",
   "dom.food_service_retail": "Yemek, Hizmet ve Alışveriş",
+  "dom.service_retail": "Hizmet ve Alışveriş",
   "dom.general": "Genel",
   "dom.healthcare": "Sağlık",
   "dom.history_law_government": "Tarih, Hukuk ve Kamu Yönetimi",

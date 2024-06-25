@@ -193,9 +193,12 @@
   "tbl.token_distribution": "Distribució d'ocurrència de tokens",
 
   "dom.agriculture": "Agricultura",
+  "dom.agriculture_food": "Agricultura i alimentació",
   "dom.automotive": "Automoció",
+  "dom.automotive_transport": "Automoció i transport",
   "dom.finance": "Finances",
   "dom.food_service_retail": "Alimentació, serveis i venda al detall",
+  "dom.service_retail": "Serveis i venda al detall",
   "dom.general": "General",
   "dom.healthcare": "Atenció sanitària",
   "dom.history_law_government": "Història, dret i govern",
