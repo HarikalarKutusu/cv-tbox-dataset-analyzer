@@ -97,6 +97,7 @@ export type SUPPORT_MATRIX_ROW_TYPE = {
   lc: string;
   lang: string;
 
+  v18_0: string | null;
   v17_0: string | null;
   v16_1: string | null;
   v15_0: string | null;
