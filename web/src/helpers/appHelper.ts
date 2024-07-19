@@ -38,6 +38,7 @@ export type CONFIG_TYPE = {
   bins_votes_up: number[];
   bins_votes_down: number[];
   bins_sentences: number[];
+  bins_char_speed: number[];
   bins_chars: number[];
   bins_words: number[];
   bins_tokens: number[];
