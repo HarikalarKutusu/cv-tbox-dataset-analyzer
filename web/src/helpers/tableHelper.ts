@@ -69,9 +69,11 @@ export type DATASET_INFO_VIEW_TYPE =
   | "gender"
   | "age"
   | "votes"
-  | "reported"
   | "sentences"
-  | "text-corpus";
+  | "text-corpus"
+  | "reported"
+  | "char-speed"
+  ;
 // | "comperative"
 // | "health"
 
@@ -85,6 +87,7 @@ export const DATASET_INFO_VIEW_TYPES: DATASET_INFO_VIEW_TYPE[] = [
   "sentences",
   "text-corpus",
   "reported",
+  "char-speed",
   // "comperative",
   // "health",
 ];
@@ -262,6 +265,31 @@ export type REPORTED_STATS_ROW_TYPE = {
 };
 
 //======================================
+//== Character Speed Statistics
+//======================================
+
+export type CHAR_SPEED_ROW_TYPE = {
+  // unique identifier for split
+  ver: string; // cv version in format 11.0
+  lc: string; // language code
+  alg: string; // algorithm code s1, s99, v1
+  sp: string; // split id
+  clips: number; // number of splits in the split
+  // Character Speed data
+  cs_avg: number; // average (mean)
+  cs_med: number; // median
+  cs_std: number; // standard deviation
+  cs_freq: number[]; // frequency distribution
+  // CrossTabs
+  cs_r: string | string[]; // row labels for all crosstabs (from list of int)
+  cs2s_c: string | string[]; // col labels for sentence length (from list of int)
+
+  cs2s: string | number[][]; // char-speed vs sentence length
+  cs2g: string | number[][]; // char-speed vs gender (columns are known)
+  cs2a: string | number[][]; // char-speed vs age (columns are known)
+};
+
+//======================================
 //== SEPARATORS
 //======================================
 export const SEP_ROW: string = "|";
@@ -327,13 +355,13 @@ export interface ITextCorpusStatsTableRow {
 //== Methods
 //======================================
 
-// export const convertStr2NumList = (s: string): number[] => {
-//   return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
-// };
+export const convertStr2NumList = (s: string): number[] => {
+  return s === "" ? [] : s.split(SEP_COL).map((x) => Number(x));
+};
 
-// export const convertStr2NumArr = (s: string): number[][] => {
-//   return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2NumList(s));
-// };
+export const convertStr2NumArr = (s: string): number[][] => {
+  return s === "" ? [] : s.split(SEP_ROW).map((s) => convertStr2NumList(s));
+};
 
 export const convertStr2StrList = (s: string): string[] => {
   return s === "" ? [] : s.split(SEP_COL).map((x) => x.toString());
@@ -413,6 +441,7 @@ const convertArrayOfObjectsToCSV = (
     | DATASET_INFO_ROW_TYPE[]
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
+    | CHAR_SPEED_ROW_TYPE[]
     | IFreqTableRow[]
     | ITextCorpusStatsTableRow[]
     | IMeasureValueTableRow[],
@@ -448,6 +477,7 @@ export const downloadCSV = (
     | DATASET_INFO_ROW_TYPE[]
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
+    | CHAR_SPEED_ROW_TYPE[]
     | IFreqTableRow[]
     | ITextCorpusStatsTableRow[],
   fnBase: string,
