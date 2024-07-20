@@ -8,7 +8,11 @@ import intl from "react-intl-universal";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
 // DataTable
-import DataTable, { Direction, ExpanderComponentProps, TableColumn } from "react-data-table-component";
+import DataTable, {
+  Direction,
+  ExpanderComponentProps,
+  TableColumn,
+} from "react-data-table-component";
 
 // Store
 import { useStore } from "../stores/store";
@@ -21,9 +25,12 @@ import {
   CHAR_SPEED_ROW_TYPE,
   convertStr2StrList,
   convertStr2NumArr,
+  IFreqTableProps,
+  ICrossTabTableProps,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { ScaleType } from "recharts/types/util/types";
+import { CrossTabTableComponent } from "./crossTabTable";
+import { CV_AGES, CV_GENDERS } from "../helpers/cvHelper";
 
 //
 // JSX
@@ -44,7 +51,6 @@ export const CharSpeed = (props: CharSpeedProps) => {
   const { charSpeed, setCharSpeed } = useStore();
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
-
 
   const getColumns = (): TableColumn<CHAR_SPEED_ROW_TYPE>[] => {
     // const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -105,8 +111,8 @@ export const CharSpeed = (props: CharSpeedProps) => {
         row.cs_std ? row.cs_std.toLocaleString(langCode, dec3) : "-",
     };
 
-    return [col_alg, col_sp, col_clips, col_cs_avg, col_cs_med, col_cs_std]
-  }
+    return [col_alg, col_sp, col_clips, col_cs_avg, col_cs_med, col_cs_std];
+  };
 
   const paginationComponentOptions = {
     rowsPerPageText: intl.get("pagination.perpage"),
@@ -115,32 +121,18 @@ export const CharSpeed = (props: CharSpeedProps) => {
     selectAllRowsItemText: intl.get("pagination.selectallrows"),
   };
 
-  const ExpandedComponent: FC<
-    ExpanderComponentProps<CHAR_SPEED_ROW_TYPE>
-  > = ({ data }) => {
-    type expViewType = {
-      bins: number[] | string[];
-      values: number[] | string[];
-      title?: string;
-      subTitle?: string;
-      mean?: number;
-      median?: number;
-      std?: number;
-      addTotals?: boolean;
-      addPercentageColumn?: boolean;
-      dropLastFromGraph?: boolean;
-      yScale?: ScaleType;
-    };
-
+  const ExpandedComponent: FC<ExpanderComponentProps<CHAR_SPEED_ROW_TYPE>> = ({
+    data,
+  }) => {
     if (!CONF) return <></>;
 
-    let expViews: expViewType[] = [];
     const title: string = "Common Voice " + lc + " v" + ver;
 
-    expViews = [
+    const expFreqViews: IFreqTableProps[] = [
       {
         bins: CONF.bins_char_speed,
         values: data.cs_freq,
+        title: title,
         subTitle: intl.get("tbl.char_speed"),
         mean: data.cs_avg,
         median: data.cs_med,
@@ -151,32 +143,83 @@ export const CharSpeed = (props: CharSpeedProps) => {
         // yScale: "linear",
       },
     ];
+
+    const extCrossTabViews: ICrossTabTableProps[] = [
+      {
+        data: data.cs2s as number[][],
+        rowLabels: data.cs_r as string[],
+        colLabels: data.cs2s_c as string[],
+        title: title,
+        subTitle: intl.get("tbl.char_speed_vs_sentence_len"),
+        useRowRange: true,
+        useColRange: true,
+        useHeatMap: true,
+      },
+      {
+        data: data.cs2g as number[][],
+        rowLabels: data.cs_r as string[],
+        colLabels: (CV_GENDERS as string[]).slice(0, -1),
+        title: title,
+        subTitle: intl.get("tbl.char_speed_vs_gender"),
+        useRowRange: true,
+        useColRange: false,
+        useHeatMap: true,
+      },
+      {
+        data: data.cs2a as number[][],
+        rowLabels: data.cs_r as string[],
+        colLabels: (CV_AGES as string[]).slice(0, -1),
+        title: title,
+        subTitle: intl.get("tbl.char_speed_vs_age"),
+        useRowRange: true,
+        useColRange: false,
+        useHeatMap: true,
+      },
+    ];
     return (
       <>
-        {expViews.map((ev, index) => {
+        {expFreqViews.map((ev, index) => {
           return (
-            <FreqTable
-              key={"cs_freq_" + index}
-              bins={ev.bins}
-              values={ev.values}
-              title={title}
-              subTitle={ev.subTitle}
-              yScale={ev.yScale}
-              mean={ev.mean}
-              median={ev.median}
-              std={ev.std}
-              addTotals={ev.addTotals}
-              addPercentageColumn={ev.addPercentageColumn}
-              dropLastFromGraph={ev.dropLastFromGraph}
-            />
+            <div>
+              <FreqTable
+                key={"cs_freq_" + index}
+                bins={ev.bins}
+                values={ev.values}
+                title={title}
+                subTitle={ev.subTitle}
+                yScale={ev.yScale}
+                mean={ev.mean}
+                median={ev.median}
+                std={ev.std}
+                addTotals={ev.addTotals}
+                addPercentageColumn={ev.addPercentageColumn}
+                dropLastFromGraph={ev.dropLastFromGraph}
+              />
+            </div>
+          );
+        })}
+        {extCrossTabViews.map((ev, index) => {
+          return (
+            <div>
+              <CrossTabTableComponent
+                key={"cs_ct_" + index}
+                data={ev.data}
+                rowLabels={ev.rowLabels}
+                colLabels={ev.colLabels}
+                title={ev.title}
+                subTitle={ev.subTitle}
+                useColRange={ev.useColRange}
+                useRowRange={ev.useRowRange}
+                useHeatMap={ev.useHeatMap}
+              />
+            </div>
           );
         })}
       </>
     );
   };
 
-
-    const exportCVSDatasetMemo = useMemo(
+  const exportCVSDatasetMemo = useMemo(
     () => (
       <DownloadForOfflineIcon
         onClick={() =>
@@ -192,7 +235,6 @@ export const CharSpeed = (props: CharSpeedProps) => {
     ),
     [charSpeed, selectedLanguage, selectedVersion],
   );
-
 
   const calcCalculatedFields = (data: CHAR_SPEED_ROW_TYPE[]) => {
     const newData: CHAR_SPEED_ROW_TYPE[] = [];
@@ -218,7 +260,6 @@ export const CharSpeed = (props: CharSpeedProps) => {
     return newData;
   };
 
-
   // Pre-process if needed (if just loaded)
   useEffect(() => {
     // requested dataset
@@ -236,14 +277,22 @@ export const CharSpeed = (props: CharSpeedProps) => {
           setCharSpeed(data);
         }); // exios
     } // if
-  }, [lc, ver, selectedLanguage, setSelectedLanguage, selectedVersion, charSpeed, setCharSpeed, setSelectedVersion]);
+  }, [
+    lc,
+    ver,
+    selectedLanguage,
+    setSelectedLanguage,
+    selectedVersion,
+    charSpeed,
+    setCharSpeed,
+    setSelectedVersion,
+  ]);
 
   if (!lc || !ver) {
     return <div>Error in parameters.</div>;
   }
 
-  if (!initDone || !CONF || !charSpeed)
-    return <>...</>;
+  if (!initDone || !CONF || !charSpeed) return <>...</>;
 
   return (
     <>
