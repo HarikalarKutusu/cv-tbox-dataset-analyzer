@@ -72,8 +72,7 @@ export type DATASET_INFO_VIEW_TYPE =
   | "sentences"
   | "text-corpus"
   | "reported"
-  | "char-speed"
-  ;
+  | "char-speed";
 // | "comperative"
 // | "health"
 
@@ -308,9 +307,9 @@ export interface IFreqTableProps {
   mean?: number;
   median?: number;
   std?: number;
-  dropLastFromGraph?: boolean;
   addTotals?: boolean;
   addPercentageColumn?: boolean;
+  dropLastFromGraph?: boolean;
   isXNumber?: boolean;
   cnt?: number;
 }
@@ -349,6 +348,20 @@ export interface ITextCorpusStatsTableRow {
   train: number | string;
   dev: number | string;
   test: number | string;
+}
+
+//======================================
+//== Measure-Value table
+//======================================
+export interface ICrossTabTableProps {
+  data: number[][];
+  rowLabels: number[] | string[];
+  colLabels: number[] | string[];
+  title?: string;
+  subTitle?: string;
+  useRowRange?: boolean;
+  useColRange?: boolean;
+  useHeatMap?: boolean;
 }
 
 //======================================
