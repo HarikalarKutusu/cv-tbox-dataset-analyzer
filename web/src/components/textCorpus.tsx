@@ -458,21 +458,24 @@ export const TextCorpus = (props: TextCorpusProps) => {
           setSelectedLanguage(lc);
           setSelectedVersion(ver);
           setTextCorpusStats(data);
-          const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = data.filter(
-            (row) => row.algo === "" && row.sp === "",
-          );
-          if (tcrec && tcrec.length > 0) {
-            setTextCorpusRec(tcrec[0]);
-          }
-          // get unique algorithmn
-          const algos: string[] = [
-            ...new Set(data.map((row) => row.algo)),
-          ].filter((a) => a.length > 0);
-          if (algos) {
-            setAlgorithms(algos);
-          }
         }); // then-axios
     } // if
+    // If loaded and record not selected
+    if (textCorpusStats && !textCorpusRec) {
+      const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = textCorpusStats.filter(
+        (row) => row.algo === "" && row.sp === "",
+      );
+      if (tcrec && tcrec.length > 0) {
+        setTextCorpusRec(tcrec[0]);
+      }
+      // get unique algorithmn
+      const algos: string[] = [...new Set(textCorpusStats.map((row) => row.algo))].filter(
+        (a) => a.length > 0,
+      );
+      if (algos) {
+        setAlgorithms(algos);
+      }
+    }
   }, [
     ver,
     lc,
@@ -499,6 +502,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   if (!lc || !ver) return <div>Error in parameters.</div>;
 
+  console.log(initDone, CONF, textCorpusStats, textCorpusRec)
   if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
 
   let cnt: number = 0;
