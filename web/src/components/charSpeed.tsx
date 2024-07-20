@@ -180,7 +180,6 @@ export const CharSpeed = (props: CharSpeedProps) => {
       <>
         {expFreqViews.map((ev, index) => {
           return (
-            <div>
               <FreqTable
                 key={"cs_freq_" + index}
                 bins={ev.bins}
@@ -195,12 +194,10 @@ export const CharSpeed = (props: CharSpeedProps) => {
                 addPercentageColumn={ev.addPercentageColumn}
                 dropLastFromGraph={ev.dropLastFromGraph}
               />
-            </div>
           );
         })}
         {extCrossTabViews.map((ev, index) => {
           return (
-            <div>
               <CrossTabTableComponent
                 key={"cs_ct_" + index}
                 data={ev.data}
@@ -212,7 +209,6 @@ export const CharSpeed = (props: CharSpeedProps) => {
                 useRowRange={ev.useRowRange}
                 useHeatMap={ev.useHeatMap}
               />
-            </div>
           );
         })}
       </>
