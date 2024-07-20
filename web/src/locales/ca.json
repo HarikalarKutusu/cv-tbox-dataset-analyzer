@@ -237,9 +237,10 @@
   "examinepage.tab.gender": "Gènere",
   "examinepage.tab.age": "Edat",
   "examinepage.tab.votes": "Vots",
-  "examinepage.tab.reported": "Notificades",
   "examinepage.tab.sentences": "Frases",
   "examinepage.tab.text-corpus": "Corpus de text",
+  "examinepage.tab.reported": "Notificades",
+  "examinepage.tab.char-speed": "Velocitat de caràcter",
   "examinepage.tab.comperative": "Comparativa",
   "examinepage.tab.health": "Salut",
 

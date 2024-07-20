@@ -160,6 +160,14 @@
   "col.total_validHrs": "Valid Hours",
   "calc.valid_percentage": "%Valid/Total",
 
+  "col.char_speed.avg": "Avg. [ms]/ch",
+  "col.char_speed.med": "Med. [ms]/ch",
+  "col.char_speed.std": "Std.Dev.",
+  "tbl.char_speed": "Character Speed Disribution [ms]",
+  "tbl.char_speed_vs_sentence_len": "CharSpeed vs Sentence Length",
+  "tbl.char_speed_vs_gender": "CharSpeed vs Gender",
+  "tbl.char_speed_vs_age": "CharSpeed vs Age",
+
   "measures.has_validation": "Validation/Tokenization Applied?",
   "measures.has_phonemiser": "Phonemes Analyzed?",
 
@@ -231,7 +239,7 @@
   "homepage.about.p3": "If you are just interested in general status between versions, you can use the sister app <a href='https://metadata.cv-toolbox.web.tr/' target='_blank'>Common Voice Metadata Viewer</a>.",
   "homepage.about.p4": "In this application, under each dataset, you may see results for multiple splitting algorithms, given below (some may miss some). These splitting algorithms are:",
   "homepage.about.li1": "<strong>s1</strong>: Default splits in the Common Voice distribution datasets, same as using CorporaCreator with -s 1 option, i.e. only 1 recording per sentence is taken. This algorithm creates most diverse test split and scientifically most correct one. On the other hand it mostly results in taking a small/smaller portion of the dataset, especially for low resource languages. The training set is generally least diverse and small, resulting in biasing (voice, gender etc).",
-  "homepage.about.li2": "<strong>s99</strong>: CorporaCreator output with -s 99 option, i.e. up to 99 recordings per sentence are taken. This mostly results in taking the whole dataset; but for some languages, more than 100 sentences have been recorded. Although using the whole dataset, it does not guarantie the diversity in train set either, but gives better test results in models.",
+  "homepage.about.li2": "<strong>s5/s99</strong>: CorporaCreator output with -s 5 and -s 99 options respectively, i.e. up to 5/99 recordings per sentence are taken. s99 mostly results in taking the whole dataset, but for some languages, more than 100 sentences have been recorded. Although using the whole dataset, this does not guarantee the diversity in the train set either but gives better test results in models. s5 option is mostly good for taking many of the recordings, except for low text-corpora ones where people exhaust them up to 15 times.",
   "homepage.about.li3": "<strong>v1</strong>: An alternative adaptive algorithm proposed for Common Voice. It uses the whole dataset, ensures voice diversity in all splits, and you get better training results than s99 algorithm. It is currently under development, ran on all languages but only tested with a few using Coqui STT and OpenAI Whisper.",
   "homepage.about.li4": "<strong>vw</strong>: A version of v1 for better OpenAI Whisper fine-tuning, with 90-5-5% splits, keeping 25-25-50% diversity.",
   "homepage.about.li5": "<strong>vx</strong>: A version of v1 with 95-5-0% splits and 50-50-0% diversity, so no test split, where you can test your model against other datasets like Fleurs or Voxpopuli.",
@@ -249,9 +257,10 @@
   "examinepage.tab.gender": "Gender",
   "examinepage.tab.age": "Age",
   "examinepage.tab.votes": "Votes",
-  "examinepage.tab.reported": "Reported",
   "examinepage.tab.sentences": "Sentences",
   "examinepage.tab.text-corpus": "Text Corpus",
+  "examinepage.tab.reported": "Reported",
+  "examinepage.tab.char-speed": "Char-speed",
   "examinepage.tab.comperative": "Comperative",
   "examinepage.tab.health": "Health",
 
@@ -468,5 +477,9 @@
   "lang.zh-HK": "Chinese (Hong Kong)",
   "lang.zh-TW": "Chinese (Taiwan)",
   "lang.zu": "Zulu",
-  "lang.zza": "Zaza"
+  "lang.zza": "Zaza",
+
+  "lang.dav": "Kidaw'ida",
+  "lang.kln": "Kalenjin",
+  "lang.luo": "Dholuo"
 }
