@@ -34,6 +34,7 @@ import {
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
   downloadCSV,
+  IFreqTableProps,
   // addArrTotals,
   //  DATASET_INFO_VIEW_TYPES,
 } from "../helpers/tableHelper";
@@ -552,23 +553,10 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
   const ExpandedComponent: FC<
     ExpanderComponentProps<DATASET_INFO_ROW_TYPE>
   > = ({ data }) => {
-    type expViewType = {
-      bins: number[] | string[];
-      values: number[] | string[];
-      title?: string;
-      subTitle?: string;
-      mean?: number;
-      median?: number;
-      std?: number;
-      addTotals?: boolean;
-      addPercentageColumn?: boolean;
-      dropLastFromGraph?: boolean;
-      yScale?: ScaleType;
-    };
 
     if (!CONF) return <></>;
 
-    let expViews: expViewType[] = [];
+    let expViews: IFreqTableProps[] = [];
     const title: string = "Common Voice " + lc + " v" + ver;
 
     switch (view) {
@@ -579,6 +567,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CONF.bins_duration,
             values: data.dur_freq as number[],
+            title: title,
             subTitle: intl.get("col.duration_distribution"),
             mean: data.dur_avg,
             median: data.dur_med,
@@ -595,6 +584,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CONF.bins_voices,
             values: data.v_freq as number[],
+            title: title,
             subTitle: intl.get("col.voice_distribution"),
             mean: data.v_avg,
             median: data.v_med,
@@ -611,6 +601,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CV_GENDERS as string[],
             values: getArrLastRow(data.dem_table as number[][]) as number[],
+            title: title,
             subTitle: intl.get("tbl.gender_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -631,6 +622,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CV_GENDERS as string[],
             values: getArrLastRow(data.dem_uq as number[][]) as number[],
+            title: title,
             subTitle: intl.get("tbl.gender_uq_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -642,6 +634,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
               getArrLastRow(data.dem_table as number[][]) as number[],
               getArrLastRow(data.dem_uq as number[][]) as number[],
             ),
+            title: title,
             subTitle: intl.get("tbl.gender_recs_per_person"),
             dropLastFromGraph: true,
             // yScale: "linear",
@@ -653,6 +646,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CV_AGES as string[],
             values: getArrLastCol(data.dem_table as number[][]) as number[],
+            title: title,
             subTitle: intl.get("tbl.age_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -661,6 +655,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CV_AGES as string[],
             values: getArrLastCol(data.dem_uq as number[][]) as number[],
+            title: title,
             subTitle: intl.get("tbl.age_uq_distribution"),
             addPercentageColumn: true,
             dropLastFromGraph: true,
@@ -672,6 +667,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
               getArrLastCol(data.dem_table as number[][]) as number[],
               getArrLastCol(data.dem_uq as number[][]) as number[],
             ),
+            title: title,
             subTitle: intl.get("tbl.age_recs_per_person"),
             dropLastFromGraph: true,
             // yScale: "linear",
@@ -683,6 +679,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CONF.bins_votes_up,
             values: data.uv_freq as number[],
+            title: title,
             subTitle: intl.get("tbl.up_votes"),
             mean: data.uv_avg,
             median: data.uv_med,
@@ -695,6 +692,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CONF.bins_votes_down,
             values: data.dv_freq as number[],
+            title: title,
             subTitle: intl.get("tbl.down_votes"),
             mean: data.dv_avg,
             median: data.dv_med,
@@ -711,6 +709,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
           {
             bins: CONF.bins_sentences,
             values: data.s_freq as number[],
+            title: title,
             subTitle: intl.get("col.sentences_distribution"),
             mean: data.s_avg,
             median: data.s_med,
