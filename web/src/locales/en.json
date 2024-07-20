@@ -163,7 +163,7 @@
   "col.char_speed.avg": "Avg. [ms]/ch",
   "col.char_speed.med": "Med. [ms]/ch",
   "col.char_speed.std": "Std.Dev.",
-  "tbl.char_speed": "Character Speed Disribution [ms]",
+  "tbl.char_speed": "Character Speed Distribution [ms]",
   "tbl.char_speed_vs_sentence_len": "CharSpeed vs Sentence Length",
   "tbl.char_speed_vs_gender": "CharSpeed vs Gender",
   "tbl.char_speed_vs_age": "CharSpeed vs Age",
