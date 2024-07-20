@@ -490,25 +490,11 @@ export const TextCorpus = (props: TextCorpusProps) => {
     setAlgorithms,
   ]);
 
-  // useEffect(() => {
-  //   if (textCorpusStats && !textCorpusRec) {
-  //     const lst: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined =
-  //       textCorpusStats.filter((row) => row.algo === "" && row.sp === "");
-  //     if (lst && lst.length > 0) {
-  //       setTextCorpusRec(lst[0]);
-  //     }
-  //   }
-  // }, [lc, ver, selectedLanguage, selectedVersion, textCorpusRec, textCorpusStats]);
-
   if (!lc || !ver) return <div>Error in parameters.</div>;
 
-  console.log(initDone, CONF, textCorpusStats, textCorpusRec)
   if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
 
   let cnt: number = 0;
-
-  // console.log(textCorpusRec.g_freq as IStrValuePair[]);
-  // console.log(textCorpusRec.p_freq as IStrValuePair[]);
 
   return (
     <>
