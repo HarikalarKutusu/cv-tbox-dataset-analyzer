@@ -30,12 +30,12 @@ import {
   listDivide,
   sumArrays,
   expandTable,
-  // addArrTotals,
   TABLE_STYLE,
   DATASET_INFO_ROW_TYPE,
   DATASET_INFO_VIEW_TYPE,
-  //  DATASET_INFO_VIEW_TYPES,
   downloadCSV,
+  // addArrTotals,
+  //  DATASET_INFO_VIEW_TYPES,
 } from "../helpers/tableHelper";
 
 import { FreqTable } from "./freqTable";
