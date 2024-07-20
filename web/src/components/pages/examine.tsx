@@ -19,7 +19,7 @@ import {
 } from "./../../helpers/tableHelper";
 import { DataSetInfoMemo } from "../datasetInfo";
 import { TextCorpusMemo } from "../textCorpus";
-import { CharSpeed } from "../charSpeed";
+import { CharSpeed, CharSpeedMemo } from "../charSpeed";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentencesMemo } from "../reportedSentences";
 import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
@@ -242,7 +242,7 @@ export const ExaminePage = () => {
         </TabPanel>
         {/* Character Speed */}
         <TabPanel value={tabValue} index={9}>
-          <CharSpeed lc={lc} ver={ver} />
+          <CharSpeedMemo lc={lc} ver={ver} />
         </TabPanel>
       </Box>
       <div style={{ height: "4px" }}></div>
