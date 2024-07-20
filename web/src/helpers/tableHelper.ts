@@ -259,8 +259,8 @@ export type REPORTED_STATS_ROW_TYPE = {
   rep_avg: number;
   rep_med: number;
   rep_std: number;
-  rep_freq: number[];
-  rea_freq: number[];
+  rep_freq: number[] | string;
+  rea_freq: number[] | string;
 };
 
 //======================================

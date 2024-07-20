@@ -83,7 +83,8 @@ export const FreqTable = (props: IFreqTableProps) => {
 
   if (values.length !== bins.length) {
     console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE");
-    console.log("BINS=", bins.length, " VALUES=", values.length);
+    console.log("LEN BINS=", bins.length, " VALUES=", values.length);
+    console.log("TYPE BINS=", typeof bins, " VALUES=", typeof values);
     console.log("BINS=", bins);
     console.log("VALUES=", values);
   }
