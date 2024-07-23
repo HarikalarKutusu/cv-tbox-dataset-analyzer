@@ -58,7 +58,7 @@ export const CrossTabTableComponent = (props: ICrossTabTableProps) => {
           rowLabels[inx].toString() +
           (rowLabels[inx + 1] ? "-" + rowLabels[inx + 1] + ")" : "+")
         : rowLabels[inx].toString();
-      recs.push(rec.concat(row));
+      recs.push(rec.concat(row.map(x => x === 0 ? "" : x)));
     });
     return recs;
   };
