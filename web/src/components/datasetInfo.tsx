@@ -60,6 +60,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
   const { selectedLanguage, setSelectedLanguage } = useStore();
   const { selectedVersion, setSelectedVersion } = useStore();
   const { datasetInfo, setDatasetInfo } = useStore();
+  const { setReportedSentences, setTextCorpusStats, setCharSpeed } = useStore();
 
   const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
@@ -553,7 +554,6 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
   const ExpandedComponent: FC<
     ExpanderComponentProps<DATASET_INFO_ROW_TYPE>
   > = ({ data }) => {
-
     if (!CONF) return <></>;
 
     let expViews: IFreqTableProps[] = [];
@@ -834,7 +834,12 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
 
     // check if it is the same, if not, we need to reload a new one
     if (lc !== selectedLanguage || ver !== selectedVersion) {
+      // make all data undefined
       setDatasetInfo(undefined);
+      setReportedSentences(undefined);
+      setTextCorpusStats(undefined);
+      setCharSpeed(undefined);
+
       // make sure data is ready
       if (!datasetInfo) {
         const url = `${ANALYZER_DATA_URL}/${lc}/${reqds}_splits.json`;
@@ -853,15 +858,15 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
                   );
               }
               if (row.dem_fix_v && row.dem_fix_v.length > 0) {
-                row.dem_fix_v = expandTable(row.dem_fix_v)
+                row.dem_fix_v = expandTable(row.dem_fix_v);
                 if (row.dem_uq && row.dem_uq.length > 0)
                   row.dem_cuq = sumArrays(
                     row.dem_uq as number[][],
                     row.dem_fix_v,
                   );
               }
-              return row
-            })
+              return row;
+            });
             /*
             let result: DATASET_INFO_ROW_TYPE[] = [];
             data.forEach((row) => {
