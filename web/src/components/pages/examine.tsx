@@ -19,7 +19,7 @@ import {
 } from "./../../helpers/tableHelper";
 import { DataSetInfoMemo } from "../datasetInfo";
 import { TextCorpusMemo } from "../textCorpus";
-import { CharSpeed, CharSpeedMemo } from "../charSpeed";
+import { CharSpeedMemo } from "../charSpeed";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentencesMemo } from "../reportedSentences";
 import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
