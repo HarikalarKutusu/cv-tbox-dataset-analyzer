@@ -128,9 +128,12 @@ export const CharSpeed = (props: CharSpeedProps) => {
 
     const title: string = "Common Voice " + lc + " v" + ver;
 
+    // decide on bin
+    const used_bins: number[] = data.cs_avg < CONF.cs_threshold ? CONF.bins_cs_low : CONF.bins_cs_high
+
     const expFreqViews: IFreqTableProps[] = [
       {
-        bins: CONF.bins_char_speed,
+        bins: used_bins,
         values: data.cs_freq,
         title: title,
         subTitle: intl.get("tbl.char_speed"),
