@@ -14,8 +14,6 @@ import DataTable, {
   TableColumn,
 } from "react-data-table-component";
 
-import { ScaleType } from "recharts/types/util/types";
-
 // Store
 import { useStore } from "../stores/store";
 
@@ -868,6 +866,7 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
               return row;
             });
             /*
+            // !!! KEEP THESE - WE MIGHT GO BACK !!!
             let result: DATASET_INFO_ROW_TYPE[] = [];
             data.forEach((row) => {
               if (row.dur_total) row.dur_total = row.dur_total / 3600;
@@ -927,6 +926,9 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
     setSelectedLanguage,
     selectedVersion,
     setSelectedVersion,
+    setReportedSentences,
+    setTextCorpusStats,
+    setCharSpeed,
   ]);
 
   if (!lc || !ver) {
