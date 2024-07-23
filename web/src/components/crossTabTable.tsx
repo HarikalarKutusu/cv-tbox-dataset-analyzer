@@ -1,23 +1,35 @@
 //
 // CrossTab Table Component creation
 //
-import DataTable, { Direction } from "react-data-table-component";
-import { TableColumn } from "react-data-table-component";
-import { ICrossTabTableProps, TABLE_STYLE } from "../helpers/tableHelper";
+// React
+import { useMemo } from "react";
+// DataTable
+import DataTable, { TableColumn, Direction } from "react-data-table-component";
+// MUI
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 
-export type TCrossTabTableRow = (string | number)[];
+// App
+import {
+  downloadCSV,
+  ICrossTabTableProps,
+  TCrossTabTableRow,
+  TABLE_STYLE,
+} from "../helpers/tableHelper";
+// Store
+import { useStore } from "../stores/store";
 
 export const CrossTabTableComponent = (props: ICrossTabTableProps) => {
   const {
     data,
     rowLabels,
     colLabels,
-    title = "TITLE",
+    // title = "TITLE",
     subTitle = "SUBTITLE",
     useColRange = false,
     useRowRange = false,
     useHeatMap = false,
   } = props;
+  const { selectedLanguage, selectedVersion } = useStore();
 
   const getColumns = (): TableColumn<TCrossTabTableRow>[] => {
     const cols: TableColumn<TCrossTabTableRow>[] = [
@@ -25,7 +37,7 @@ export const CrossTabTableComponent = (props: ICrossTabTableProps) => {
         id: "bin",
         name: "bin", //intl.get("col.algorithm"),
         sortable: false,
-        width: "80px",
+        width: "70px",
         right: false,
         selector: (row: TCrossTabTableRow) => row[0],
       },
@@ -41,7 +53,7 @@ export const CrossTabTableComponent = (props: ICrossTabTableProps) => {
         id: colLbl,
         name: colLbl,
         sortable: false,
-        width: "85px",
+        width: "70px",
         right: true,
         selector: (row: TCrossTabTableRow) => row[inx],
       });
@@ -58,13 +70,31 @@ export const CrossTabTableComponent = (props: ICrossTabTableProps) => {
           rowLabels[inx].toString() +
           (rowLabels[inx + 1] ? "-" + rowLabels[inx + 1] + ")" : "+")
         : rowLabels[inx].toString();
-      recs.push(rec.concat(row.map(x => x === 0 ? "" : x)));
+      recs.push(rec.concat(row.map((x) => (x === 0 ? "" : x))));
     });
     return recs;
   };
 
   const dataRecs = getDataRecords();
 
+  const exportCVSDatasetMemo = useMemo(
+    () => (
+      <DownloadForOfflineIcon
+        onClick={() =>
+          downloadCSV(
+            dataRecs!,
+            "cv-dataset",
+            selectedLanguage + "_" + selectedVersion + "_" + subTitle.replace(" ", "_"),
+          )
+        }
+        color="secondary"
+        sx={{ cursor: "grab" }}
+      />
+    ),
+    [dataRecs, selectedLanguage, selectedVersion, subTitle],
+  );
+
+  // [TODO] HeatMap
   return (
     <>
       <DataTable
@@ -78,8 +108,10 @@ export const CrossTabTableComponent = (props: ICrossTabTableProps) => {
         direction={Direction.AUTO}
         persistTableHead
         customStyles={TABLE_STYLE}
-        // actions={exportCVSDatasetMemo}
+        actions={exportCVSDatasetMemo}
       />
+      <div>&nbsp;</div>
+      {useHeatMap ? <></> : <></>}
       <div>&nbsp;</div>
     </>
   );
