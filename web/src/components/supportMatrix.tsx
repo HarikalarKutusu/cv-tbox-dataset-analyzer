@@ -5,7 +5,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import intl from "react-intl-universal";
 // MUI
 import { Box, Button } from "@mui/material";
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -33,15 +33,18 @@ export const SupportMatrix = () => {
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
 
-  const handleNavigate = (url: string) => {
+  const handleNavigate = (lc: string, ver: string) => {
+    const url = "/examine/" + lc + "/" + ver;
     navigate(url, { replace: true });
   };
 
   const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
     if (cvLanguages) {
-      const recs: CV_LANGUAGE_ROW[] = cvLanguages.filter((row) => row.name === lc)
+      const recs: CV_LANGUAGE_ROW[] = cvLanguages.filter(
+        (row) => row.name === lc,
+      );
       if (recs) {
-        return recs[0]
+        return recs[0];
       } else {
         return null;
       }
@@ -60,10 +63,9 @@ export const SupportMatrix = () => {
       if (!algos || !lc || !ver) {
         return <></>;
       }
-      const url = "/examine/" + lc + "/" + ver;
       return (
         <Button
-          onClick={() => handleNavigate(url)}
+          onClick={() => handleNavigate(lc, ver)}
           variant="contained"
           color="secondary"
           size="small"
@@ -77,7 +79,7 @@ export const SupportMatrix = () => {
             maxWidth: "40px",
             height: "50px",
             maxHeight: "50px",
-            whiteSpace: "pre-wrap"
+            whiteSpace: "pre-wrap",
           }}
         >
           {algos.replaceAll(SEP_ALGO, " ")}
@@ -87,17 +89,21 @@ export const SupportMatrix = () => {
 
     VersionCell.displayName = "VersionCell";
 
-    const NameCell = (props: {lc: string}) => {
-      const {lc} = props;
+    const NameCell = (props: { lc: string }) => {
+      const { lc } = props;
       if (!lc) {
         return <></>;
       }
-      const langInfo = getCVLanguageRecord(lc)
+      const langInfo = getCVLanguageRecord(lc);
       if (!langInfo) {
         return <></>;
       }
       return (
-        <>{langInfo.native_name}<br />{intl.get("lang." + langInfo.name)}</>
+        <>
+          {langInfo.native_name}
+          <br />
+          {intl.get("lang." + langInfo.name)}
+        </>
       );
     };
 
@@ -118,8 +124,7 @@ export const SupportMatrix = () => {
       sortable: true,
       center: false,
       width: "120px",
-      cell: (row) =>
-        cvLanguages ? <NameCell lc={row.lc} /> : "",
+      cell: (row) => (cvLanguages ? <NameCell lc={row.lc} /> : ""),
     };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
@@ -291,9 +296,7 @@ export const SupportMatrix = () => {
   const ToggleOldVersions = (): JSX.Element => {
     return (
       <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
-        <ReadMoreIcon
-          sx={{ color: "#f0f0f0", cursor: "e-resize" }}
-        />{" "}
+        <ReadMoreIcon sx={{ color: "#f0f0f0", cursor: "e-resize" }} />{" "}
       </Button>
     );
   };
@@ -306,10 +309,14 @@ export const SupportMatrix = () => {
         <h3>
           {intl.get("browsepage.title")}
           {"   "}
-          <Button variant="contained" color="secondary" title={intl.get("browsepage.button.older")} sx={{ mr: 1 }} onClick={() => setShowOlder(!showOlder) }>
-            <ReadMoreIcon
-              sx={{ color: "#f0f0f0", cursor: "e-resize" }}
-            />{" "}
+          <Button
+            variant="contained"
+            color="secondary"
+            title={intl.get("browsepage.button.older")}
+            sx={{ mr: 1 }}
+            onClick={() => setShowOlder(!showOlder)}
+          >
+            <ReadMoreIcon sx={{ color: "#f0f0f0", cursor: "e-resize" }} />{" "}
           </Button>
         </h3>
       </Box>

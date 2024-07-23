@@ -129,7 +129,8 @@ export const CharSpeed = (props: CharSpeedProps) => {
     const title: string = "Common Voice " + lc + " v" + ver;
 
     // decide on bin
-    const used_bins: number[] = data.cs_avg < CONF.cs_threshold ? CONF.bins_cs_low : CONF.bins_cs_high
+    const used_bins: number[] =
+      data.cs_avg < CONF.cs_threshold ? CONF.bins_cs_low : CONF.bins_cs_high;
 
     const expFreqViews: IFreqTableProps[] = [
       {
@@ -183,35 +184,35 @@ export const CharSpeed = (props: CharSpeedProps) => {
       <>
         {expFreqViews.map((ev, index) => {
           return (
-              <FreqTable
-                key={"cs_freq_" + index}
-                bins={ev.bins}
-                values={ev.values}
-                title={title}
-                subTitle={ev.subTitle}
-                yScale={ev.yScale}
-                mean={ev.mean}
-                median={ev.median}
-                std={ev.std}
-                addTotals={ev.addTotals}
-                addPercentageColumn={ev.addPercentageColumn}
-                dropLastFromGraph={ev.dropLastFromGraph}
-              />
+            <FreqTable
+              key={"cs_freq_" + index}
+              bins={ev.bins}
+              values={ev.values}
+              title={title}
+              subTitle={ev.subTitle}
+              yScale={ev.yScale}
+              mean={ev.mean}
+              median={ev.median}
+              std={ev.std}
+              addTotals={ev.addTotals}
+              addPercentageColumn={ev.addPercentageColumn}
+              dropLastFromGraph={ev.dropLastFromGraph}
+            />
           );
         })}
         {extCrossTabViews.map((ev, index) => {
           return (
-              <CrossTabTableComponent
-                key={"cs_ct_" + index}
-                data={ev.data}
-                rowLabels={ev.rowLabels}
-                colLabels={ev.colLabels}
-                title={ev.title}
-                subTitle={ev.subTitle}
-                useColRange={ev.useColRange}
-                useRowRange={ev.useRowRange}
-                useHeatMap={ev.useHeatMap}
-              />
+            <CrossTabTableComponent
+              key={"cs_ct_" + index}
+              data={ev.data}
+              rowLabels={ev.rowLabels}
+              colLabels={ev.colLabels}
+              title={ev.title}
+              subTitle={ev.subTitle}
+              useColRange={ev.useColRange}
+              useRowRange={ev.useRowRange}
+              useHeatMap={ev.useHeatMap}
+            />
           );
         })}
       </>
