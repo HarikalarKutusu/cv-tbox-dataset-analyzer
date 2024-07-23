@@ -332,6 +332,12 @@ export interface IFreqTableRow2D {
 }
 
 //======================================
+//== CrossTab Table
+//======================================
+
+export type TCrossTabTableRow = (string | number)[];
+
+//======================================
 //== Measure-Value table
 //======================================
 
@@ -456,6 +462,7 @@ const convertArrayOfObjectsToCSV = (
     | REPORTED_STATS_ROW_TYPE[]
     | CHAR_SPEED_ROW_TYPE[]
     | IFreqTableRow[]
+    | TCrossTabTableRow[]
     | ITextCorpusStatsTableRow[]
     | IMeasureValueTableRow[],
 ) => {
@@ -492,6 +499,7 @@ export const downloadCSV = (
     | REPORTED_STATS_ROW_TYPE[]
     | CHAR_SPEED_ROW_TYPE[]
     | IFreqTableRow[]
+    | TCrossTabTableRow[]
     | ITextCorpusStatsTableRow[],
   fnBase: string,
   datasetID: string,
