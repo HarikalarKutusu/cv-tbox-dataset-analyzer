@@ -10,6 +10,7 @@ import {
   appLicenseURL,
   ILoaderData,
   appVersion,
+  isAlpha,
   isBeta
 } from "../../helpers/appHelper";
 
@@ -35,7 +36,13 @@ export const AppInfo = () => {
         }}
       >
         <div>
-          {isBeta ? <h2 style={{textAlign: "center"}}>BETA</h2> : <p></p>}
+          {isBeta ? (
+            <h2 style={{ textAlign: "center" }}>BETA</h2>
+          ) : isAlpha ? (
+            <h2 style={{ textAlign: "center" }}>ALPHA</h2>
+          ) : (
+            <p></p>
+          )}
           <div className="appinfo-vcenter">
             <>
               <PollIcon />
