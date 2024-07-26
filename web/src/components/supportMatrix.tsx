@@ -6,6 +6,7 @@ import intl from "react-intl-universal";
 // MUI
 import { Box, Button } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import { red, pink, orange, cyan, teal } from "@mui/material/colors";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -26,6 +27,7 @@ import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
 export const SupportMatrix = () => {
   const { initDone, versionFilter, languageFilter } = useStore();
+  const { langCode } = useStore();
   const [showOlder, setShowOlder] = useState(true);
 
   const navigate = useNavigate();
@@ -33,9 +35,19 @@ export const SupportMatrix = () => {
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
 
+  const dec1 = { minimumFractionDigits: 1, maximumFractionDigits: 1 };
+
   const handleNavigate = (lc: string, ver: string) => {
-    const url = "/examine/" + lc + "/" + ver;
+    const url = `/examine/${lc}/${ver}`;
     navigate(url, { replace: true });
+  };
+
+  const handleNewTab = (lc: string, ver: string) => {
+    const loc: Location = window.location
+    const port: string = loc.port ? `:${loc.port}` : "";
+    const url = `${loc.protocol}//${loc.hostname}${port}/examine/${lc}/${ver}`;
+    console.log(url)
+    window.open(url, "_blank");
   };
 
   const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
@@ -58,19 +70,59 @@ export const SupportMatrix = () => {
       algos: string | null;
     }
 
+    const colorScale = [
+      [0, 0, red[900]],
+      [0, 10, pink[600]],
+      [10, 30, pink[400]],
+      [30, 50, orange[900]],
+      [50, 100, cyan[700]],
+      [100, 300, teal[300]],
+      [300, 1000, teal[600]],
+      [1000, 99999999, teal[900]],
+    ];
+
+    const getColor = (x: number): string => {
+      if (x < 1.0) {
+        return red[900];
+      } else if (x < 10.0) {
+        return pink[600]
+      } else if (x < 30.0) {
+        return pink[400]
+      } else if (x < 50.0) {
+        return orange[900]
+      } else if (x < 100.0) {
+        return cyan[500];
+      } else if (x < 300.0) {
+        return teal[400]
+      } else if (x < 1000.0) {
+        return teal[600]
+      } else {
+        return teal[900];
+      }
+    };
+
     const VersionCell = memo((props: VersionCellProps) => {
       const { lc, ver, algos } = props;
       if (!algos || !lc || !ver) {
         return <></>;
       }
+      // const algo_list: string[] = algos.replaceAll(SEP_ALGO, " ")
+      let algo_list: string[] = algos.split(SEP_ALGO);
+      const dur: number = (Number(algo_list[0]));
+      const alg_display = algo_list.slice(1).join(" ");
+      const bgColor: string = getColor(dur);
+      const tooltip: string = `Validated Hours = ${dur.toLocaleString(langCode, dec1)}h\n${intl.get("tooltip.right_click_tab")}`;
       return (
         <Button
           onClick={() => handleNavigate(lc, ver)}
+          onAuxClick={() => handleNewTab(lc, ver)}
+          title={tooltip}
           variant="contained"
-          color="secondary"
+          // color="secondary"
           size="small"
           sx={{
             color: "#eee",
+            backgroundColor: bgColor,
             textTransform: "none",
             margin: "2px",
             padding: "8px 2px",
@@ -82,7 +134,7 @@ export const SupportMatrix = () => {
             whiteSpace: "pre-wrap",
           }}
         >
-          {algos.replaceAll(SEP_ALGO, " ")}
+          {alg_display}
         </Button>
       );
     });
@@ -293,13 +345,13 @@ export const SupportMatrix = () => {
     return res;
   };
 
-  const ToggleOldVersions = (): JSX.Element => {
-    return (
-      <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
-        <ReadMoreIcon sx={{ color: "#f0f0f0", cursor: "e-resize" }} />{" "}
-      </Button>
-    );
-  };
+  // const ToggleOldVersions = (): JSX.Element => {
+  //   return (
+  //     <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
+  //       <ReadMoreIcon sx={{ color: "#f0f0f0", cursor: "e-resize" }} />{" "}
+  //     </Button>
+  //   );
+  // };
 
   return !supportMatrix || !initDone ? (
     <div>...</div>
