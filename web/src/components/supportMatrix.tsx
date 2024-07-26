@@ -4,7 +4,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { red, pink, orange, cyan, teal } from "@mui/material/colors";
 
@@ -20,8 +20,6 @@ import {
 } from "../helpers/tableHelper";
 import { useStore } from "../stores/store";
 import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
-
-
 
 type TColorScale = [number, number, string];
 const colorScale: TColorScale[] = [
@@ -57,7 +55,7 @@ const colorScale: TColorScale[] = [
 
 const ColorLegend = () => {
   const colors = colorScale;
-  colors.reverse()
+  colors.reverse();
   return (
     <>
       {intl.get("browsepage.legend.title")}&nbsp;
@@ -92,14 +90,13 @@ const ColorLegend = () => {
   );
 };
 
-
 export const SupportMatrix = () => {
   const { initDone, versionFilter, languageFilter } = useStore();
   const { langCode } = useStore();
   const [showOlder, setShowOlder] = useState(true);
 
   const navigate = useNavigate();
-  
+
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
   // const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
@@ -112,10 +109,10 @@ export const SupportMatrix = () => {
   };
 
   const handleNewTab = (lc: string, ver: string) => {
-    const loc: Location = window.location
+    const loc: Location = window.location;
     const port: string = loc.port ? `:${loc.port}` : "";
     const url = `${loc.protocol}//${loc.hostname}${port}/examine/${lc}/${ver}`;
-    console.log(url)
+    console.log(url);
     window.open(url, "_blank");
   };
 
@@ -149,13 +146,14 @@ export const SupportMatrix = () => {
         return <></>;
       }
       let algo_list: string[] = algos.split(SEP_ALGO);
-      const dur: number = (Number(algo_list[0]));
+      const dur: number = Number(algo_list[0]);
       const alg_display = algo_list.slice(1).join(" ");
       const bgColor: string = getColor(dur);
-      const tooltip: string = `${intl.get("browsepage.legend.title")} ${dur.toLocaleString(
-        langCode,
-        dec1,
-      )}h\n${intl.get("browsepage.tooltip.right_click_tab")}`;
+      const tooltip: string = `${intl.get(
+        "browsepage.legend.title",
+      )} ${dur.toLocaleString(langCode, dec1)}h\n${intl.get(
+        "browsepage.tooltip.right_click_tab",
+      )}`;
       return (
         <Button
           onClick={() => handleNavigate(lc, ver)}
@@ -449,12 +447,12 @@ export const SupportMatrix = () => {
         fixedHeader
         customStyles={TABLE_STYLE}
       />
-      <Box>
-        {intl.get("browsepage.tooltip.right_click_tab")}
-      </Box>
-      <Box marginTop={2}>
-        <ColorLegend />
-      </Box>
+      <Typography variant="body2">
+        <Box>{intl.get("browsepage.tooltip.right_click_tab")}</Box>
+        <Box marginTop={2}>
+          <ColorLegend />
+        </Box>
+      </Typography>
     </>
   );
 };
