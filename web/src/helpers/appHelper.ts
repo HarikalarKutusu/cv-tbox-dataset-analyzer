@@ -13,7 +13,7 @@ export const isBeta: boolean = appVersion.endsWith("b");
 //
 // Static Data Api
 //
-export const ANALYZER_DATA_URL = isBeta
+export const ANALYZER_DATA_URL = isAlpha || isBeta
   ? "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
   : "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
 export const CV_DATA_URL =
