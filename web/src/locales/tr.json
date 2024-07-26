@@ -249,6 +249,8 @@
   "browsepage.title": "Veri Kümesi Tarayıcısı",
   "browsepage.p1": "İncelemek için dil ve veri kümesi sürümünü seçiniz.",
   "browsepage.button.older": "Eski veri kümelerini göster/gizle",
+  "browsepage.tooltip.right_click_tab": "Yeni bir sekmede açmak için butonlara sağ tıklayın.",
+  "browsepage.legend.title": "Onaylı Saat:",
 
   "examinepage.title": "Veri Kümesi Analizi",
   "examinepage.tab.general": "Genel",
