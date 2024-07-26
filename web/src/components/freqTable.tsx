@@ -81,12 +81,14 @@ export const FreqTable = (props: IFreqTableProps) => {
     return cols;
   };
 
-  if (values.length !== bins.length) {
-    console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE");
-    console.log("LEN BINS=", bins.length, " VALUES=", values.length);
+  if (!values || !bins || values.length !== bins.length) {
+    console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE (OR UNDEFINED)");
     console.log("TYPE BINS=", typeof bins, " VALUES=", typeof values);
     console.log("BINS=", bins);
     console.log("VALUES=", values);
+    if (values && bins) {
+      console.log("LEN BINS=", bins.length, " VALUES=", values.length);
+    }
   }
 
   // Prep table
