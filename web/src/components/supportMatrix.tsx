@@ -21,9 +21,77 @@ import {
 import { useStore } from "../stores/store";
 import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
+
+
+type TColorScale = [number, number, string];
+const colorScale: TColorScale[] = [
+  // Low - Analogous Color (0 <= x < 30)
+  [0, 1, "#f62379"],
+  [1, 5, "#e42175"],
+  [5, 10, "#cd1f6e"],
+  [10, 20, "#b71c6a"],
+  [20, 30, "#911760"],
+  // Higher Resource - Analogous Color (30 <= x < 100)
+  [30, 40, "#c88d2a"],
+  [40, 50, "#c58325"],
+  [50, 60, "#be7620"],
+  [60, 80, "#b76a1c"],
+  [80, 100, "#ab5618"],
+  // Usable - Complementary (100 <= x < 1000)
+  [100, 200, "#00a7a6"],
+  [200, 300, "#009793"],
+  [300, 400, "#008a86"],
+  [400, 500, "#007a74"],
+  [500, 750, "#006a64"],
+  [750, 1000, "#004e46"],
+  // High Resource - Triadic (1000 <= x < 10000)
+  [1000, 2000, "#08a810"],
+  [2000, 3000, "#009600"],
+  [3000, 5000, "#008500"],
+  [5000, 99999999, "#006600"],
+];
+
 //
 // JSX
 //
+
+const ColorLegend = () => {
+  const colors = colorScale;
+  colors.reverse()
+  return (
+    <>
+      {intl.get("browsepage.legend.title")}&nbsp;
+      {colors.map((row) => {
+        return (
+          <Button
+            key={row[2]}
+            variant="contained"
+            size="small"
+            sx={{
+              color: "#eee",
+              backgroundColor: row[2],
+              textTransform: "none",
+              margin: "0px",
+              padding: "0px",
+              textAlign: "center",
+              width: "25px",
+              maxWidth: "25px",
+              height: "35px",
+              maxHeight: "35px",
+              whiteSpace: "no-wrap",
+              lineHeight: "15px",
+            }}
+          >
+            {row[0]}
+            <br />
+            {row[1] === 99999999 ? "+" : row[1]}
+          </Button>
+        );
+      })}
+    </>
+  );
+};
+
 
 export const SupportMatrix = () => {
   const { initDone, versionFilter, languageFilter } = useStore();
@@ -31,9 +99,10 @@ export const SupportMatrix = () => {
   const [showOlder, setShowOlder] = useState(true);
 
   const navigate = useNavigate();
-
+  
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
+  // const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
   const dec1 = { minimumFractionDigits: 1, maximumFractionDigits: 1 };
 
@@ -70,35 +139,8 @@ export const SupportMatrix = () => {
       algos: string | null;
     }
 
-    const colorScale = [
-      [0, 0, red[900]],
-      [0, 10, pink[600]],
-      [10, 30, pink[400]],
-      [30, 50, orange[900]],
-      [50, 100, cyan[700]],
-      [100, 300, teal[300]],
-      [300, 1000, teal[600]],
-      [1000, 99999999, teal[900]],
-    ];
-
     const getColor = (x: number): string => {
-      if (x < 1.0) {
-        return red[900];
-      } else if (x < 10.0) {
-        return pink[600]
-      } else if (x < 30.0) {
-        return pink[400]
-      } else if (x < 50.0) {
-        return orange[900]
-      } else if (x < 100.0) {
-        return cyan[500];
-      } else if (x < 300.0) {
-        return teal[400]
-      } else if (x < 1000.0) {
-        return teal[600]
-      } else {
-        return teal[900];
-      }
+      return colorScale.filter((c) => x >= c[0] && x < c[1])[0][2];
     };
 
     const VersionCell = memo((props: VersionCellProps) => {
@@ -106,12 +148,14 @@ export const SupportMatrix = () => {
       if (!algos || !lc || !ver) {
         return <></>;
       }
-      // const algo_list: string[] = algos.replaceAll(SEP_ALGO, " ")
       let algo_list: string[] = algos.split(SEP_ALGO);
       const dur: number = (Number(algo_list[0]));
       const alg_display = algo_list.slice(1).join(" ");
       const bgColor: string = getColor(dur);
-      const tooltip: string = `Validated Hours = ${dur.toLocaleString(langCode, dec1)}h\n${intl.get("tooltip.right_click_tab")}`;
+      const tooltip: string = `${intl.get("browsepage.legend.title")} ${dur.toLocaleString(
+        langCode,
+        dec1,
+      )}h\n${intl.get("browsepage.tooltip.right_click_tab")}`;
       return (
         <Button
           onClick={() => handleNavigate(lc, ver)}
@@ -178,6 +222,22 @@ export const SupportMatrix = () => {
       width: "120px",
       cell: (row) => (cvLanguages ? <NameCell lc={row.lc} /> : ""),
     };
+
+    // const CreateVersionCols = (): TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] => {
+    //   const cols: TableColumn < SUPPORT_MATRIX_ROW_TYPE > [] = []
+    //   CONF?.cv_versions.reverse().forEach((ver, inx) => {
+    //     cols.push({
+    //       id: ver,
+    //       name: ver,
+    //       center: true,
+    //       width: "70px",
+    //       cell: (row) => (
+    //         <VersionCell lc={row.lc} ver={ver} algos={row.v18_0} />
+    //       ),
+    //     });
+    //   })
+    //   return cols
+    // };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
@@ -386,8 +446,15 @@ export const SupportMatrix = () => {
         direction={Direction.AUTO}
         defaultSortFieldId={0}
         persistTableHead
+        fixedHeader
         customStyles={TABLE_STYLE}
       />
+      <Box>
+        {intl.get("browsepage.tooltip.right_click_tab")}
+      </Box>
+      <Box marginTop={2}>
+        <ColorLegend />
+      </Box>
     </>
   );
 };
