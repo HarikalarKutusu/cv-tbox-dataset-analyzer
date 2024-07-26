@@ -495,6 +495,10 @@ export const TextCorpus = (props: TextCorpusProps) => {
   if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
 
   let cnt: number = 0;
+  const _slen_bins: number[] =
+    textCorpusRec.c_avg > CONF.ch_threshold
+      ? CONF.bins_chars_long
+      : CONF.bins_chars_short;
 
   return (
     <>
@@ -528,7 +532,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
           <div>
             <FreqTable
               key={"c_freq"}
-              bins={CONF.bins_chars}
+              bins={_slen_bins}
               values={textCorpusRec.c_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.character_distribution")}
