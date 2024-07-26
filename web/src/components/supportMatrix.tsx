@@ -448,10 +448,9 @@ export const SupportMatrix = () => {
         customStyles={TABLE_STYLE}
       />
       <Typography variant="body2">
-        <Box>{intl.get("browsepage.tooltip.right_click_tab")}</Box>
-        <Box marginTop={2}>
-          <ColorLegend />
-        </Box>
+        {intl.get("browsepage.tooltip.right_click_tab")}
+        <br />
+        <ColorLegend />
       </Typography>
     </>
   );
