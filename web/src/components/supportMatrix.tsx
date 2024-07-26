@@ -196,8 +196,8 @@ export const SupportMatrix = () => {
       }
       return (
         <>
-          {langInfo.native_name}
-          <br />
+          {/* {langInfo.native_name}
+          <br /> */}
           {intl.get("lang." + langInfo.name)}
         </>
       );

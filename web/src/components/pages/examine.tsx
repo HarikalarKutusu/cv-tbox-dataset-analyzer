@@ -126,7 +126,8 @@ export const ExaminePage = () => {
       " (" +
       lc +
       " - " +
-      getCVLanguageRecord(lc!)!.native_name +
+      // getCVLanguageRecord(lc!)!.native_name +
+      intl.get("lang." + getCVLanguageRecord(lc!)!.name) +
       " - v" +
       ver +
       ")";
