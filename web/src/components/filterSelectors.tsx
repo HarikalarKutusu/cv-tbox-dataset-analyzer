@@ -151,7 +151,8 @@ const FilterSelectors = () => {
                   <Checkbox checked={languageFilter.indexOf(x) > -1} />
                   <ListItemText
                     primary={
-                      x + " (" + langRec.native_name + " | " + intl.get("lang." + langRec.name) + ")"
+                      // x + " (" + langRec.native_name + " | " + intl.get("lang." + langRec.name) + ")"
+                      x + " (" + intl.get("lang." + langRec.name) + ")"
                     }
                   />
                 </MenuItem>

@@ -4,8 +4,9 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Box, Button } from "@mui/material";
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import { Box, Button, Typography } from "@mui/material";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import { red, pink, orange, cyan, teal } from "@mui/material/colors";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -20,28 +21,108 @@ import {
 import { useStore } from "../stores/store";
 import { CV_LANGUAGE_ROW } from "../helpers/cvHelper";
 
+type TColorScale = [number, number, string];
+const colorScale: TColorScale[] = [
+  // Low - Analogous Color (0 <= x < 30)
+  [0, 1, "#f62379"],
+  [1, 5, "#e42175"],
+  [5, 10, "#cd1f6e"],
+  [10, 20, "#b71c6a"],
+  [20, 30, "#911760"],
+  // Higher Resource - Analogous Color (30 <= x < 100)
+  [30, 40, "#c88d2a"],
+  [40, 50, "#c58325"],
+  [50, 60, "#be7620"],
+  [60, 80, "#b76a1c"],
+  [80, 100, "#ab5618"],
+  // Usable - Complementary (100 <= x < 1000)
+  [100, 200, "#00a7a6"],
+  [200, 300, "#009793"],
+  [300, 400, "#008a86"],
+  [400, 500, "#007a74"],
+  [500, 750, "#006a64"],
+  [750, 1000, "#004e46"],
+  // High Resource - Triadic (1000 <= x < 10000)
+  [1000, 2000, "#08a810"],
+  [2000, 3000, "#009600"],
+  [3000, 5000, "#008500"],
+  [5000, 99999999, "#006600"],
+];
+
 //
 // JSX
 //
 
+const ColorLegend = () => {
+  const colors = colorScale;
+  colors.reverse();
+  return (
+    <>
+      {intl.get("browsepage.legend.title")}&nbsp;
+      {colors.map((row) => {
+        return (
+          <Button
+            key={row[2]}
+            variant="contained"
+            size="small"
+            sx={{
+              color: "#eee",
+              backgroundColor: row[2],
+              textTransform: "none",
+              margin: "0px",
+              padding: "0px",
+              textAlign: "center",
+              width: "25px",
+              maxWidth: "25px",
+              height: "35px",
+              maxHeight: "35px",
+              whiteSpace: "no-wrap",
+              lineHeight: "15px",
+            }}
+          >
+            {row[0]}
+            <br />
+            {row[1] === 99999999 ? "+" : row[1]}
+          </Button>
+        );
+      })}
+    </>
+  );
+};
+
 export const SupportMatrix = () => {
   const { initDone, versionFilter, languageFilter } = useStore();
+  const { langCode } = useStore();
   const [showOlder, setShowOlder] = useState(true);
 
   const navigate = useNavigate();
 
   const supportMatrix = (useLoaderData() as ILoaderData).supportMatrix;
   const cvLanguages = (useLoaderData() as ILoaderData).cvLanguages;
+  // const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
 
-  const handleNavigate = (url: string) => {
+  const dec1 = { minimumFractionDigits: 1, maximumFractionDigits: 1 };
+
+  const handleNavigate = (lc: string, ver: string) => {
+    const url = `/examine/${lc}/${ver}`;
     navigate(url, { replace: true });
+  };
+
+  const handleNewTab = (lc: string, ver: string) => {
+    const loc: Location = window.location;
+    const port: string = loc.port ? `:${loc.port}` : "";
+    const url = `${loc.protocol}//${loc.hostname}${port}/examine/${lc}/${ver}`;
+    console.log(url);
+    window.open(url, "_blank");
   };
 
   const getCVLanguageRecord = (lc: string): CV_LANGUAGE_ROW | null => {
     if (cvLanguages) {
-      const recs: CV_LANGUAGE_ROW[] = cvLanguages.filter((row) => row.name === lc)
+      const recs: CV_LANGUAGE_ROW[] = cvLanguages.filter(
+        (row) => row.name === lc,
+      );
       if (recs) {
-        return recs[0]
+        return recs[0];
       } else {
         return null;
       }
@@ -55,20 +136,35 @@ export const SupportMatrix = () => {
       algos: string | null;
     }
 
+    const getColor = (x: number): string => {
+      return colorScale.filter((c) => x >= c[0] && x < c[1])[0][2];
+    };
+
     const VersionCell = memo((props: VersionCellProps) => {
       const { lc, ver, algos } = props;
       if (!algos || !lc || !ver) {
         return <></>;
       }
-      const url = "/examine/" + lc + "/" + ver;
+      let algo_list: string[] = algos.split(SEP_ALGO);
+      const dur: number = Number(algo_list[0]);
+      const alg_display = algo_list.slice(1).join(" ");
+      const bgColor: string = getColor(dur);
+      const tooltip: string = `${intl.get(
+        "browsepage.legend.title",
+      )} ${dur.toLocaleString(langCode, dec1)}h\n${intl.get(
+        "browsepage.tooltip.right_click_tab",
+      )}`;
       return (
         <Button
-          onClick={() => handleNavigate(url)}
+          onClick={() => handleNavigate(lc, ver)}
+          onAuxClick={() => handleNewTab(lc, ver)}
+          title={tooltip}
           variant="contained"
-          color="secondary"
+          // color="secondary"
           size="small"
           sx={{
             color: "#eee",
+            backgroundColor: bgColor,
             textTransform: "none",
             margin: "2px",
             padding: "8px 2px",
@@ -77,27 +173,31 @@ export const SupportMatrix = () => {
             maxWidth: "40px",
             height: "50px",
             maxHeight: "50px",
-            whiteSpace: "pre-wrap"
+            whiteSpace: "pre-wrap",
           }}
         >
-          {algos.replaceAll(SEP_ALGO, " ")}
+          {alg_display}
         </Button>
       );
     });
 
     VersionCell.displayName = "VersionCell";
 
-    const NameCell = (props: {lc: string}) => {
-      const {lc} = props;
+    const NameCell = (props: { lc: string }) => {
+      const { lc } = props;
       if (!lc) {
         return <></>;
       }
-      const langInfo = getCVLanguageRecord(lc)
+      const langInfo = getCVLanguageRecord(lc);
       if (!langInfo) {
         return <></>;
       }
       return (
-        <>{langInfo.native_name}<br />{intl.get("lang." + langInfo.name)}</>
+        <>
+          {/* {langInfo.native_name}
+          <br /> */}
+          {intl.get("lang." + langInfo.name)}
+        </>
       );
     };
 
@@ -118,9 +218,24 @@ export const SupportMatrix = () => {
       sortable: true,
       center: false,
       width: "120px",
-      cell: (row) =>
-        cvLanguages ? <NameCell lc={row.lc} /> : "",
+      cell: (row) => (cvLanguages ? <NameCell lc={row.lc} /> : ""),
     };
+
+    // const CreateVersionCols = (): TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] => {
+    //   const cols: TableColumn < SUPPORT_MATRIX_ROW_TYPE > [] = []
+    //   CONF?.cv_versions.reverse().forEach((ver, inx) => {
+    //     cols.push({
+    //       id: ver,
+    //       name: ver,
+    //       center: true,
+    //       width: "70px",
+    //       cell: (row) => (
+    //         <VersionCell lc={row.lc} ver={ver} algos={row.v18_0} />
+    //       ),
+    //     });
+    //   })
+    //   return cols
+    // };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
@@ -288,15 +403,13 @@ export const SupportMatrix = () => {
     return res;
   };
 
-  const ToggleOldVersions = (): JSX.Element => {
-    return (
-      <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
-        <ReadMoreIcon
-          sx={{ color: "#f0f0f0", cursor: "e-resize" }}
-        />{" "}
-      </Button>
-    );
-  };
+  // const ToggleOldVersions = (): JSX.Element => {
+  //   return (
+  //     <Button variant="contained" color="secondary" sx={{ mr: 1 }}>
+  //       <ReadMoreIcon sx={{ color: "#f0f0f0", cursor: "e-resize" }} />{" "}
+  //     </Button>
+  //   );
+  // };
 
   return !supportMatrix || !initDone ? (
     <div>...</div>
@@ -306,10 +419,14 @@ export const SupportMatrix = () => {
         <h3>
           {intl.get("browsepage.title")}
           {"   "}
-          <Button variant="contained" color="secondary" title={intl.get("browsepage.button.older")} sx={{ mr: 1 }} onClick={() => setShowOlder(!showOlder) }>
-            <ReadMoreIcon
-              sx={{ color: "#f0f0f0", cursor: "e-resize" }}
-            />{" "}
+          <Button
+            variant="contained"
+            color="secondary"
+            title={intl.get("browsepage.button.older")}
+            sx={{ mr: 1 }}
+            onClick={() => setShowOlder(!showOlder)}
+          >
+            <ReadMoreIcon sx={{ color: "#f0f0f0", cursor: "e-resize" }} />{" "}
           </Button>
         </h3>
       </Box>
@@ -327,8 +444,14 @@ export const SupportMatrix = () => {
         direction={Direction.AUTO}
         defaultSortFieldId={0}
         persistTableHead
+        fixedHeader
         customStyles={TABLE_STYLE}
       />
+      <Typography variant="body2">
+        {intl.get("browsepage.tooltip.right_click_tab")}
+        <br />
+        <ColorLegend />
+      </Typography>
     </>
   );
 };

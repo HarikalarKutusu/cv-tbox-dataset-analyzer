@@ -19,6 +19,7 @@ import {
 } from "./../../helpers/tableHelper";
 import { DataSetInfoMemo } from "../datasetInfo";
 import { TextCorpusMemo } from "../textCorpus";
+import { CharSpeedMemo } from "../charSpeed";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentencesMemo } from "../reportedSentences";
 import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
@@ -125,7 +126,8 @@ export const ExaminePage = () => {
       " (" +
       lc +
       " - " +
-      getCVLanguageRecord(lc!)!.native_name +
+      // getCVLanguageRecord(lc!)!.native_name +
+      intl.get("lang." + getCVLanguageRecord(lc!)!.name) +
       " - v" +
       ver +
       ")";
@@ -142,6 +144,7 @@ export const ExaminePage = () => {
     { id: 6, name: "examinepage.tab.sentences" },
     { id: 7, name: "examinepage.tab.text-corpus" },
     { id: 8, name: "examinepage.tab.reported" },
+    { id: 9, name: "examinepage.tab.char-speed" },
     // { id: 9, name: "examinepage.tab.comperative" },
     // { id: 10, name: "examinepage.tab.health" },
   ];
@@ -237,6 +240,10 @@ export const ExaminePage = () => {
         {/* Reported Sentences */}
         <TabPanel value={tabValue} index={8}>
           <ReportedSentencesMemo lc={lc} ver={ver} />
+        </TabPanel>
+        {/* Character Speed */}
+        <TabPanel value={tabValue} index={9}>
+          <CharSpeedMemo lc={lc} ver={ver} />
         </TabPanel>
       </Box>
       <div style={{ height: "4px" }}></div>

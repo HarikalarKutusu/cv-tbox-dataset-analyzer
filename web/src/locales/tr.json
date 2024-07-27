@@ -126,7 +126,7 @@
   "col.validHrs": "Onaylı Saat",
   "col.validDurationSecs": "Onaylı Süre (sn)",
   "col.avgDurationSecs": "Ort.Süre (sn)",
-  
+
   "col.buckets": "Gruplamalar",
   "col.buckets_validated": "Onaylı",
   "col.buckets_invalidated": "Reddedilmiş",
@@ -159,6 +159,14 @@
   "col.total_totalHrs": "Toplam Saat",
   "col.total_validHrs": "Onaylı Saat",
   "calc.valid_percentage": "%Onaylı/Toplam",
+
+  "col.char_speed.avg": "Ort. [ms]/ch",
+  "col.char_speed.med": "Ortance [ms]/ch",
+  "col.char_speed.std": "Std.Sap.",
+  "tbl.char_speed": "Karakter Hızı Dağılımı [ms]",
+  "tbl.char_speed_vs_sentence_len": "Karakter Hızı - Cümle Uzunluğu",
+  "tbl.char_speed_vs_gender": "Karakter Hızı - Cinsiyet",
+  "tbl.char_speed_vs_age": "Karakter Hızı - Yaş",
 
   "measures.has_validation": "Doğrulama/Bölütleme Uygulandı mı?",
   "measures.has_phonemiser": "Fonem Analizi Yapıldı mı?",
@@ -231,7 +239,7 @@
   "homepage.about.p3": "Eğer sadece bir dilin zaman içindeki değişik sürümlerdeki durumunu görmek istiyorsanız, kardeş uygulama <a href='https://metadata.cv-toolbox.web.tr/' target='_blank'>Common Voice Üstveri Görüntüleyici</a>'yi kullanabilirsiniz.",
   "homepage.about.p4": "In this application, under each dataset, you may see results for multiple splitting algorithms, given below (some may miss some). These splitting algorithms are:",
   "homepage.about.li1": "<strong>s1</strong>: Common Voice veri kümelerindeki varsayılan bölümlemeler, ki bunlar CorporaCreator algoritmasının -s 1 seçeneği ile aynı, yani bir cümleden sadece 1 kayıt alınıyor. Bu algoritma en çwşitli test bölmesini yaratıyor ve bilimsel açıdan en doğrusu. Öte yandan, genellikle toplam kümenin sadece küçük/daha küçük bir bölümünü kullanıyor, ve bu da özellikle dülük kaynaklı dillerde sorun yaratıyor. Eğitim bölmesi de genellikle ses çeşitliliği açısından oldukça düşük oluyor, bu da ön yargı oluşmasına neden oluyor (ses, cinsiyet vb).",
-  "homepage.about.li2": "<strong>s99</strong>: CorporaCreator'ın -s 99 seçeneği ile çalıştırılması, yani, her cümle için 99 adede kadar kayıt kabul ediliyor. Bu genelde tüm veri kümesini alıyor, fakat bazı diller için bazı ifadeler yüzden fazla kaydedilmiş durumda. Tüm veri kümesinin alınmasına rağmen, bu da eğitim bölmesindeki çeçitliliği garanti etmiyor, fakat genel olarak modellerde daha iyi sonuçlar veriyor.",
+  "homepage.about.li2": "<strong>s5/s99</strong>: CorporaCreator'ın -s 99 seçeneği ile çalıştırılması, yani, her cümle için 99 adede kadar kayıt kabul ediliyor. Bu genelde tüm veri kümesini alıyor, fakat bazı diller için bazı ifadeler yüzden fazla kaydedilmiş durumda. Tüm veri kümesinin alınmasına rağmen, bu da eğitim bölmesindeki çeçitliliği garanti etmiyor, fakat genel olarak modellerde daha iyi sonuçlar veriyor.",
   "homepage.about.li3": "<strong>v1</strong>: Common Voice için önerilen alternatif bir algoritma. Bu algoritma, tüm veri kümesini kullanıyor, bölümlerde çeşitliliği garantiliyor, ve genelde s99 algoritmasından daha iyi sonuçlar elde ediyorsunuz. Şu anda geliştirme aşamasında olan bu algoritma, tüm diller üzerinde çalıştırılmış olmasına rağmen, sadece bazı diller için Coqui STT ve OpenAI Whisper ile test edilmiştir.",
   "homepage.about.li4": "<strong>vw</strong>: v1 algoritmasının OpenAI Whisper ile ince ayar (fine-tuning) yapılmasına daha uygun şekli, 90-5-5% bölümlü, gene 25-25-50% çeşitlilik var.",
   "homepage.about.li5": "<strong>vx</strong>: v1 algoritmasının 95-5-0% bölümlü and 50-50-0% çeşitli şekli, yani test bölümü yok, bu durumda modelinizi Fleurs ya da Voxpopuli gibi bir başka veri kümesi ile test edebilirsiniz.",
@@ -241,6 +249,8 @@
   "browsepage.title": "Veri Kümesi Tarayıcısı",
   "browsepage.p1": "İncelemek için dil ve veri kümesi sürümünü seçiniz.",
   "browsepage.button.older": "Eski veri kümelerini göster/gizle",
+  "browsepage.tooltip.right_click_tab": "Yeni bir sekmede açmak için butonlara sağ tıklayın.",
+  "browsepage.legend.title": "Onaylı Saat:",
 
   "examinepage.title": "Veri Kümesi Analizi",
   "examinepage.tab.general": "Genel",
@@ -249,9 +259,10 @@
   "examinepage.tab.gender": "Cinsiyet",
   "examinepage.tab.age": "Yaş",
   "examinepage.tab.votes": "Oylar",
-  "examinepage.tab.reported": "Raporlamalar",
   "examinepage.tab.sentences": "Cümleler",
   "examinepage.tab.text-corpus": "Metin Korpusu",
+  "examinepage.tab.reported": "Raporlamalar",
+  "examinepage.tab.char-speed": "Harf Hızı",
   "examinepage.tab.comperative": "Karşılaştırma",
   "examinepage.tab.health": "Sağlık",
 
@@ -460,5 +471,4 @@
   "lang.zh-TW": "Çince (Tayvan)",
   "lang.zu": "Zulu",
   "lang.zza": "Zazaca"
-
 }

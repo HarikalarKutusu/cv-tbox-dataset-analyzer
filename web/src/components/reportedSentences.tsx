@@ -140,7 +140,12 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
 
   // Pre-process if needed (if just loaded)
   useEffect(() => {
-    if (!reportedSentences || lc !== selectedLanguage) {
+    if (
+      !reportedSentences ||
+      (reportedSentences.length > 0 &&
+        reportedSentences[0].lc !== selectedLanguage)
+    ) {
+      // if (!reportedSentences || lc !== selectedLanguage) {
       const url = `${ANALYZER_DATA_URL}/${lc}/$reported.json`;
       axios
         .get(url, { headers: { "Content-Type": "application/json" } })
@@ -148,17 +153,23 @@ export const ReportedSentences = (props: ReportedSentencesProps) => {
           const data: REPORTED_STATS_ROW_TYPE[] = response.data.data;
           setSelectedLanguage(lc);
           setReportedSentences(data);
-        }); // exios
+        }); // axios
     } // if
 
     // If loaded and (record not selected or version changed)
     if (reportedSentences && (!reportedSRec || ver !== selectedVersion)) {
       const recs: REPORTED_STATS_ROW_TYPE[] = reportedSentences.filter(
-        (row) => row.ver === ver && row.lc === lc,
+        (row) => Number(row.ver) === Number(ver) && row.lc === lc,
       );
       // might not have reported sentences
       if (recs.length === 1) {
         const rec: REPORTED_STATS_ROW_TYPE = recs[0];
+        if (typeof rec.rep_freq === "string") {
+          rec.rep_freq = (rec.rep_freq as string).slice(1,-1).split(",").map(x=>+x)
+        }
+        if (typeof rec.rea_freq === "string") {
+          rec.rea_freq = (rec.rea_freq as string).slice(1,-1).split(",").map(x=>+x)
+        }
         setReportedSRec(rec);
       } else {
         setReportedSRec(undefined);

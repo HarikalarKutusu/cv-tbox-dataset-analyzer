@@ -7,12 +7,13 @@ import { SUPPORT_MATRIX_ROW_TYPE } from "./tableHelper";
 // App Version
 import packageJson from "./../../package.json";
 export const appVersion: string = packageJson.version;
-export const isBeta: boolean = packageJson.version.endsWith("b");
+export const isAlpha: boolean = appVersion.endsWith("a");
+export const isBeta: boolean = appVersion.endsWith("b");
 
 //
 // Static Data Api
 //
-export const ANALYZER_DATA_URL = isBeta
+export const ANALYZER_DATA_URL = isAlpha || isBeta
   ? "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
   : "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
 export const CV_DATA_URL =
@@ -38,7 +39,12 @@ export type CONFIG_TYPE = {
   bins_votes_up: number[];
   bins_votes_down: number[];
   bins_sentences: number[];
-  bins_chars: number[];
+  cs_threshold: number;
+  bins_cs_low: number[];
+  bins_cs_high: number[];
+  ch_threshold: number;
+  bins_chars_short: number[];
+  bins_chars_long: number[];
   bins_words: number[];
   bins_tokens: number[];
   bins_reported: number[];

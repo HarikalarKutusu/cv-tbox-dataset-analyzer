@@ -458,21 +458,25 @@ export const TextCorpus = (props: TextCorpusProps) => {
           setSelectedLanguage(lc);
           setSelectedVersion(ver);
           setTextCorpusStats(data);
-          const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = data.filter(
-            (row) => row.algo === "" && row.sp === "",
-          );
-          if (tcrec && tcrec.length > 0) {
-            setTextCorpusRec(tcrec[0]);
-          }
-          // get unique algorithmn
-          const algos: string[] = [
-            ...new Set(data.map((row) => row.algo)),
-          ].filter((a) => a.length > 0);
-          if (algos) {
-            setAlgorithms(algos);
-          }
         }); // then-axios
     } // if
+    // If loaded and record not selected
+    if (textCorpusStats && !textCorpusRec) {
+      const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = textCorpusStats.filter(
+        // (row) => row.algo === "" && row.sp === "",
+        (row) => row.sp === "",
+      );
+      if (tcrec && tcrec.length > 0) {
+        setTextCorpusRec(tcrec[0]);
+      }
+      // get unique algorithmn
+      const algos: string[] = [...new Set(textCorpusStats.map((row) => row.algo))].filter(
+        (a) => a && a.length > 0,
+      );
+      if (algos) {
+        setAlgorithms(algos);
+      }
+    }
   }, [
     ver,
     lc,
@@ -487,24 +491,15 @@ export const TextCorpus = (props: TextCorpusProps) => {
     setAlgorithms,
   ]);
 
-  // useEffect(() => {
-  //   if (textCorpusStats && !textCorpusRec) {
-  //     const lst: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined =
-  //       textCorpusStats.filter((row) => row.algo === "" && row.sp === "");
-  //     if (lst && lst.length > 0) {
-  //       setTextCorpusRec(lst[0]);
-  //     }
-  //   }
-  // }, [lc, ver, selectedLanguage, selectedVersion, textCorpusRec, textCorpusStats]);
-
   if (!lc || !ver) return <div>Error in parameters.</div>;
 
   if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
 
   let cnt: number = 0;
-
-  // console.log(textCorpusRec.g_freq as IStrValuePair[]);
-  // console.log(textCorpusRec.p_freq as IStrValuePair[]);
+  const _slen_bins: number[] =
+    textCorpusRec.c_avg > CONF.ch_threshold
+      ? CONF.bins_chars_long
+      : CONF.bins_chars_short;
 
   return (
     <>
@@ -538,7 +533,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
           <div>
             <FreqTable
               key={"c_freq"}
-              bins={CONF.bins_chars}
+              bins={_slen_bins}
               values={textCorpusRec.c_freq as number[]}
               title={"Common Voice " + lc}
               subTitle={intl.get("tbl.character_distribution")}

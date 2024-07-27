@@ -6,6 +6,7 @@ import {
   DATASET_INFO_ROW_TYPE,
   REPORTED_STATS_ROW_TYPE,
   TEXT_CORPUS_STATS_ROW_TYPE,
+  CHAR_SPEED_ROW_TYPE,
 } from "../helpers/tableHelper";
 
 import { LanguageCodesType, DEFAULT_UI_LOCALE } from "../helpers/localeHelper";
@@ -27,13 +28,17 @@ export type StoreType = {
   datasetInfo: DATASET_INFO_ROW_TYPE[] | undefined;
   setDatasetInfo: (data: DATASET_INFO_ROW_TYPE[] | undefined) => void;
 
-  // Reported Sentences data for selected language(lc)
+  // Reported Sentences data for selected language(lc) (combined all versions)
   reportedSentences: REPORTED_STATS_ROW_TYPE[] | undefined;
   setReportedSentences: (data: REPORTED_STATS_ROW_TYPE[] | undefined) => void;
 
-  // Text Corpus data for selected language(lc)
+  // Text Corpus data for selected language(lc) + version
   textCorpusStats: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined;
   setTextCorpusStats: (data: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined) => void;
+
+  // Character Speed data for selected language(lc) + version
+  charSpeed: CHAR_SPEED_ROW_TYPE[] | undefined;
+  setCharSpeed: (data: CHAR_SPEED_ROW_TYPE[] | undefined) => void;
 
   //
   // Smaller Data
@@ -85,6 +90,11 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
     textCorpusStats: undefined,
     setTextCorpusStats: (data) =>
       set((state) => ({ ...state, textCorpusStats: data })),
+
+    // Char Speed
+    charSpeed: undefined,
+    setCharSpeed: (data) =>
+      set((state) => ({ ...state, charSpeed: data })),
 
     //
     // Smaller Data
