@@ -1,3 +1,4 @@
+// React
 import * as React from "react";
 import intl from "react-intl-universal";
 import { NavLink as Link, Outlet, useLocation } from "react-router-dom";
@@ -16,12 +17,12 @@ import {
   Divider,
   IconButton,
   Container,
-  Grid,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   // ListSubheader,,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 // import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -262,7 +263,7 @@ export function AppUI() {
           <Toolbar />
           <Container maxWidth={false} sx={{ mt: 4, mb: 10 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 {/* <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}> */}
                 <Outlet />
                 {/* </Paper> */}
