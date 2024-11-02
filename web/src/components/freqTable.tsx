@@ -15,7 +15,7 @@ import {
   downloadCSV,
   IFreqTableProps,
   IFreqTableRow,
-  TABLE_STYLE,
+  TABLE_STYLE_DENSE,
 } from "../helpers/tableHelper";
 import { FreqChart } from "./graphs/freqChart";
 import { cleanFn } from "../helpers/appHelper";
@@ -209,7 +209,7 @@ export const FreqTable = (props: IFreqTableProps) => {
                 dense
                 direction={Direction.AUTO}
                 highlightOnHover
-                customStyles={TABLE_STYLE}
+                customStyles={TABLE_STYLE_DENSE}
                 actions={exportCVSFreqTable}
               />
             </Grid>
