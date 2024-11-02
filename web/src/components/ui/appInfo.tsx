@@ -11,7 +11,7 @@ import {
   ILoaderData,
   appVersion,
   isAlpha,
-  isBeta
+  isBeta,
 } from "../../helpers/appHelper";
 
 import "./appInfo.css";

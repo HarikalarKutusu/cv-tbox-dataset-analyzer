@@ -7,6 +7,7 @@ import {
   REPORTED_STATS_ROW_TYPE,
   TEXT_CORPUS_STATS_ROW_TYPE,
   CHAR_SPEED_ROW_TYPE,
+  AUDIO_STATS_ROW_TYPE,
 } from "../helpers/tableHelper";
 
 import { LanguageCodesType, DEFAULT_UI_LOCALE } from "../helpers/localeHelper";
@@ -39,6 +40,10 @@ export type StoreType = {
   // Character Speed data for selected language(lc) + version
   charSpeed: CHAR_SPEED_ROW_TYPE[] | undefined;
   setCharSpeed: (data: CHAR_SPEED_ROW_TYPE[] | undefined) => void;
+
+  // Character Speed data for selected language(lc) + version
+  audioStats: AUDIO_STATS_ROW_TYPE[] | undefined;
+  setAudioStats: (data: AUDIO_STATS_ROW_TYPE[] | undefined) => void;
 
   //
   // Smaller Data
@@ -93,8 +98,11 @@ const useStore: UseBoundStore<StoreApi<StoreType>> = create<StoreType>(
 
     // Char Speed
     charSpeed: undefined,
-    setCharSpeed: (data) =>
-      set((state) => ({ ...state, charSpeed: data })),
+    setCharSpeed: (data) => set((state) => ({ ...state, charSpeed: data })),
+
+    // Audio Analysis Stats
+    audioStats: undefined,
+    setAudioStats: (data) => set((state) => ({ ...state, audioStats: data })),
 
     //
     // Smaller Data
