@@ -54,7 +54,7 @@ const colorScale: TColorScale[] = [
 //
 
 const ColorLegend = () => {
-  const colors = colorScale;
+  const colors = [...colorScale];
   colors.reverse();
   return (
     <>
