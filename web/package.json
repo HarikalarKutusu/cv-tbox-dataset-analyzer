@@ -1,6 +1,6 @@
 {
   "name": "cv-toolbox-dataset-analyzer",
-  "version": "0.17.0",
+  "version": "0.18.0b",
   "private": true,
   "scripts": {
     "start": "react-app-rewired start",
@@ -26,7 +26,7 @@
     "recharts": "^2.12.7",
     "recharts-to-png": "^2.3.2",
     "styled-components": "^6.1.13",
-    "zustand": "^4.5.4"
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
