@@ -5,6 +5,8 @@ import axios from "axios";
 // i10n
 import intl from "react-intl-universal";
 // MUI
+import { Button, Paper, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
@@ -30,7 +32,6 @@ import {
   // IMeasureValueTableRow,
 } from "../helpers/tableHelper";
 import { FreqTable } from "./freqTable";
-import { Button, Grid, Paper, Typography } from "@mui/material";
 
 //
 // JSX
@@ -470,9 +471,9 @@ export const TextCorpus = (props: TextCorpusProps) => {
         setTextCorpusRec(tcrec[0]);
       }
       // get unique algorithmn
-      const algos: string[] = [...new Set(textCorpusStats.map((row) => row.algo))].filter(
-        (a) => a && a.length > 0,
-      );
+      const algos: string[] = [
+        ...new Set(textCorpusStats.map((row) => row.algo)),
+      ].filter((a) => a && a.length > 0);
       if (algos) {
         setAlgorithms(algos);
       }
@@ -598,7 +599,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.dom_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "34%" }}>
+              <Grid sx={{ width: "34%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}
@@ -627,7 +628,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.g_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "33%" }}>
+              <Grid sx={{ width: "33%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}
@@ -654,7 +655,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.p_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid item sx={{ width: "33%" }}>
+              <Grid sx={{ width: "33%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <DataTable
                     columns={countTableColumns}

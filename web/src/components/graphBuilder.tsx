@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Container, Grid, Paper } from "@mui/material";
+import { Container, Paper } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 // App
 import { useStore } from "./../stores/store";
@@ -267,7 +268,7 @@ export const GraphBuilder = (props: IGraphBuilderProps) => {
         {/* Loop graphs */}
         {viewGraphs.map((gd, index) => {
           return (
-            <Grid item xs={12} sm={12} md={6} key={index}>
+            <Grid size={{ xs: 12, sm: 12, md: 6 }} key={index}>
               <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                 <div style={{ width: "100%", height: "300px" }}>
                   {/* BAR CHART */}

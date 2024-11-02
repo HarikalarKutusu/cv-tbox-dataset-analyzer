@@ -3,7 +3,8 @@ import { useMemo } from "react";
 // i10n
 import intl from "react-intl-universal";
 // MUI
-import { Box, Container, Paper, Grid, Alert } from "@mui/material";
+import { Box, Container, Paper, Alert } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 // Table
 import DataTable, { TableColumn, Direction } from "react-data-table-component";
@@ -14,7 +15,7 @@ import {
   downloadCSV,
   IFreqTableProps,
   IFreqTableRow,
-  TABLE_STYLE,
+  TABLE_STYLE_DENSE,
 } from "../helpers/tableHelper";
 import { FreqChart } from "./graphs/freqChart";
 import { cleanFn } from "../helpers/appHelper";
@@ -82,7 +83,9 @@ export const FreqTable = (props: IFreqTableProps) => {
   };
 
   if (!values || !bins || values.length !== bins.length) {
-    console.log("PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE (OR UNDEFINED)");
+    console.log(
+      "PROGRAMMER ERROR - SIZE MISMATCH IN FREQ TABLE (OR UNDEFINED)",
+    );
     console.log("TYPE BINS=", typeof bins, " VALUES=", typeof values);
     console.log("BINS=", bins);
     console.log("VALUES=", values);
@@ -196,7 +199,7 @@ export const FreqTable = (props: IFreqTableProps) => {
             spacing={0}
             sx={{ width: "100%", mb: "10px" }}
           >
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4, xl: 4 }}>
               <DataTable
                 columns={getColumns()}
                 data={tableData}
@@ -206,17 +209,12 @@ export const FreqTable = (props: IFreqTableProps) => {
                 dense
                 direction={Direction.AUTO}
                 highlightOnHover
-                customStyles={TABLE_STYLE}
+                customStyles={TABLE_STYLE_DENSE}
                 actions={exportCVSFreqTable}
               />
             </Grid>
             <Grid
-              item
-              xs={12}
-              sm={6}
-              md={8}
-              lg={8}
-              xl={8}
+              size={{ xs: 12, sm: 6, md: 8, lg: 8, xl: 8 }}
               sx={{ border: "1px" }}
             >
               <div style={{ width: "100%", height: "100%" }}>

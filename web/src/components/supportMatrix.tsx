@@ -54,7 +54,7 @@ const colorScale: TColorScale[] = [
 //
 
 const ColorLegend = () => {
-  const colors = colorScale;
+  const colors = [...colorScale];
   colors.reverse();
   return (
     <>
@@ -238,6 +238,13 @@ export const SupportMatrix = () => {
     // };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
+      {
+        id: "v19_0",
+        name: "v19.0",
+        center: true,
+        width: "70px",
+        cell: (row) => <VersionCell lc={row.lc} ver="19.0" algos={row.v19_0} />,
+      },
       {
         id: "v18_0",
         name: "v18.0",

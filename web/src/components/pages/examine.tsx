@@ -23,6 +23,7 @@ import { CharSpeedMemo } from "../charSpeed";
 import { GraphBuilder } from "../graphBuilder";
 import { ReportedSentencesMemo } from "../reportedSentences";
 import { CV_LANGUAGE_ROW } from "../../helpers/cvHelper";
+import { AudioAnalysisMemo } from "../audioAnalysis";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -145,6 +146,7 @@ export const ExaminePage = () => {
     { id: 7, name: "examinepage.tab.text-corpus" },
     { id: 8, name: "examinepage.tab.reported" },
     { id: 9, name: "examinepage.tab.char-speed" },
+    { id: 10, name: "examinepage.tab.audio-analysis" },
     // { id: 9, name: "examinepage.tab.comperative" },
     // { id: 10, name: "examinepage.tab.health" },
   ];
@@ -244,6 +246,10 @@ export const ExaminePage = () => {
         {/* Character Speed */}
         <TabPanel value={tabValue} index={9}>
           <CharSpeedMemo lc={lc} ver={ver} />
+        </TabPanel>
+        {/* Audio Analysis */}
+        <TabPanel value={tabValue} index={10}>
+          <AudioAnalysisMemo lc={lc} ver={ver} />
         </TabPanel>
       </Box>
       <div style={{ height: "4px" }}></div>

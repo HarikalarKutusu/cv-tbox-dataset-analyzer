@@ -13,9 +13,10 @@ export const isBeta: boolean = appVersion.endsWith("b");
 //
 // Static Data Api
 //
-export const ANALYZER_DATA_URL = isAlpha || isBeta
-  ? "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
-  : "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
+export const ANALYZER_DATA_URL =
+  isAlpha || isBeta
+    ? "https://static.cv-toolbox.web.tr/public/cv-processed-beta/analyzer"
+    : "https://static.cv-toolbox.web.tr/public/cv-processed/analyzer";
 export const CV_DATA_URL =
   "https://static.cv-toolbox.web.tr/public/cv-api-cache";
 
@@ -29,26 +30,35 @@ export interface ILoaderData {
 // config
 
 export type CONFIG_TYPE = {
+  // general
   date: string;
   cv_versions: string[];
   cv_dates: string[];
   cv_locales: string[];
   algorithms: string[];
+  // basic bins
+  bins_percent: number[];
   bins_duration: number[];
   bins_voices: number[];
   bins_votes_up: number[];
   bins_votes_down: number[];
   bins_sentences: number[];
+  // char speed
   cs_threshold: number;
   bins_cs_low: number[];
   bins_cs_high: number[];
   ch_threshold: number;
   bins_chars_short: number[];
   bins_chars_long: number[];
+  // text-corpus
   bins_words: number[];
   bins_tokens: number[];
+  // reported
   bins_reported: number[];
   bins_reasons: string[];
+  // audio-analysis
+  bins_aa_pwr: number[];
+  bins_aa_snr: number[];
 };
 // Versioning
 // export const appVersion = "v0.8.2b";

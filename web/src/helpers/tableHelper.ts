@@ -1,5 +1,5 @@
 import { ScaleType } from "recharts/types/util/types";
-import { PRIMARY_COLOR } from "../components/ui/theme";
+import { PRIMARY_COLOR, PRIMARY_DARK } from "../components/ui/theme";
 
 //======================================
 //== Table Styling
@@ -34,13 +34,15 @@ export const TABLE_STYLE = {
 export const TABLE_STYLE_DENSE = {
   header: {
     style: {
+      fontSize: "18px",
       paddingLeft: "2px",
       paddingRight: "2px",
+      color: PRIMARY_DARK,
     },
   },
   headRow: {
     style: {
-      backgroundColor: PRIMARY_COLOR,
+      backgroundColor: PRIMARY_DARK,
       color: "#ffffff",
     },
   },
@@ -72,7 +74,8 @@ export type DATASET_INFO_VIEW_TYPE =
   | "sentences"
   | "text-corpus"
   | "reported"
-  | "char-speed";
+  | "char-speed"
+  | "audio-analysis";
 // | "comperative"
 // | "health"
 
@@ -87,6 +90,7 @@ export const DATASET_INFO_VIEW_TYPES: DATASET_INFO_VIEW_TYPE[] = [
   "text-corpus",
   "reported",
   "char-speed",
+  "audio-analysis",
   // "comperative",
   // "health",
 ];
@@ -99,6 +103,7 @@ export type SUPPORT_MATRIX_ROW_TYPE = {
   lc: string;
   lang: string;
 
+  v19_0: string | null;
   v18_0: string | null;
   v17_0: string | null;
   v16_1: string | null;
@@ -273,7 +278,7 @@ export type CHAR_SPEED_ROW_TYPE = {
   lc: string; // language code
   alg: string; // algorithm code s1, s99, v1
   sp: string; // split id
-  clips: number; // number of splits in the split
+  clips: number; // number of clips in the split
   // Character Speed data
   cs_avg: number; // average (mean)
   cs_med: number; // median
@@ -286,6 +291,71 @@ export type CHAR_SPEED_ROW_TYPE = {
   cs2s: string | number[][]; // char-speed vs sentence length
   cs2g: string | number[][]; // char-speed vs gender (columns are known)
   cs2a: string | number[][]; // char-speed vs age (columns are known)
+};
+
+//======================================
+//== Audio Analysis Statistics
+//======================================
+
+export type AUDIO_STATS_ROW_TYPE = {
+  // unique identifier for split
+  ver: string; // cv version in format 11.0
+  lc: string; // language code
+  alg: string; // algorithm code s1, s99, v1
+  sp: string; // split id
+  // basic counts/sums
+  clips: number; // number of clips in the split
+  errors: number; // Clip count of any kind of error reading/analyzing
+  dur: number; // total duration in seconds
+  no_vad: number; // Clip count where no speech is detected by VAD
+  low_power: number; // Clip count where speech power is low
+  low_snr: number; // Clip count where SNR is negative
+  // basic audio property distributions
+  enc_r: string | string[]; // row values
+  enc_freq: string | number[]; // encodings
+  chan_r: string | string[]; // row values
+  chan_freq: string | number[]; // channels
+  srate_r: string | string[]; // row values
+  srate_freq: string | number[]; // sampling rate
+  brate_r: string | string[]; // row values
+  brate_freq: string | number[]; // bit rate
+  // Errors
+  err_r: string | string[]; // row values = error sources
+  err_freq: string | number[]; // counts of that error type
+  // VAD Statistics
+  vad_sum: number; // total VAD duration
+  vad_avg: number; // average (mean)
+  vad_med: number; // median
+  vad_std: number; // standard deviation
+  vad_freq: number[]; // frequency distribution
+  // VAD Percentage Statistics
+  vadp_avg: number; // average (mean)
+  vadp_med: number; // median
+  vadp_std: number; // standard deviation
+  vadp_freq: number[]; // frequency distribution
+  // Speech Power Statistics
+  sp_pwr_avg: number; // average (mean)
+  sp_pwr_med: number; // median
+  sp_pwr_std: number; // standard deviation
+  sp_pwr_freq: number[]; // frequency distribution
+  // Silence Power Statistics
+  sil_pwr_avg: number; // average (mean)
+  sil_pwr_med: number; // median
+  sil_pwr_std: number; // standard deviation
+  sil_pwr_freq: number[]; // frequency distribution
+  // SNR Statistics
+  snr_avg: number; // average (mean)
+  snr_med: number; // median
+  snr_std: number; // standard deviation
+  snr_freq: number[]; // frequency distribution
+  // CrossTab: duration vs VAD Duration
+  // d2v_r: string | string[]; // row labels for crosstab - duration (from list of int)
+  // d2v_c: string | string[]; // col labels for crosstab - VAD duration (from list of int)
+  // d2v: string | number[][]; // duration - VAD Duration distributions
+  // CrossTab: speech power vs silence power
+  // sp2sil_r: string | string[]; // row labels for crosstab - duration (from list of int)
+  // sp2sil_c: string | string[]; // col labels for crosstab - VAD duration (from list of int)
+  // sp2sil: string | number[][]; // duration - VAD Duration distributions
 };
 
 //======================================
@@ -461,6 +531,7 @@ const convertArrayOfObjectsToCSV = (
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
     | CHAR_SPEED_ROW_TYPE[]
+    | AUDIO_STATS_ROW_TYPE[]
     | IFreqTableRow[]
     | TCrossTabTableRow[]
     | ITextCorpusStatsTableRow[]
@@ -498,6 +569,7 @@ export const downloadCSV = (
     | TEXT_CORPUS_STATS_ROW_TYPE[]
     | REPORTED_STATS_ROW_TYPE[]
     | CHAR_SPEED_ROW_TYPE[]
+    | AUDIO_STATS_ROW_TYPE[]
     | IFreqTableRow[]
     | TCrossTabTableRow[]
     | ITextCorpusStatsTableRow[],
