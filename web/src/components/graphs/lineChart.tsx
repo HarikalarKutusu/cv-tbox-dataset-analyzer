@@ -53,7 +53,7 @@ export const AppLineChart = (props: IAppChartProps) => {
             height={height}
             data={data}
             margin={{ top: 50, bottom: 0, left: 25, right: 10 }}
-            ref={ref}
+            // ref={ref}
           >
             <XAxis
               dataKey={xKey}
