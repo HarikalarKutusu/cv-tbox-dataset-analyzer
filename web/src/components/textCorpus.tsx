@@ -504,6 +504,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
 
   return (
     <>
+      {/* Check-boxes */}
       <Typography align="right" variant="body2">
         {intl.get("measures.has_validation") + ": "}
         {textCorpusRec.has_val ? (
@@ -525,12 +526,15 @@ export const TextCorpus = (props: TextCorpusProps) => {
           />
         )}
       </Typography>
+      {/* Algorithm selection */}
       <AlgoButtons />
+      {/* Statistics table */}
       <div>
         <TextCorpusStatsTable />
       </div>
       {textCorpusRec && (
         <>
+          {/* Number of chars per sentence distribution */}
           <div>
             <FreqTable
               key={"c_freq"}
@@ -553,6 +557,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
             <></>
           ) : (
             <>
+              {/* Number of words per sentence distribution */}
               <div>
                 <FreqTable
                   key={"w_freq"}
@@ -571,6 +576,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
                   cnt={cnt++}
                 />
               </div>
+              {/* Token frequencies */}
               <div>
                 <FreqTable
                   key={"t_freq"}
@@ -599,8 +605,9 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.dom_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid sx={{ width: "34%" }}>
+              <Grid sx={{ width: "32%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  {/* Sentence domains */}
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.g_freq as string[][]}
@@ -628,8 +635,9 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.g_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid sx={{ width: "33%" }}>
+              <Grid sx={{ width: "32%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  {/* Graphame table */}
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.g_freq as string[][]}
@@ -655,8 +663,9 @@ export const TextCorpus = (props: TextCorpusProps) => {
             {textCorpusRec.p_freq.length === 0 ? (
               <></>
             ) : (
-              <Grid sx={{ width: "33%" }}>
+              <Grid sx={{ width: "32%" }}>
                 <Paper sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  {/* Phoneme table */}
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.p_freq as string[][]}
