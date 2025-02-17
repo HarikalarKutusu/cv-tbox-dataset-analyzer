@@ -219,6 +219,8 @@
   "graph.subtitle.uq_age_group_0_39": "Percentage of voices in age group 0-39",
   "graph.subtitle.uq_age_group_40_69": "Percentage of voices in age group 40-69",
   "graph.subtitle.uq_age_group_70_99": "Percentage of voices in age group 70-99",
+  "tbl.variant_distribution": "Variant Distribution (clips)",
+  "tbl.accent_distribution": "Accent Distribution (clips)",
   "homepage.about.p1": "This tool is directed to language communities on Common Voice and those who train on them. The main purpose is to view the general and detailed statistical characteristics of datasets, with special emphasis on their health and diversity, so that communities can direct their efforts to correct the problem areas. The data presented here are results of long offline calculations. Currently it covers most important ones, but new measures will be added in time.",
   "homepage.about.p2": "Because the data is rather large it is divided and related portion will be loaded whenever you click a language-version pair. The table on the browse page shows all languages Common Voice supports, with version info this application supports. To shorten the list, please use the filter feature at the bottom to select one or more locales you are interested in.",
   "homepage.about.p3": "If you are just interested in general status between versions, you can use the sister app <a href='https://metadata.cv-toolbox.web.tr/' target='_blank'>Common Voice Metadata Viewer</a>.",
