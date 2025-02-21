@@ -564,27 +564,19 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             bins: data.var_rows,
             values: data.var_freq as number[],
             title: title,
-            subTitle: intl.get("tbl.variant_distribution"),
-            // mean: data.v_avg,
-            // median: data.v_med,
-            // std: data.v_std,
+            subTitle: intl.get("tbl.variant_distribution_clips"),
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
-            // yScale: "linear",
           },
           {
             bins: data.acc_rows,
             values: data.acc_freq as number[],
             title: title,
-            subTitle: intl.get("tbl.accent_distribution"),
-            // mean: data.v_avg,
-            // median: data.v_med,
-            // std: data.v_std,
+            subTitle: intl.get("tbl.accent_distribution_clips"),
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
-            // yScale: "linear",
           },
         ];
         break;
@@ -601,7 +593,6 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
-            // yScale: "linear",
           },
         ];
         break;
@@ -618,7 +609,24 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
             addTotals: true,
             addPercentageColumn: true,
             dropLastFromGraph: true,
-            // yScale: "linear",
+          },
+          {
+            bins: data.var_rows,
+            values: data.var_ufreq as number[],
+            title: title,
+            subTitle: intl.get("tbl.variant_distribution_voices"),
+            addTotals: true,
+            addPercentageColumn: true,
+            dropLastFromGraph: true,
+          },
+          {
+            bins: data.acc_rows,
+            values: data.acc_ufreq as number[],
+            title: title,
+            subTitle: intl.get("tbl.accent_distribution_voices"),
+            addTotals: true,
+            addPercentageColumn: true,
+            dropLastFromGraph: true,
           },
         ];
         break;
