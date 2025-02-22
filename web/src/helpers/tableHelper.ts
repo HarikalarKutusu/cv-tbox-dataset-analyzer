@@ -171,6 +171,13 @@ export type DATASET_INFO_ROW_TYPE = {
   dem_uq: number[][];
   dem_fix_r: number[][];
   dem_fix_v: number[][];
+  // varints/accents
+  var_rows: string[];
+  var_freq: number[];
+  var_ufreq: number[];
+  acc_rows: string[];
+  acc_freq: number[];
+  acc_ufreq: number[];
 
   // CALCULATED VALUES (should be here for graph support)
   dem_ctable?: number[][];
