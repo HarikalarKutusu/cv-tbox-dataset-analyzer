@@ -6,7 +6,7 @@ import intl from "react-intl-universal";
 // MUI
 import { Box, Button, Typography } from "@mui/material";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
-import { red, pink, orange, cyan, teal } from "@mui/material/colors";
+// import { red, pink, orange, cyan, teal } from "@mui/material/colors";
 
 // DataTable
 import DataTable, { Direction, TableColumn } from "react-data-table-component";
@@ -238,6 +238,13 @@ export const SupportMatrix = () => {
     // };
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
+      {
+        id: "v21_0",
+        name: "v21.0",
+        center: true,
+        width: "70px",
+        cell: (row) => <VersionCell lc={row.lc} ver="21.0" algos={row.v21_0} />,
+      },
       {
         id: "v20_0",
         name: "v20.0",
