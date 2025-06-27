@@ -760,22 +760,30 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
     return (
       <>
         {expViews.map((ev, index) => {
-          return (
-            <FreqTable
-              key={"c_freq_" + index}
-              bins={ev.bins}
-              values={ev.values}
-              title={title}
-              subTitle={ev.subTitle}
-              yScale={ev.yScale}
-              mean={ev.mean}
-              median={ev.median}
-              std={ev.std}
-              addTotals={ev.addTotals}
-              addPercentageColumn={ev.addPercentageColumn}
-              dropLastFromGraph={ev.dropLastFromGraph}
-            />
-          );
+          if (
+            ev.bins?.length > 0 &&
+            ev.values?.length > 0 &&
+            ev.bins?.length === ev.values?.length
+          ) {
+            return (
+              <FreqTable
+                key={"c_freq_" + index}
+                bins={ev.bins}
+                values={ev.values}
+                title={title}
+                subTitle={ev.subTitle}
+                yScale={ev.yScale}
+                mean={ev.mean}
+                median={ev.median}
+                std={ev.std}
+                addTotals={ev.addTotals}
+                addPercentageColumn={ev.addPercentageColumn}
+                dropLastFromGraph={ev.dropLastFromGraph}
+              />
+            );
+          } else {
+            return <div>{intl.get("warn.no_data")}</div>;
+          }
         })}
       </>
     );
@@ -899,6 +907,13 @@ export const DataSetInfo = (props: DatasetInfoProps): JSX.Element => {
                     row.dem_fix_v,
                   );
               }
+              // handle missing
+              if (!row.acc_rows) row.acc_rows = [];
+              if (!row.acc_freq) row.acc_freq = [];
+              if (!row.acc_ufreq) row.acc_ufreq = [];
+              if (!row.var_rows) row.var_rows = [];
+              if (!row.var_freq) row.var_freq = [];
+              if (!row.var_ufreq) row.var_ufreq = [];
               return row;
             });
             /*
