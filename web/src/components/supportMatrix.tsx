@@ -239,6 +239,13 @@ export const SupportMatrix = () => {
 
     const version_cols: TableColumn<SUPPORT_MATRIX_ROW_TYPE>[] = [
       {
+        id: "v22_0",
+        name: "v22.0",
+        center: true,
+        width: "70px",
+        cell: (row) => <VersionCell lc={row.lc} ver="22.0" algos={row.v22_0} />,
+      },
+      {
         id: "v21_0",
         name: "v21.0",
         center: true,

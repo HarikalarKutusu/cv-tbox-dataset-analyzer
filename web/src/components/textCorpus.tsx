@@ -1,24 +1,24 @@
 // React
-import { memo, useEffect, useMemo, useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import axios from "axios";
+import { memo, useEffect, useMemo, useState } from "react"
+import { useLoaderData } from "react-router-dom"
+import axios from "axios"
 // i10n
-import intl from "react-intl-universal";
+import intl from "react-intl-universal"
 // MUI
-import { Button, Paper, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
+import { Button, Paper, Typography } from "@mui/material"
+import Grid from "@mui/material/Grid2"
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
+import CheckBoxIcon from "@mui/icons-material/CheckBox"
+import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn"
 
 // DataTable
-import DataTable, { Direction, TableColumn } from "react-data-table-component";
+import DataTable, { Direction, TableColumn } from "react-data-table-component"
 
 // Store
-import { useStore } from "../stores/store";
+import { useStore } from "../stores/store"
 
 // App
-import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper";
+import { ANALYZER_DATA_URL, ILoaderData } from "./../helpers/appHelper"
 import {
   TABLE_STYLE,
   TABLE_STYLE_DENSE,
@@ -30,50 +30,48 @@ import {
   downloadCSV,
   convertStr2StrList,
   // IMeasureValueTableRow,
-} from "../helpers/tableHelper";
-import { FreqTable } from "./freqTable";
+} from "../helpers/tableHelper"
+import { FreqTable } from "./freqTable"
 
 //
 // JSX
 //
 
 export type TextCorpusProps = {
-  ver?: string;
-  lc?: string;
-};
+  ver?: string
+  lc?: string
+}
 
 export const TextCorpus = (props: TextCorpusProps) => {
-  const { ver, lc } = props;
+  const { ver, lc } = props
 
-  const { initDone } = useStore();
-  const { langCode } = useStore();
+  const { initDone } = useStore()
+  const { langCode } = useStore()
 
-  const { selectedLanguage, setSelectedLanguage } = useStore();
-  const { selectedVersion, setSelectedVersion } = useStore();
-  const { textCorpusStats, setTextCorpusStats } = useStore();
+  const { selectedLanguage, setSelectedLanguage } = useStore()
+  const { selectedVersion, setSelectedVersion } = useStore()
+  const { textCorpusStats, setTextCorpusStats } = useStore()
 
   // const { textCorpusStats, setTextCorpusStats } = useState<
   //   TEXT_CORPUS_STATS_ROW_TYPE[] | undefined
   // >(undefined);
 
-  const [textCorpusRec, setTextCorpusRec] = useState<
-    TEXT_CORPUS_STATS_ROW_TYPE | undefined
-  >(undefined);
-  const [algorithms, setAlgorithms] = useState<string[] | undefined>(undefined);
-  const [curAlgo, setCurAlgo] = useState<string>("s1");
+  const [textCorpusRec, setTextCorpusRec] = useState<TEXT_CORPUS_STATS_ROW_TYPE | undefined>(undefined)
+  const [algorithms, setAlgorithms] = useState<string[] | undefined>(undefined)
+  const [curAlgo, setCurAlgo] = useState<string>("s1")
 
-  const CONF = (useLoaderData() as ILoaderData).analyzerConfig;
+  const CONF = (useLoaderData() as ILoaderData).analyzerConfig
 
   const paginationComponentOptions = {
     rowsPerPageText: intl.get("pagination.perpage"),
     rangeSeparatorText: intl.get("pagination.rangeseparator"),
     selectAllRowsItem: true,
     selectAllRowsItemText: intl.get("pagination.selectallrows"),
-  };
+  }
 
   const handleAlgoSelect = (algo: string) => {
-    setCurAlgo(algo);
-  };
+    setCurAlgo(algo)
+  }
 
   const AlgoButtons = (): JSX.Element => {
     return (
@@ -104,17 +102,17 @@ export const TextCorpus = (props: TextCorpusProps) => {
                 >
                   {algo}
                 </Button>
-              );
+              )
             })}
           </>
         </Typography>
       </div>
-    );
-  };
+    )
+  }
 
   const TextCorpusStatsTable = (): JSX.Element => {
-    const algo = curAlgo;
-    let tbl: ITextCorpusStatsTableRow[] = [];
+    const algo = curAlgo
+    let tbl: ITextCorpusStatsTableRow[] = []
     // const dec2 = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     // const dec3 = { minimumFractionDigits: 3, maximumFractionDigits: 3 };
 
@@ -122,31 +120,23 @@ export const TextCorpus = (props: TextCorpusProps) => {
     // const algo_split: string[] = [];
     // const splits: string[] = [];
 
-    let text_corpus_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined;
-    let validated_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined;
-    let train_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined;
-    let dev_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined;
-    let test_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined;
-    let lst: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined = undefined;
+    let text_corpus_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined
+    let validated_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined
+    let train_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined
+    let dev_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined
+    let test_rec: TEXT_CORPUS_STATS_ROW_TYPE | undefined = undefined
+    let lst: TEXT_CORPUS_STATS_ROW_TYPE[] | undefined = undefined
 
-    lst = textCorpusStats?.filter((row) => row.algo === "" && row.sp === "");
-    if (lst && lst.length > 0) text_corpus_rec = lst[0];
-    lst = textCorpusStats?.filter(
-      (row) => row.algo === "s1" && row.sp === "validated",
-    );
-    if (lst && lst.length > 0) validated_rec = lst[0];
-    lst = textCorpusStats?.filter(
-      (row) => row.algo === algo && row.sp === "train",
-    );
-    if (lst && lst.length > 0) train_rec = lst[0];
-    lst = textCorpusStats?.filter(
-      (row) => row.algo === algo && row.sp === "dev",
-    );
-    if (lst && lst.length > 0) dev_rec = lst[0];
-    lst = textCorpusStats?.filter(
-      (row) => row.algo === algo && row.sp === "test",
-    );
-    if (lst && lst.length > 0) test_rec = lst[0];
+    lst = textCorpusStats?.filter((row) => row.algo === "" && row.sp === "")
+    if (lst && lst.length > 0) text_corpus_rec = lst[0]
+    lst = textCorpusStats?.filter((row) => row.algo === "s1" && row.sp === "validated")
+    if (lst && lst.length > 0) validated_rec = lst[0]
+    lst = textCorpusStats?.filter((row) => row.algo === algo && row.sp === "train")
+    if (lst && lst.length > 0) train_rec = lst[0]
+    lst = textCorpusStats?.filter((row) => row.algo === algo && row.sp === "dev")
+    if (lst && lst.length > 0) dev_rec = lst[0]
+    lst = textCorpusStats?.filter((row) => row.algo === algo && row.sp === "test")
+    if (lst && lst.length > 0) test_rec = lst[0]
 
     tbl = [
       {
@@ -176,9 +166,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.validated"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.val as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.val as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.val as number) : "?",
         train: train_rec?.has_val ? (train_rec?.val as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.val as number) : "?",
         test: test_rec?.has_val ? (test_rec?.val as number) : "?",
@@ -218,9 +206,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.words_sum"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.w_sum as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.w_sum as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.w_sum as number) : "?",
         train: train_rec?.has_val ? (train_rec?.w_sum as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.w_sum as number) : "?",
         test: test_rec?.has_val ? (test_rec?.w_sum as number) : "?",
@@ -228,9 +214,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.words_avg"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.w_avg as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.w_avg as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.w_avg as number) : "?",
         train: train_rec?.has_val ? (train_rec?.w_avg as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.w_avg as number) : "?",
         test: test_rec?.has_val ? (test_rec?.w_avg as number) : "?",
@@ -238,9 +222,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.words_med"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.w_med as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.w_med as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.w_med as number) : "?",
         train: train_rec?.has_val ? (train_rec?.w_med as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.w_med as number) : "?",
         test: test_rec?.has_val ? (test_rec?.w_med as number) : "?",
@@ -248,9 +230,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.words_std"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.w_std as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.w_std as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.w_std as number) : "?",
         train: train_rec?.has_val ? (train_rec?.w_std as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.w_std as number) : "?",
         test: test_rec?.has_val ? (test_rec?.w_std as number) : "?",
@@ -258,9 +238,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.tokens_sum"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.t_sum as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.t_sum as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.t_sum as number) : "?",
         train: train_rec?.has_val ? (train_rec?.t_sum as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.t_sum as number) : "?",
         test: test_rec?.has_val ? (test_rec?.t_sum as number) : "?",
@@ -268,9 +246,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.tokens_avg"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.t_avg as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.t_avg as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.t_avg as number) : "?",
         train: train_rec?.has_val ? (train_rec?.t_avg as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.t_avg as number) : "?",
         test: test_rec?.has_val ? (test_rec?.t_avg as number) : "?",
@@ -278,9 +254,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.tokens_med"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.t_med as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.t_med as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.t_med as number) : "?",
         train: train_rec?.has_val ? (train_rec?.t_med as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.t_med as number) : "?",
         test: test_rec?.has_val ? (test_rec?.t_med as number) : "?",
@@ -288,9 +262,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       {
         measure: intl.get("measures.tokens_std"),
         tc: text_corpus_rec?.has_val ? (text_corpus_rec?.t_std as number) : "?",
-        validated: validated_rec?.has_val
-          ? (validated_rec?.t_std as number)
-          : "?",
+        validated: validated_rec?.has_val ? (validated_rec?.t_std as number) : "?",
         train: train_rec?.has_val ? (train_rec?.t_std as number) : "?",
         dev: dev_rec?.has_val ? (dev_rec?.t_std as number) : "?",
         test: test_rec?.has_val ? (test_rec?.t_std as number) : "?",
@@ -311,7 +283,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
         dev: dev_rec?.p_freq.length as number,
         test: test_rec?.p_freq.length as number,
       },
-    ];
+    ]
 
     const tcStatsTableColumns: TableColumn<ITextCorpusStatsTableRow>[] = [
       {
@@ -325,42 +297,37 @@ export const TextCorpus = (props: TextCorpusProps) => {
         name: intl.get("examinepage.tab.text-corpus"),
         right: true,
         width: "100px",
-        selector: (row: ITextCorpusStatsTableRow) =>
-          row.tc ? row.tc.toLocaleString(langCode) : "?",
+        selector: (row: ITextCorpusStatsTableRow) => (row.tc ? row.tc.toLocaleString(langCode) : "?"),
       },
       {
         id: "validated",
         name: intl.get("col.buckets_validated"),
         right: true,
         width: "100px",
-        selector: (row: ITextCorpusStatsTableRow) =>
-          row.validated ? row.validated.toLocaleString(langCode) : "?",
+        selector: (row: ITextCorpusStatsTableRow) => (row.validated ? row.validated.toLocaleString(langCode) : "?"),
       },
       {
         id: "train",
         name: intl.get("col.buckets_train"),
         right: true,
         width: "100px",
-        selector: (row: ITextCorpusStatsTableRow) =>
-          row.train ? row.train.toLocaleString(langCode) : "?",
+        selector: (row: ITextCorpusStatsTableRow) => (row.train ? row.train.toLocaleString(langCode) : "?"),
       },
       {
         id: "dev",
         name: intl.get("col.buckets_dev"),
         right: true,
         width: "100px",
-        selector: (row: ITextCorpusStatsTableRow) =>
-          row.dev ? row.dev.toLocaleString(langCode) : "?",
+        selector: (row: ITextCorpusStatsTableRow) => (row.dev ? row.dev.toLocaleString(langCode) : "?"),
       },
       {
         id: "test",
         name: intl.get("col.buckets_test"),
         right: true,
         width: "100px",
-        selector: (row: ITextCorpusStatsTableRow) =>
-          row.test ? row.test.toLocaleString(langCode) : "?",
+        selector: (row: ITextCorpusStatsTableRow) => (row.test ? row.test.toLocaleString(langCode) : "?"),
       },
-    ];
+    ]
 
     // const exportCVSTextCorpusMemo = useMemo(
     //   () => (
@@ -391,24 +358,24 @@ export const TextCorpus = (props: TextCorpusProps) => {
         customStyles={TABLE_STYLE}
         // actions={exportCVSTextCorpusMemo}
       />
-    );
-  };
+    )
+  }
 
   const mergeCountTableData = (items: string[], values: number[]): any[][] => {
     const reducer = (oldSum: number, newValue: number): number => {
-      return oldSum + newValue;
-    };
-    const res: any[][] = [];
+      return oldSum + newValue
+    }
+    const res: any[][] = []
     if (items.length !== values.length) {
-      console.log("ERROR: mergeCountTableData item count != value count");
-      return res;
+      console.log("ERROR: mergeCountTableData item count != value count")
+      return res
     }
-    const total: number = values.reduce(reducer);
+    const total: number = values.reduce(reducer)
     for (let i = 0; i < items.length; i++) {
-      res.push([items[i], values[i], values[i] / total]);
+      res.push([items[i], values[i], values[i] / total])
     }
-    return res;
-  };
+    return res
+  }
 
   const countTableColumns: TableColumn<any[]>[] = [
     {
@@ -421,8 +388,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
       name: intl.get("col.count"),
       right: true,
       width: "100px",
-      selector: (row: any[]) =>
-        row[1] ? Number(row[1]).toLocaleString(langCode) : "-",
+      selector: (row: any[]) => (row[1] ? Number(row[1]).toLocaleString(langCode) : "-"),
     },
     {
       id: "per",
@@ -431,51 +397,51 @@ export const TextCorpus = (props: TextCorpusProps) => {
       width: "60px",
       selector: (row: any[]) => (row[2] ? (100 * row[2]).toFixed(3) : "-"),
     },
-  ];
+  ]
 
   // Pre-process if needed (if just started or dataset changed)
   useEffect(() => {
+    let data: TEXT_CORPUS_STATS_ROW_TYPE[] = []
     if (
       !textCorpusStats ||
-      (textCorpusStats.length > 0 &&
-        textCorpusStats[0].lc !== selectedLanguage) ||
+      (textCorpusStats.length > 0 && textCorpusStats[0].lc !== selectedLanguage) ||
       (textCorpusStats.length > 0 && textCorpusStats[0].ver !== selectedVersion)
     ) {
       // const url = `${ANALYZER_DATA_URL}/${lc}/$text_corpus_stats.json`;
-      const url = `${ANALYZER_DATA_URL}/${lc}/$${lc}_${ver}_tc_stats.json`;
+      const url = `${ANALYZER_DATA_URL}/${lc}/$${lc}_${ver}_tc_stats.json`
       axios
         .get(url, { headers: { "Content-Type": "application/json" } })
         .then((response) => {
-          let data: TEXT_CORPUS_STATS_ROW_TYPE[] = response.data.data;
+          data = response.data.data
           data = data.map((row) => {
-            if (typeof row.g_items === "string")
-              row.g_items = convertStr2StrList(row.g_items as string);
-            if (typeof row.p_items === "string")
-              row.p_items = convertStr2StrList(row.p_items as string);
-            if (typeof row.dom_items === "string")
-              row.dom_items = convertStr2StrList(row.dom_items as string);
-            return row;
-          });
-          setSelectedLanguage(lc);
-          setSelectedVersion(ver);
-          setTextCorpusStats(data);
-        }); // then-axios
+            if (typeof row.g_items === "string") row.g_items = convertStr2StrList(row.g_items as string)
+            if (typeof row.p_items === "string") row.p_items = convertStr2StrList(row.p_items as string)
+            if (typeof row.dom_items === "string") row.dom_items = convertStr2StrList(row.dom_items as string)
+            return row
+          })
+          setSelectedLanguage(lc)
+          setSelectedVersion(ver)
+          setTextCorpusStats(data)
+        }) // then-axios
+        .catch((err) => {
+          console.error("ERROR - Could not load:", url)
+          console.error(err)
+          return null
+        }) // catch-axios
     } // if
     // If loaded and record not selected
     if (textCorpusStats && !textCorpusRec) {
       const tcrec: TEXT_CORPUS_STATS_ROW_TYPE[] = textCorpusStats.filter(
         // (row) => row.algo === "" && row.sp === "",
         (row) => row.sp === "",
-      );
+      )
       if (tcrec && tcrec.length > 0) {
-        setTextCorpusRec(tcrec[0]);
+        setTextCorpusRec(tcrec[0])
       }
       // get unique algorithmn
-      const algos: string[] = [
-        ...new Set(textCorpusStats.map((row) => row.algo)),
-      ].filter((a) => a && a.length > 0);
+      const algos: string[] = [...new Set(textCorpusStats.map((row) => row.algo))].filter((a) => a && a.length > 0)
       if (algos) {
-        setAlgorithms(algos);
+        setAlgorithms(algos)
       }
     }
   }, [
@@ -490,17 +456,20 @@ export const TextCorpus = (props: TextCorpusProps) => {
     textCorpusRec,
     setTextCorpusRec,
     setAlgorithms,
-  ]);
+  ])
 
-  if (!lc || !ver) return <div>Error in parameters.</div>;
+  if (!lc || !ver) return <div>Error in parameters.</div>
 
-  if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>;
+  console.log(lc, ver)
+  console.log(initDone)
+  console.log(CONF)
+  console.log(textCorpusStats)
+  console.log(textCorpusRec)
 
-  let cnt: number = 0;
-  const _slen_bins: number[] =
-    textCorpusRec.c_avg > CONF.ch_threshold
-      ? CONF.bins_chars_long
-      : CONF.bins_chars_short;
+  if (!initDone || !CONF || !textCorpusStats || !textCorpusRec) return <>...</>
+
+  let cnt: number = 0
+  const _slen_bins: number[] = textCorpusRec.c_avg > CONF.ch_threshold ? CONF.bins_chars_long : CONF.bins_chars_short
 
   return (
     <>
@@ -510,20 +479,14 @@ export const TextCorpus = (props: TextCorpusProps) => {
         {textCorpusRec.has_val ? (
           <CheckBoxIcon color="secondary" sx={{ verticalAlign: "bottom" }} />
         ) : (
-          <DoNotDisturbOnIcon
-            color="primary"
-            sx={{ verticalAlign: "bottom" }}
-          />
+          <DoNotDisturbOnIcon color="primary" sx={{ verticalAlign: "bottom" }} />
         )}
         &nbsp;&nbsp;&nbsp;&nbsp;
         {intl.get("measures.has_phonemiser") + ": "}
         {textCorpusRec.has_phon ? (
           <CheckBoxIcon color="secondary" sx={{ verticalAlign: "bottom" }} />
         ) : (
-          <DoNotDisturbOnIcon
-            color="primary"
-            sx={{ verticalAlign: "bottom" }}
-          />
+          <DoNotDisturbOnIcon color="primary" sx={{ verticalAlign: "bottom" }} />
         )}
       </Typography>
       {/* Algorithm selection */}
@@ -596,12 +559,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
               </div>
             </>
           )}
-          <Grid
-            container
-            alignItems="stretch"
-            spacing={1}
-            sx={{ width: "100%", mb: "10px" }}
-          >
+          <Grid container alignItems="stretch" spacing={1} sx={{ width: "100%", mb: "10px" }}>
             {textCorpusRec.dom_freq.length === 0 ? (
               <></>
             ) : (
@@ -613,7 +571,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
                     // data={textCorpusRec.g_freq as string[][]}
                     data={mergeCountTableData(
                       (textCorpusRec.dom_items as string[]).map((s) => {
-                        return intl.get("dom." + s);
+                        return intl.get("dom." + s)
                       }),
                       textCorpusRec.dom_freq,
                     )}
@@ -641,10 +599,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.g_freq as string[][]}
-                    data={mergeCountTableData(
-                      textCorpusRec.g_items as string[],
-                      textCorpusRec.g_freq,
-                    )}
+                    data={mergeCountTableData(textCorpusRec.g_items as string[], textCorpusRec.g_freq)}
                     title={intl.get("tbl.graphemes")}
                     responsive
                     dense
@@ -669,10 +624,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
                   <DataTable
                     columns={countTableColumns}
                     // data={textCorpusRec.p_freq as string[][]}
-                    data={mergeCountTableData(
-                      textCorpusRec.p_items as string[],
-                      textCorpusRec.p_freq,
-                    )}
+                    data={mergeCountTableData(textCorpusRec.p_items as string[], textCorpusRec.p_freq)}
                     title={intl.get("tbl.phonemes")}
                     responsive
                     dense
@@ -691,7 +643,7 @@ export const TextCorpus = (props: TextCorpusProps) => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export const TextCorpusMemo = memo(TextCorpus);
+export const TextCorpusMemo = memo(TextCorpus)
